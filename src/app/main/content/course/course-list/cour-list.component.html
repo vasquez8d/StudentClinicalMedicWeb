@@ -1,0 +1,95 @@
+<div class="page-layout simple fullwidth angular-material-element" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header mat-accent-bg p-24 h-160" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div class="black-fg" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-16">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Cursos</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Listado de Cursos</span>
+            </div>
+            <div class="h2 mt-16">Listado de Cursos</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <div>
+            <div class="example-viewer-wrapper mat-white-bg mat-elevation-z2">
+                <div class="example-viewer-body">
+                    <div class="example-header">
+                        <div class="button-row">
+                            <button (click)="navigateCreateCouse()" mat-raised-button color="accent">Nuevo</button>
+                        </div>
+                    </div>
+                    <div class="example-header">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar Curso">
+                        </mat-form-field>
+                    </div>
+                    <div class="example-container mat-elevation-z8">
+
+                        <mat-table [dataSource]="dataSource" matSort>
+
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Codigo</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
+                            </ng-container>
+
+                            <!-- Progress Column -->
+                            <ng-container matColumnDef="progress">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Curso</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.progress}}%</mat-cell>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Profesor</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
+                            </ng-container>
+
+                            <!-- Color Column -->
+                            <ng-container matColumnDef="color">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> N° Matriculados</mat-header-cell>
+                                <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}}</mat-cell>
+                            </ng-container>
+
+                            <!-- Color Column -->
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
+                            </ng-container>
+
+                            <!-- Options Column -->
+                            <ng-container matColumnDef="options">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <button mat-mini-fab color="accent">
+                                        <mat-icon class="mat-24">zoom_in</mat-icon>
+                                    </button>
+                                    <button mat-mini-fab >
+                                        <mat-icon class="mat-24">edit</mat-icon>
+                                    </button>
+                                    <button mat-mini-fab color="warn">
+                                        <mat-icon class="mat-24">delete</mat-icon>
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: displayedColumns;">
+                            </mat-row>
+                        </mat-table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
