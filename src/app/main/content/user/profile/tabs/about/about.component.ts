@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { fuseAnimations } from '@fuse/animations';
 
@@ -15,104 +15,37 @@ import { AuthloginService } from '../../../../../../services/authlogin.service';
     styleUrls  : ['./about.component.scss'],
     animations : fuseAnimations
 })
-export class FuseProfileAboutComponent
+export class FuseProfileAboutComponent implements OnInit
 {
     about: any;
+    user: any;
 
     constructor(private profileService: ProfileService,
-                private userModel: UserModel,
                 private globalUser: GlobalUser,
                 private userService: UserService,
+                private userModel: UserModel,
                 private router: Router,
                 private authloginService: AuthloginService)
     {
         this.profileService.aboutOnChanged.subscribe(about => {
             this.about = about;
         });
+    }
 
-        const localsUserToken = localStorage.getItem('tokenStudentClinicalAccessWS');
-        const sessionUserTooen = sessionStorage.getItem('tokenStudentClinicalAccessWS');
+    ngOnInit() {
+        this.loadGlobalUserDetials();
+    }
 
-        if (localsUserToken != null) {
-            if (this.globalUser.user == null) {
-                this.authloginService.getTokenUser(localsUserToken).subscribe(
-                    success => {
-                        if (success.res_service === 'ok') {
-                            this.globalUser.user = success.data_result;
-                            userService.getUserDetails(this.globalUser.user.user_id).subscribe(
-                                successDetails => {
-                                    if (successDetails.res_service === 'ok') {
-                                        this.userModel.user = successDetails.data_result;
-                                    } else {
-                                        this.router.navigateByUrl('');
-                                    }
-                                },
-                                error => {
-                                    console.log(error);
-                                }
-                            );
-                        } else {
-                            this.router.navigateByUrl('/auth/login');
-                        }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
-            }else{
-                userService.getUserDetails(this.globalUser.user.user_id).subscribe(
-                    successDetails => {
-                        if (successDetails.res_service === 'ok') {
-                            this.userModel.user = successDetails.data_result;
-                        } else {
-                            this.router.navigateByUrl('');
-                        }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
+    loadGlobalUserDetials() {
+        console.log('tab_profile');
+        this.userService.getGlobalUserDetails().subscribe(
+            successGlobalDetails => {
+                console.log(successGlobalDetails.data_result);
+                this.userModel.user = successGlobalDetails.data_result;
+            },
+            error => {
+                console.log(error);
             }
-        } else if (sessionUserTooen != null) {
-            if (this.globalUser.user == null) {
-                this.authloginService.getTokenUser(sessionUserTooen).subscribe(
-                    success => {
-                        if (success.res_service === 'ok') {
-                            this.globalUser.user = success.data_result;
-                            userService.getUserDetails(this.globalUser.user.user_id).subscribe(
-                                successDetails => {
-                                    if (successDetails.res_service === 'ok') {
-                                        this.userModel.user = successDetails.data_result;
-                                    } else {
-                                        this.router.navigateByUrl('');
-                                    }
-                                },
-                                error => {
-                                    console.log(error);
-                                }
-                            );
-                        } else {
-                            this.router.navigateByUrl('/auth/login');
-                        }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
-            }else{
-                userService.getUserDetails(this.globalUser.user.user_id).subscribe(
-                    successDetails => {
-                        if (successDetails.res_service === 'ok') {
-                            this.userModel.user = successDetails.data_result;
-                        } else {
-                            this.router.navigateByUrl('');
-                        }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
-            }
-        }
+        );
     }
 }

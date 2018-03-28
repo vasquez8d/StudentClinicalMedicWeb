@@ -16,6 +16,7 @@ export class NavigationService {
   getNavigation(user){     
       const pwEncrypt = crypto.AES.encrypt(user.user_id.toString(), this.globalValues.cryptoKey());
       const encryptUser = pwEncrypt.toString().replace('/', '_');
+      console.log(encryptUser);
       let DefaultNavigation: any;
       DefaultNavigation = [
           {
@@ -32,20 +33,20 @@ export class NavigationService {
                       'icon': 'dashboard',
                       'url': '/app/dashboard',
                   },
-                  {
-                      'id': 'chat',
-                      'title': 'Chat',
-                      'translate': 'NAV.CONVERSATIONS',
-                      'type': 'item',
-                      'icon': 'chat',
-                      'url': '/app/chat',
-                  }
+                //   {
+                //       'id': 'chat',
+                //       'title': 'Chat',
+                //       'translate': 'NAV.CONVERSATIONS',
+                //       'type': 'item',
+                //       'icon': 'chat',
+                //       'url': '/app/chat',
+                //   }
               ]
           },
           {
               'id': 'perfil',
-              'title': 'Perfil',
-              'translate': 'NAV.PROFILE',
+              'title': 'Usuario',
+              'translate': 'NAV.USER',
               'type': 'group',
               'children': [
                   {
@@ -55,24 +56,32 @@ export class NavigationService {
                       'type': 'item',
                       'icon': 'person',
                       'url': '/user/' + encryptUser + '/profile',
+                  },
+                  {
+                      'id': 'exam',
+                      'title': 'Exámenes',
+                      'translate': 'NAV.EXAM',
+                      'type': 'item',
+                      'icon': 'person',
+                      'url': '/exam/',
                   }
               ]
           },
-          {
-              'id': 'user-interface',
-              'title': 'User Interface',
-              'type': 'group',
-              'icon': 'web',
-              'children': [
-                  {
-                      'id': 'forms',
-                      'title': 'Forms',
-                      'type': 'item',
-                      'icon': 'web_asset',
-                      'url': '/ui/forms'
-                  }
-              ]
-          }
+        //   {
+        //       'id': 'user-interface',
+        //       'title': 'User Interface',
+        //       'type': 'group',
+        //       'icon': 'web',
+        //       'children': [
+        //           {
+        //               'id': 'forms',
+        //               'title': 'Forms',
+        //               'type': 'item',
+        //               'icon': 'web_asset',
+        //               'url': '/ui/forms'
+        //           }
+        //       ]
+        //   }
       ];
       
       switch (user.rol_id){
@@ -84,19 +93,64 @@ export class NavigationService {
                   'type': 'group',
                   'children': [
                       {
-                          'id': 'listar',
-                          'title': 'Listado',
-                          'type': 'item',
+                          'id': 'Cursos',
+                          'title': 'Cursos',
+                          'type': 'collapse',
                           'icon': 'school',
-                          'url': '/course/list'
+                          'children': [
+                              {
+                                  'id': 'listar',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/course/list'
+                              },
+                              {
+                                  'id': 'crear',
+                                  'title': 'Nuevo',
+                                  'type': 'item',
+                                  'icon': 'control_point',
+                                  'url': '/course/create'
+                              },
+                          ]
                       },
                       {
-                          'id': 'crear',
-                          'title': 'Nuevo',
-                          'type': 'item',
-                          'icon': 'school',
-                          'url': '/course/create'
+                          'id': 'Usuarios',
+                          'title': 'Usuarios',
+                          'type': 'collapse',
+                          'icon': 'people',
+                          'children': [
+                              {
+                                  'id': 'list',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/user/list'
+                              }
+                          ]
                       },
+                      {
+                          'id': 'Examenes',
+                          'title': 'Exámenes',
+                          'type': 'collapse',
+                          'icon': 'playlist_add_check',
+                          'children': [
+                              {
+                                  'id': 'examen-list',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/components-third-party/datatables/ngx-datatable'
+                              },
+                              {
+                                  'id': 'examen-create',
+                                  'title': 'Nuevo',
+                                  'type': 'item',
+                                  'icon': 'control_point',
+                                  'url': '/components-third-party/datatables/ngx-datatable'
+                              }
+                          ]
+                      }
                   ]
               });
               break;

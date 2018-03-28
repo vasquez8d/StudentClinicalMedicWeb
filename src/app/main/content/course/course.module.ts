@@ -17,6 +17,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseCountdownModule, FuseHighlightModule, FuseMaterialColorPickerModule, FuseWidgetModule } from '@fuse/components';
+
 import { CourListModule } from './course-list/cour-list.module';
 import { CourseCreateModule } from './course-create/course-create.module';
 
@@ -39,6 +40,7 @@ import { CourseCreateModule } from './course-create/course-create.module';
         FuseHighlightModule,
         FuseMaterialColorPickerModule,
         FuseWidgetModule,
+
         CourListModule,
         CourseCreateModule
     ]

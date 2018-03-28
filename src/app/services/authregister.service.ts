@@ -22,7 +22,7 @@ export class AuthregisterService {
         
         const pwEncrypt = crypto.AES.encrypt(credentials.user_pw.toString(), this.globalValues.cryptoKey());
         credentials.user_pw = pwEncrypt.toString();
-        credentials.rol_id = 3;
+        credentials.rol_id = 4;
         credentials.usu_registro = 'web';
 
         this.headers = new Headers({ 'Content-Type': 'application/json' });

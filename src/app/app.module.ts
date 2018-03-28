@@ -26,6 +26,7 @@ import { APP_ROUTING } from './app.router';
 import { AuthloginService } from './services/authlogin.service';
 
 import { MomentModule } from 'angular2-moment';
+import { UserService } from './services/user.service';
 
 @NgModule({
     declarations: [
@@ -48,7 +49,8 @@ import { MomentModule } from 'angular2-moment';
         FuseMainModule,
         MomentModule
     ],
-    providers: [AuthGuard, GlobalUser, GlobalValues, LoginGuard, NavigationService, AuthloginService],
+    providers: [AuthGuard, GlobalUser, GlobalValues, LoginGuard, NavigationService, 
+        AuthloginService, UserService],
     bootstrap: [
         AppComponent
     ]

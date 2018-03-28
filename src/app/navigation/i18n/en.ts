@@ -14,7 +14,9 @@ export const locale = {
             'TEACHER': 'Teacher',
             'ADMIN': 'Admin',
             'DASHBOARD': 'Dashboard',
-            'CONVERSATIONS': 'Chat'
+            'CONVERSATIONS': 'Chat',
+            'EXAM': 'Exams',
+            'USER': 'User'
         }
     }
 };

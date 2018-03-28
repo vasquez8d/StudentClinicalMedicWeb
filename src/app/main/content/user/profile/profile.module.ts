@@ -32,16 +32,16 @@ const routes = [
     ],
     imports     : [
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatDividerModule,
         MatIconModule,
         MatTabsModule,
-
         FuseSharedModule
     ],
     providers   : [
-        ProfileService, UserService, AuthloginService
+        ProfileService,
+        UserService,
+        AuthloginService
     ]
 })
 export class ProfileModule
