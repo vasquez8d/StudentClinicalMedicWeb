@@ -1,10 +1,9 @@
 {
-  "name": "fuse",
-  "version": "5.2.9",
-  "license": "https://themeforest.net/licenses/terms/regular",
+  "name": "studentweb",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open",
+    "start": "node server.js",
     "start-hmr": "ng serve --hmr -e=hmr -sm=false",
     "start-hmr-sourcemaps": "ng serve --hmr -e=hmr",
     "build": "node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng build --dev",
@@ -14,7 +13,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "bundle-report": "webpack-bundle-analyzer dist/stats.json"
+    "bundle-report": "webpack-bundle-analyzer dist/stats.json",
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
@@ -50,6 +50,7 @@
     "core-js": "2.5.3",
     "crypto-js": "3.1.9-1",
     "d3": "4.13.0",
+    "express": "4.16.3",
     "hammerjs": "2.0.8",
     "intl": "1.2.5",
     "moment": "2.21.0",
@@ -84,5 +85,9 @@
     "tslint": "5.9.1",
     "typescript": "2.6.2",
     "webpack-bundle-analyzer": "2.11.1"
+  },
+  "engines": {
+    "node": "6.11.4",
+    "npm": "3.10.10"
   }
 }
