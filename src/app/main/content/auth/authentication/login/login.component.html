@@ -3,7 +3,7 @@
     <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
 
         <div class="logo" *fuseIfOnDom [@animate]="{value:'*',params:{scale:'0.2'}}">
-            <img src="assets/images/logos/fuse.svg">
+            <img src="assets/images/logos/logo_web.png">
         </div>
 
         <div class="title" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
@@ -25,9 +25,18 @@
                 <span>F</span>
             </div>
 
-            <div class="title">Ingresa con tus credenciales</div>
+            <div class="title">{{textLogin}}</div>
 
             <form name="loginForm" [formGroup]="loginForm" novalidate>
+
+                <div style="margin-bottom: 5%;" *ngIf="imageUserProvider"  class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+                    fxLayoutAlign.gt-sm="start center">
+                   <img class="profile-image avatar huge" src="{{imageUserProviderUrl}}"
+                        *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                   <div style="text-transform: capitalize;" class="name" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                      {{textUserProvider}}
+                    </div>
+               </div>
 
                 <mat-error *ngIf="loginIncorrect_email">
                     {{ login_incorrect_message }}
@@ -77,11 +86,11 @@
 
             <div fxLayout="column" fxLayoutAlign="start center">
 
-                <button mat-raised-button class="google">
+                <!-- <button (click)="socialSignIn('google')" mat-raised-button class="google">
                     Ingresar con Google
-                </button>
+                </button> -->
 
-                <button mat-raised-button class="facebook">
+                <button (click)="socialSignIn('facebook')" mat-raised-button class="facebook">
                     Ingresar con Facebook
                 </button>
 

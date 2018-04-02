@@ -21,6 +21,8 @@ import { FuseCountdownModule, FuseHighlightModule, FuseMaterialColorPickerModule
 import { CourListModule } from './course-list/cour-list.module';
 import { CourseCreateModule } from './course-create/course-create.module';
 
+import { CourseIndexModule } from './course-index/course-index.module';
+
 @NgModule({
     imports: [
         MatButtonModule,
@@ -42,7 +44,8 @@ import { CourseCreateModule } from './course-create/course-create.module';
         FuseWidgetModule,
 
         CourListModule,
-        CourseCreateModule
+        CourseCreateModule,
+        CourseIndexModule
     ]
 })
 export class CourseModule {

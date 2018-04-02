@@ -19,21 +19,21 @@ export class AuthregisterService {
     ) { }
 
     registerwo(credentials) {
-        
+
+        console.log(credentials);
         const pwEncrypt = crypto.AES.encrypt(credentials.user_pw.toString(), this.globalValues.cryptoKey());
         credentials.user_pw = pwEncrypt.toString();
         credentials.rol_id = 4;
         credentials.usu_registro = 'web';
-
         this.headers = new Headers({ 'Content-Type': 'application/json' });
         
         return this.http
             .post(this.regUrlwo, credentials, { headers: this.headers })
             .map(res => {
-                const result = res.json();
-                
+                const result = res.json();      
+                console.log(result);          
                 if (result.res_service === 'ok'){
-                    sessionStorage.setItem('tokenStudentClinicalAccessWS', result.token);
+                    localStorage.setItem('tokenStudentClinicalAccessWS', result.token);
                     this.globalUser.user = result.data_result;
                 }
                 return result;

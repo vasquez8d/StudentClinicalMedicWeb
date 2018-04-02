@@ -48,25 +48,23 @@
 
             <div class="courses" fxLayout="row wrap" fxLayoutAlign="center">
 
-                <div class="course" *ngFor="let course of filteredCourses" fxFlex="100" fxFlex.gt-xs="50"
-                     fxFlex.gt-sm="33" [ngClass]="course.category">
-
+                <div class="course web" *ngFor="let course of filteredCourses" fxFlex="100" fxFlex.gt-xs="50"
+                     fxFlex.gt-sm="33">
+                     <!-- <div class="course web-bg" *ngFor="let course of filteredCourses" fxFlex="100" fxFlex.gt-xs="50"
+                     fxFlex.gt-sm="33" 
+                     [ngClass]="course.category"> -->
                     <div class="course-content" fxLayout="column">
-
-                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
-                             [ngClass]="course.category + '-bg'">
-
+                        <div class="header web-bg" fxLayout="row" fxLayoutAlign="center center">
+                             <!-- <div class="header web-bg" fxLayout="row" fxLayoutAlign="center center"
+                             [ngClass]="web-bg'"> -->
                             <div class="category" fxFlex>
-                                {{course.category}}
+                               {{course.category}}
                             </div>
-
                             <div class="length" fxLayout="row" fxLayoutAlign="center center">
                                 <mat-icon class="length-icon s-20">access_time</mat-icon>
                                 <div class="min">{{course.length}} min</div>
                             </div>
-
                         </div>
-
                         <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
                             <div class="h1">{{course.title}}</div>
                             <div class="updated">Updated {{course.updated}}</div>

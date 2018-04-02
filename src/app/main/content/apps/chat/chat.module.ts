@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, 
+         MatFormFieldModule, MatIconModule, 
+         MatInputModule, MatListModule, 
+         MatMenuModule, MatRadioModule, 
+         MatSidenavModule, MatToolbarModule } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 

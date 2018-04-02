@@ -44,7 +44,7 @@ export class NavigationService {
               ]
           },
           {
-              'id': 'perfil',
+              'id': 'user',
               'title': 'Usuario',
               'translate': 'NAV.USER',
               'type': 'group',
@@ -62,9 +62,17 @@ export class NavigationService {
                       'title': 'Exámenes',
                       'translate': 'NAV.EXAM',
                       'type': 'item',
-                      'icon': 'person',
+                      'icon': 'playlist_add_check',
                       'url': '/exam/',
-                  }
+                  },
+                  {
+                    'id': 'course',
+                    'title': 'Cursos',
+                    'translate': 'NAV.COURSES',
+                    'type': 'item',
+                    'icon': 'school',
+                    'url': '/course',
+                },
               ]
           },
         //   {

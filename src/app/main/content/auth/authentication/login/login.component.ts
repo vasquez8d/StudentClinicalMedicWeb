@@ -8,6 +8,13 @@ import { fuseAnimations } from '@fuse/animations';
 import { AuthloginService } from '../../../../../services/authlogin.service';
 import { GlobalUser } from '../../../../../global/globaluser';
 
+import {
+    AuthService,
+    FacebookLoginProvider,
+    GoogleLoginProvider
+} from 'angular5-social-login';
+import { UserRegProviderModel } from '../../../../../models/user-reg-provider.model';
+
 @Component({
     selector   : 'fuse-login',
     templateUrl: './login.component.html',
@@ -22,6 +29,12 @@ export class FuseLoginComponent implements OnInit
     loginIncorrect_email = false;
     loginIncorrect_password = false;
 
+    imageUserProvider = false;
+    imageUserProviderUrl = '';
+    textUserProvider = '';
+
+    textLogin = 'Ingresa con tus credenciales';
+
     login_incorrect_message = '';
 
     user: any = {
@@ -35,7 +48,9 @@ export class FuseLoginComponent implements OnInit
         private authloginService: AuthloginService,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private globalUser: GlobalUser
+        private globalUser: GlobalUser,
+        private userRegProvider: UserRegProviderModel,
+        private socialAuthService: AuthService 
     )
     {
         this.fuseConfig.setConfig({
@@ -52,6 +67,46 @@ export class FuseLoginComponent implements OnInit
         };
     }
 
+    socialSignIn(socialPlatform : string) {
+        
+        let socialPlatformProvider;
+        if(socialPlatform == "facebook"){
+          socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+        }else if(socialPlatform == "google"){
+          socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+        }
+
+        this.socialAuthService.signIn(socialPlatformProvider).then(
+          (userData) => {               
+            this.authloginService.checkUserProviderMail(userData).subscribe(
+                success => {
+                    if (success.res_service === 'ok'){
+                        this.imageUserProvider = true;
+                        this.imageUserProviderUrl = userData.image;
+                        this.textUserProvider = userData.name;
+                        this.textLogin = 'Ingresar como'
+                        this.loginForm = this.formBuilder.group({
+                            email   : [success.data_result.user_mail, [Validators.required, Validators.email]],
+                            password: ['', Validators.required],
+                            remember: [true]
+                        });
+                    }else{
+                        this.userRegProvider.user = userData;
+                        try{
+                            this.router.navigateByUrl('/auth/regprovider');
+                        }catch(err){
+                            console.log(err);
+                        }                        
+                    }
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+          }
+        )
+    }
+    
     ngOnInit()
     {
         this.loginForm = this.formBuilder.group({

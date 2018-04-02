@@ -9,6 +9,31 @@ import { ResetPasswordModule } from './authentication/reset-password/reset-passw
 import { AuthloginService } from '../../../services/authlogin.service';
 import { AuthregisterService } from '../../../services/authregister.service';
 
+import {
+    SocialLoginModule,
+    AuthServiceConfig,
+    GoogleLoginProvider,
+    FacebookLoginProvider,
+} from "angular5-social-login";
+import { UserRegProviderModel } from '../../../models/user-reg-provider.model';
+import { UserRegisterProviderModule } from './authentication/register-provider/register-provider.module';
+
+// Configs 
+export function getAuthServiceConfigs() {
+    let config = new AuthServiceConfig(
+        [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider("203124637131720")
+          },
+        //   {
+        //     id: GoogleLoginProvider.PROVIDER_ID,
+        //     provider: new GoogleLoginProvid("Your-Google-Client-Id")
+        //   },
+        ]
+    )
+    return config;
+  }
 // Services
 
 @NgModule({
@@ -18,11 +43,21 @@ import { AuthregisterService } from '../../../services/authregister.service';
         RegisterModule,
         ForgotPasswordModule,
         ResetPasswordModule,
-        HttpModule
+
+        UserRegisterProviderModule,
+
+        HttpModule,
+
+        SocialLoginModule
     ],
     providers: [
         AuthloginService,
-        AuthregisterService
+        AuthregisterService,
+        {
+            provide : AuthServiceConfig,
+            useFactory : getAuthServiceConfigs
+        },
+        UserRegProviderModel
     ]
 })
 export class AuthModule { }

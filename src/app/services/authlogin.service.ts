@@ -12,6 +12,7 @@ export class AuthloginService {
   
   private authUrl = `${this.globalValues.urlAuthUser()}/login`;
   private getAuthUrl = `${this.globalValues.urlAuthUser()}/userauth`;
+  private checkUserProviderUrl = `${this.globalValues.urlAuthUser()}/usermailprovider`;
 
   constructor(
     private http: Http,
@@ -56,6 +57,16 @@ export class AuthloginService {
     this.headers.append('Authorization', credentials);
     return this.http
       .get(this.getAuthUrl, { headers: this.headers })
+      .map(res => {
+        const result = res.json();
+        return result;
+      });
+  }
+
+  checkUserProviderMail(parameters){
+    this.headers = new Headers({ 'Content-Type': 'application/json' });
+    return this.http
+      .post(this.checkUserProviderUrl, parameters, { headers: this.headers })
       .map(res => {
         const result = res.json();
         return result;
