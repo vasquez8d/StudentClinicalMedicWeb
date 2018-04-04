@@ -37,10 +37,10 @@ export class FuseProfileAboutComponent implements OnInit
     }
 
     loadGlobalUserDetials() {
-        console.log('tab_profile');
+        // console.log('tab_profile');
         this.userService.getGlobalUserDetails().subscribe(
             successGlobalDetails => {
-                console.log(successGlobalDetails.data_result);
+                // console.log(successGlobalDetails.data_result);
                 this.userModel.user = successGlobalDetails.data_result;
             },
             error => {

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 // tslint:disable-next-line:import-blacklist
 import { Observable } from 'rxjs/Rx';
-import * as crypto from 'crypto-js';
+// import * as crypto from 'crypto-js';
+
+import { Base64 } from 'js-base64';
 import { GlobalUser } from '../global/globaluser';
 import { GlobalValues } from '../global/globalvalues';
 
@@ -14,8 +16,10 @@ export class NavigationService {
    ) { }
 
   getNavigation(user){     
-      const pwEncrypt = crypto.AES.encrypt(user.user_id.toString(), this.globalValues.cryptoKey());
-      const encryptUser = pwEncrypt.toString().replace('/', '_');
+    //   const pwEncrypt = crypto.AES.encrypt(, this.globalValues.cryptoKey());
+    //   const encryptUser = pwEncrypt.toString().replace('/', '_');
+
+      const encryptUser = Base64.encode(user.user_id.toString());
       console.log(encryptUser);
       let DefaultNavigation: any;
       DefaultNavigation = [

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 import {
     MatButtonModule,
@@ -20,7 +19,6 @@ import { FuseCountdownModule, FuseHighlightModule, FuseMaterialColorPickerModule
 
 import { CourListModule } from './course-list/cour-list.module';
 import { CourseCreateModule } from './course-create/course-create.module';
-
 import { CourseIndexModule } from './course-index/course-index.module';
 
 @NgModule({

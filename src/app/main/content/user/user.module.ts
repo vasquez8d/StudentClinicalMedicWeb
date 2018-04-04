@@ -1,9 +1,4 @@
 import { NgModule } from '@angular/core';
-import { ProfileModule } from './profile/profile.module';
-import { UserModel } from '../../../models/user.model';
-import { UserListModule } from './list/user-list.module';
-
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import {
     MatButtonModule,
@@ -17,8 +12,15 @@ import {
     MatTabsModule
 } from '@angular/material';
 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseCountdownModule, FuseHighlightModule, FuseMaterialColorPickerModule, FuseWidgetModule } from '@fuse/components';
+
+import { UserUpdateModule } from './update/user-update.module';
+import { ProfileModule } from './profile/profile.module';
+import { UserModel } from '../../../models/user.model';
+import { UserListModule } from './list/user-list.module';
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import { FuseCountdownModule, FuseHighlightModule, FuseMaterialColorPickerModule
         FuseWidgetModule,
 
         ProfileModule,
-        UserListModule
+        UserListModule,
+        UserUpdateModule
     ],
     providers: [
         UserModel

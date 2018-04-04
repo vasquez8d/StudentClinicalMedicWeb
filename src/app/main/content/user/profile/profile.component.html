@@ -9,15 +9,16 @@
              <!-- {{userModel.user.user_id}} -->
             <img class="profile-image avatar huge" src="assets/images/users/1.jpg"
                  *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            <div style="text-transform: capitalize;" class="name" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{userModel.user.user_pri_nom}} {{userModel.user.user_ape_pat}}            </div>
+            <div style="text-transform: capitalize;" class="name" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                {{userModel.user.user_pri_nom}} {{userModel.user.user_ape_pat}}
+            </div>
+
         </div>
 
-        <!-- <div class="actions" fxLayout="row" fxLayoutAlign="end center" *fuseIfOnDom
-             [@animate]="{value:'*',params:{delay:'200ms'}}">
-            <button mat-raised-button color="accent" aria-label="Follow">Follow</button>
-            <button mat-raised-button color="primary" aria-label="Send Message">Send Message</button>
-        </div> -->
-
+        <div class="actions" fxLayout="row" fxLayoutAlign="end center" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'200ms'}}">
+            <button *ngIf="bIsUser" mat-raised-button (click)="routeEditProfile()" color="accent" aria-label="Follow">Actualizar Información</button>
+            <!-- <button mat-raised-button color="primary" aria-label="Send Message">Send Message</button> -->
+        </div>
     </div>
     <!-- / HEADER -->
 

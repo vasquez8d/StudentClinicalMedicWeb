@@ -6,7 +6,8 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { AuthloginService } from '../../services/authlogin.service';
 import { GlobalUser } from '../../global/globaluser';
-import * as crypto from 'crypto-js';
+// import * as crypto from 'crypto-js';
+import { Base64 } from 'js-base64';
 import { GlobalValues } from '../../global/globalvalues';
 
 @Component({
@@ -165,8 +166,9 @@ export class FuseToolbarComponent
     }
 
     navigateToProfile(){
-        const pwEncrypt = crypto.AES.encrypt(this.globalUser.user.user_id.toString(), this.globalValues.cryptoKey());
-        const encryptUser = pwEncrypt.toString().replace('/', '_');
+        // const pwEncrypt = crypto.AES.encrypt(this.globalUser.user.user_id.toString(), this.globalValues.cryptoKey());
+        // const encryptUser = pwEncrypt.toString().replace('/', '_');
+        const encryptUser = Base64.encode(this.globalUser.user.user_id.toString());
         this.router.navigate(['user/' + encryptUser + '/profile']);
     }
 

@@ -308,22 +308,22 @@ export class ProfileFakeDb
         },
         'groups' : [
             {
-                'logo'    : 'assets/images/logos/android.png',
-                'name'    : 'Android',
-                'category': 'Technology',
-                'members' : '1.856.546'
+                'logo'    : 'assets/images/logos/books.png',
+                'name'    : 'Introducción a la Biofísica',
+                'category': 'Biofisica',
+                'members' : '6'
             },
             {
-                'logo'    : 'assets/images/logos/google.png',
-                'name'    : 'Google',
-                'category': 'Web',
-                'members' : '1.226.121'
+                'logo'    : 'assets/images/logos/books.png',
+                'name'    : 'Biofísica II',
+                'category': 'Biofisica',
+                'members' : '2'
             },
             {
-                'logo'    : 'assets/images/logos/fallout.png',
-                'name'    : 'Fallout',
-                'category': 'Games',
-                'members' : '526.142'
+                'logo'    : 'assets/images/logos/books.png',
+                'name'    : 'Introducción a la Farmacología',
+                'category': 'Farmacologia',
+                'members' : '7'
             }
         ],
         'friends': [
