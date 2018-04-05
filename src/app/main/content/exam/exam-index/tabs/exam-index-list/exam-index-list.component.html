@@ -1,11 +1,71 @@
-<div id="helper-classes-width-height" class="p-24">
+<div class="content p-24">
+    <div>
+        <div class="example-viewer-wrapper mat-white-bg mat-elevation-z2">
+            <div class="example-viewer-body">
+                <div class="example-header">
+                    <div class="button-row" style="margin-top: 2%;"> 
+                        <button (click)="navigateStartExam()" mat-raised-button color="accent">
+                            <mat-icon>add_circle</mat-icon> Nuevo Examen
+                        </button>
+                    </div>
+                </div>
+                <div class="example-header">
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar Examen">
+                    </mat-form-field>
+                </div>
+                <div class="example-container mat-elevation-z8">
 
-    <div class="mat-title">Exámenes realizados</div>
+                    <mat-table [dataSource]="dataSource" matSort>
 
-    <div class="mat-white-bg mat-elevation-z4 p-24" fxLayout="column">
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="id">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Codigo</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
+                        </ng-container>
 
-        <div fxLayout="column" fxLayout.gt-md="row">
+                        <!-- Progress Column -->
+                        <ng-container matColumnDef="progress">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Curso</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.progress}}%</mat-cell>
+                        </ng-container>
 
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Profesor</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
+                        </ng-container>
+
+                        <!-- Color Column -->
+                        <ng-container matColumnDef="color">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> N° Matriculados</mat-header-cell>
+                            <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}}</mat-cell>
+                        </ng-container>
+
+                        <!-- Color Column -->
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
+                        </ng-container>
+
+                        <!-- Options Column -->
+                        <ng-container matColumnDef="options">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <button mat-mini-fab color="accent">
+                                    <mat-icon class="mat-24">zoom_in</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                        </mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+            </div>
         </div>
     </div>
 </div>

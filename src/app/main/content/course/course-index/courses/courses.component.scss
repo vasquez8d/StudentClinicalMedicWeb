@@ -137,6 +137,13 @@
                             background: mat-color($mat-blue-grey, 500);
                         }
 
+                        &.biofisica-bg {
+                            background: mat-color($mat-green, 500);
+                        }
+
+                        &.farmacologia-bg {
+                            background: mat-color($mat-blue, 500);
+                        }                        
                         .category {
                             text-transform: capitalize;
                             text-align: left;

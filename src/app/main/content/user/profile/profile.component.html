@@ -16,7 +16,8 @@
         </div>
 
         <div class="actions" fxLayout="row" fxLayoutAlign="end center" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'200ms'}}">
-            <button *ngIf="bIsUser" mat-raised-button (click)="routeEditProfile()" color="accent" aria-label="Follow">Actualizar Información</button>
+            <button *ngIf="bIsUser" mat-raised-button (click)="routeEditProfile()" 
+            color="accent" aria-label="Follow">Actualizar Información</button>
             <!-- <button mat-raised-button color="primary" aria-label="Send Message">Send Message</button> -->
         </div>
     </div>

@@ -19,6 +19,7 @@ import { FuseCountdownModule, FuseHighlightModule,
     FuseMaterialColorPickerModule, FuseWidgetModule } from '@fuse/components';
     
 import { ExamIndexModule } from './exam-index/exam-index.module';
+import { ExamStartModule } from './exam-start/exam-start.module';
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { ExamIndexModule } from './exam-index/exam-index.module';
         FuseMaterialColorPickerModule,
         FuseWidgetModule,
 
-        ExamIndexModule
+        ExamIndexModule,
+        ExamStartModule
     ],
     providers: [
         // UserModel

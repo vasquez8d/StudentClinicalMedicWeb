@@ -58,8 +58,17 @@
                          *ngIf="currentStep === i"
                          [@slideIn]="animationDirection">
 
-                        <div id="course-step-content" class="course-step-content" [innerHTML]="step.content"></div>
-
+                        <div id="course-step-content" class="course-step-content" 
+                        [innerHTML]="step.content">
+                        </div>
+                        <div id="course-step-content" class="course-step-content">
+                            <iframe src="https://player.vimeo.com/video/263371510" width="640" 
+                            height="360" frameborder="0" webkitallowfullscreen
+                             mozallowfullscreen allowfullscreen></iframe>
+                        </div>  
+                        <div id="course-step-content" class="course-step-content">
+                            <h1>Comentarios</h1>
+                        </div>
                     </div>
 
                 </ng-container>

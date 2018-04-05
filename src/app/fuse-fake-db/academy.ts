@@ -42,11 +42,12 @@ export class AcademyFakeDb
 
     private static demoSteps1 = [
         {
-            'title'  : 'Introducción',
-            'content': '<h1>Introducción</h1>' +
+            'title'  : 'Introducción 123',
+            'content': '<h1>Introducción 123</h1>' +
             '<br>' +
-            'Introducción del curso.' +
-            '<br><br>'
+            'Introducción del curso 1234.' +
+            '<br><br>' +
+            '<iframe src="https://player.vimeo.com/video/263371510" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
         },
         {
             'title'  : 'Primera Clase',
@@ -61,40 +62,6 @@ export class AcademyFakeDb
             '<br>' +
             'Descripción de la clase y video.' +
             '<br><br>'
-        },
-        {
-            'title'  : 'Tercera Clase',
-            'content': '<h1>Tercera Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Cuarta Clase',
-            'content': '<h1>Cuarta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Quinta Clase',
-            'content': '<h1>Quinta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Sexta Clase',
-            'content': '<h1>Sexta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Clase Final',
-            'content': '<h1>Clase Final - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase final, fecilitaciones y video.'
         }
     ];
 
@@ -119,157 +86,6 @@ export class AcademyFakeDb
             '<br>' +
             'Descripción de la clase y video.' +
             '<br><br>'
-        },
-        {
-            'title'  : 'Tercera Clase',
-            'content': '<h1>Tercera Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Cuarta Clase',
-            'content': '<h1>Cuarta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Quinta Clase',
-            'content': '<h1>Quinta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Sexta Clase',
-            'content': '<h1>Sexta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Septima Clase',
-            'content': '<h1>Step 9 - Images moderation</h1>' +
-            '<br>' +
-            'This is an example step of the course. You can put anything in here from example codes to videos.' +
-            '<br><br>' +
-            'To install the CLI you need to have installed <b>npm</b> which typically comes with <b>NodeJS</b>.' +
-            'To install or upgrade the CLI run the following <b>npm</b> command:' +
-            '<br><br>' +
-            '<code>npm -g install @angular/cli</code>' +
-            '<br><br>' +
-            'To verify that the CLI has been installed correctly, open a console and run:' +
-            '<br><br>' +
-            '<code>ng version</code>' +
-            '<br><br>' +
-            '<h2>Install dependencies</h2>' +
-            '<br>' +
-            'To moderate the images we\'ll need a few Node.js packages:' +
-            '<br><br>' +
-            '<ul>' +
-            '<li>' +
-            'The Google Cloud Vision Client Library for Node.js: @google-cloud/vision to run the image through the Cloud Vision API to detect inappropriate images.' +
-            '</li>' +
-            '<br>' +
-            '<li>' +
-            'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-            '</li>' +
-            '<br>' +
-            '<li>' +
-            'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
-            '</li>' +
-            '</ul>' +
-            '<br>' +
-            'To install these three packages into your Cloud Functions app, run the following npm install --save command. Make sure that you do this from the functions directory.' +
-            '<br><br>' +
-            '<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
-            '<br><br>' +
-            'This will install the three packages locally and add them as declared dependencies in your package.js file.'
-        },
-        {
-            'title'  : 'Octava Clase',
-            'content': '<h1>Step 10 - New Message Notifications</h1>' +
-            '<br>' +
-            'This is an example step of the course. You can put anything in here from example codes to videos.' +
-            '<br><br>' +
-            'To install the CLI you need to have installed <b>npm</b> which typically comes with <b>NodeJS</b>.' +
-            'To install or upgrade the CLI run the following <b>npm</b> command:' +
-            '<br><br>' +
-            '<code>npm -g install @angular/cli</code>' +
-            '<br><br>' +
-            'To verify that the CLI has been installed correctly, open a console and run:' +
-            '<br><br>' +
-            '<code>ng version</code>' +
-            '<br><br>' +
-            '<h2>Install dependencies</h2>' +
-            '<br>' +
-            'To moderate the images we\'ll need a few Node.js packages:' +
-            '<br><br>' +
-            '<ul>' +
-            '<li>' +
-            'The Google Cloud Vision Client Library for Node.js: @google-cloud/vision to run the image through the Cloud Vision API to detect inappropriate images.' +
-            '</li>' +
-            '<br>' +
-            '<li>' +
-            'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-            '</li>' +
-            '<br>' +
-            '<li>' +
-            'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
-            '</li>' +
-            '</ul>' +
-            '<br>' +
-            'To install these three packages into your Cloud Functions app, run the following npm install --save command. Make sure that you do this from the functions directory.' +
-            '<br><br>' +
-            '<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
-            '<br><br>' +
-            'This will install the three packages locally and add them as declared dependencies in your package.js file.'
-        },
-        {
-            'title'  : 'Octava Clase',
-            'content': '<h1>Step 10 - New Message Notifications</h1>' +
-            '<br>' +
-            'This is an example step of the course. You can put anything in here from example codes to videos.' +
-            '<br><br>' +
-            'To install the CLI you need to have installed <b>npm</b> which typically comes with <b>NodeJS</b>.' +
-            'To install or upgrade the CLI run the following <b>npm</b> command:' +
-            '<br><br>' +
-            '<code>npm -g install @angular/cli</code>' +
-            '<br><br>' +
-            'To verify that the CLI has been installed correctly, open a console and run:' +
-            '<br><br>' +
-            '<code>ng version</code>' +
-            '<br><br>' +
-            '<h2>Install dependencies</h2>' +
-            '<br>' +
-            'To moderate the images we\'ll need a few Node.js packages:' +
-            '<br><br>' +
-            '<ul>' +
-            '<li>' +
-            'The Google Cloud Vision Client Library for Node.js: @google-cloud/vision to run the image through the Cloud Vision API to detect inappropriate images.' +
-            '</li>' +
-            '<br>' +
-            '<li>' +
-            'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-            '</li>' +
-            '<br>' +
-            '<li>' +
-            'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
-            '</li>' +
-            '</ul>' +
-            '<br>' +
-            'To install these three packages into your Cloud Functions app, run the following npm install --save command. Make sure that you do this from the functions directory.' +
-            '<br><br>' +
-            '<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
-            '<br><br>' +
-            'This will install the three packages locally and add them as declared dependencies in your package.js file.'
-        },
-        {
-            'title'  : 'Clase Final',
-            'content': '<h1>Step 11 - Congratulations!</h1>' +
-            '<br>' +
-            'You\'ve built a full-fidelity, offline-capable progressive web app by leveraging the power of reusable Web Components and Firebase. Why bother with a native app when you know how to do all that?!'
         }
     ];
 
@@ -294,83 +110,48 @@ export class AcademyFakeDb
             '<br>' +
             'Descripción de la clase y video.' +
             '<br><br>'
+        }
+    ];
+
+    private static demoSteps4 = [
+        {
+            'title': 'Primera Pregunta',
+            'content': '<h1>Primera Pregunta</h1>' +
+                '<br>' +
+                'Resuelve la pregunta.' +
+                '<br><br>'
         },
         {
-            'title'  : 'Tercera Clase',
-            'content': '<h1>Tercera Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
+            'title': 'Segunda Pregunta',
+            'content': '<h1>Segunda Pregunta</h1>' +
+                '<br>' +
+                'Resuelve la pregunta.' +
+                '<br><br>'
         },
         {
-            'title'  : 'Cuarta Clase',
-            'content': '<h1>Cuarta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
+            'title': 'Tercera Pregunta',
+            'content': '<h1>Tercera Pregunta</h1>' +
+                '<br>' +
+                'Resuelve la pregunta.' +
+                '<br><br>'
         },
         {
-            'title'  : 'Quinta Clase',
-            'content': '<h1>Quinta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Sexta Clase',
-            'content': '<h1>Sexta Clase - Titulo</h1>' +
-            '<br>' +
-            'Descripción de la clase y video.' +
-            '<br><br>'
-        },
-        {
-            'title'  : 'Octava Clase',
-            'content': '<h1>Step 8 - Welcome New Users</h1>' +
-            '<br>' +
-            'This is an example step of the course. You can put anything in here from example codes to videos.' +
-            '<br><br>' +
-            'To install the CLI you need to have installed <b>npm</b> which typically comes with <b>NodeJS</b>.' +
-            'To install or upgrade the CLI run the following <b>npm</b> command:' +
-            '<br><br>' +
-            '<code>npm -g install @angular/cli</code>' +
-            '<br><br>' +
-            'To verify that the CLI has been installed correctly, open a console and run:' +
-            '<br><br>' +
-            '<code>ng version</code>' +
-            '<br><br>' +
-            '<h2>Install dependencies</h2>' +
-            '<br>' +
-            'To moderate the images we\'ll need a few Node.js packages:' +
-            '<br><br>' +
-            '<ul>' +
-            '<li>' +
-            'The Google Cloud Vision Client Library for Node.js: @google-cloud/vision to run the image through the Cloud Vision API to detect inappropriate images.' +
-            '</li>' +
-            '<br>' +
-            '<li>' +
-            'The Google Cloud Storage Client Library for Node.js: @google-cloud/storage to download and upload the images from Cloud Storage.' +
-            '</li>' +
-            '<br>' +
-            '<li>' +
-            'A Node.js library allowing us to run processes: child-process-promise to run ImageMagick since the ImageMagick command-line tool comes pre-installed on all Functions instances.' +
-            '</li>' +
-            '</ul>' +
-            '<br>' +
-            'To install these three packages into your Cloud Functions app, run the following npm install --save command. Make sure that you do this from the functions directory.' +
-            '<br><br>' +
-            '<code>npm install --save @google-cloud/vision @google-cloud/storage child-process-promise</code>' +
-            '<br><br>' +
-            'This will install the three packages locally and add them as declared dependencies in your package.js file.'
-        },
-        {
-            'title'  : 'Clase Final',
-            'content': '<h1>Step 11 - Congratulations!</h1>' +
-            '<br>' +
-            'You\'ve built a full-fidelity, offline-capable progressive web app by leveraging the power of reusable Web Components and Firebase. Why bother with a native app when you know how to do all that?!'
+            'title': 'Cuarta Pregunta',
+            'content': '<h1>Cuarta Pregunta</h1>' +
+                '<br>' +
+                'Resuelve la pregunta.' +
+                '<br><br>'
         }
     ];
 
     public static course = [
+        {
+            'id': '15459251a6d6b397522',
+            'title': 'Examen',
+            'length': 180,
+            'totalSteps': 4,
+            'steps': AcademyFakeDb.demoSteps4
+        },
         {
             'id'         : '15459251a6d6b397565',
             'title'      : 'Introducción a la Biofísica',
@@ -378,7 +159,7 @@ export class AcademyFakeDb
             'description': 'Curso Virtual de Biofísica',
             'category'   : 'Biofísica',
             'length'     : 180,
-            'totalSteps' : 8,
+            'totalSteps' : 3,
             'updated'    : '4 de Enero del 2018',
             'steps'      : AcademyFakeDb.demoSteps1
         },
@@ -389,7 +170,7 @@ export class AcademyFakeDb
             'description': 'Curso Virtual de Biofísica',
             'category'   : 'Biofísica',
             'length'     : 220,
-            'totalSteps' : 11,
+            'totalSteps' : 3,
             'updated'    : '22 de Febrero del 2018',
             'steps'      : AcademyFakeDb.demoSteps2
         },
@@ -400,7 +181,7 @@ export class AcademyFakeDb
             'description': 'Curso Virtual de Farmacología',
             'category'   : 'Farmacología',
             'length'     : 185,
-            'totalSteps' : 9,
+            'totalSteps' : 3,
             'updated'    : '26 de Mayo del 2018',
             'steps'      : AcademyFakeDb.demoSteps3
         }
