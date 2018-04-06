@@ -46,7 +46,7 @@
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="DNI" formControlName="dni" required>
+                            <input type="number" matInput placeholder="DNI" formControlName="dni" required>
                             <mat-error *ngIf="formErrors.dni.required">
                                 El DNI es requerido.
                             </mat-error>
@@ -62,15 +62,26 @@
                         </mat-form-field>
 
                     </div>
-
+                    
                     <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
-                        <mat-form-field fxFlex="100">
-                            <input matInput placeholder="Lugar de Procedencia (Departamento, Provincia, Distrito)" formControlName="lugPrc" required>
+                        <mat-form-field fxFlex="50">
+                            <input type="text" matInput placeholder="Lugar de Procedencia (Departamento)" formControlName="lugPrc" required>
                             <mat-error *ngIf="formErrors.lugPrc.required">
-                                        El lugar de procedencia es requerido.
+                                El departamento es requerido.
                             </mat-error>
                         </mat-form-field>
-    
+                        <mat-form-field fxFlex="50">
+                            <input type="text" matInput placeholder="Lugar de Procedencia (Provincia)" formControlName="lugPrc" required>
+                            <mat-error *ngIf="formErrors.lugPrc.required">
+                                La provincia es requerida.
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="50">
+                            <input type="text" matInput placeholder="Lugar de Procedencia (Distrito)" formControlName="lugPrc" required>
+                            <mat-error *ngIf="formErrors.lugPrc.required">
+                                El distrito es requerido.
+                            </mat-error>
+                        </mat-form-field>                        
                         <mat-form-field fxFlex="100">
                             <input matInput placeholder="Dirección Actual" formControlName="dirAct" required>
                             <mat-error *ngIf="formErrors.dirAct.required">

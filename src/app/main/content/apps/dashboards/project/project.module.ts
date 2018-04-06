@@ -18,6 +18,8 @@ import { ProjectDashboardService } from './project.service';
 import { MomentModule } from 'angular2-moment';
 import { AnalyticsDashboardService } from '../analytics/analytics.service';
 
+import { AngularWeatherWidgetModule, WeatherApiName } from 'angular-weather-widget';
+
 const routes: Routes = [
     {
         path     : '**',
@@ -50,7 +52,13 @@ const routes: Routes = [
 
         FuseSharedModule,
         FuseWidgetModule,
-        MomentModule
+        MomentModule,
+
+        AngularWeatherWidgetModule.forRoot({
+            key: 'c22e86af051ce37943c8680a279e789d',
+            name: WeatherApiName.OPEN_WEATHER_MAP,
+            baseUrl: 'http://api.openweathermap.org/data/2.5'
+        })
     ],
     providers   : [
         ProjectDashboardService,

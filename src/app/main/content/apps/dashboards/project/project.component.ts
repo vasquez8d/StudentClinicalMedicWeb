@@ -11,6 +11,11 @@ import { GlobalUser } from '../../../../../global/globaluser';
 import { MomentModule } from 'angular2-moment';
 import { AnalyticsDashboardService } from '../analytics/analytics.service';
 
+import { WeatherSettings, 
+         TemperatureScale, 
+         ForecastMode, 
+         WeatherLayout } from 'angular-weather-widget';
+
 @Component({
     selector     : 'fuse-project-dashboard',
     templateUrl  : './project.component.html',
@@ -18,8 +23,15 @@ import { AnalyticsDashboardService } from '../analytics/analytics.service';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
+
+// @Component({
+//     template: '<weather-widget [settings]="settings"></weather-widget>'
+// })
+
 export class FuseProjectDashboardComponent implements OnInit
 {
+    settings: WeatherSettings;
+
     projects: any[];
     selectedProject: any;
 
@@ -36,6 +48,17 @@ export class FuseProjectDashboardComponent implements OnInit
     user: any = {};
 
     dateNow = Date.now();
+
+    public pos: any;
+
+    // getPosition() {
+    //     navigator.geolocation.getCurrentPosition( (position) => {
+    //         console.log(position);
+    //     }, (errorCoor) => {
+    //         console.log(errorCoor);
+    //     } , { timeout: 10000 });
+    // }
+
     constructor(private projectDashboardService: ProjectDashboardService,
                 private analyticsDashboardService: AnalyticsDashboardService,
                 private globalUser: GlobalUser,
@@ -156,14 +179,31 @@ export class FuseProjectDashboardComponent implements OnInit
 
     ngOnInit()
     {
-        /**
-         * Widget 11
-         */
+        this.loadCurrentWeather();
+
         this.widget11.onContactsChanged = new BehaviorSubject({});
         this.widget11.onContactsChanged.next(this.widgets.widget11.table.rows);
         this.widget11.dataSource = new FilesDataSource(this.widget11);
     }
 
+    loadCurrentWeather(){        
+        this.settings = {
+            location: {
+                cityName: 'Chancay'
+            },
+            backgroundColor: '#fafafa',
+            color: '#000000',
+            width: 'auto',
+            height: 'auto',
+            showWind: false,
+            scale: TemperatureScale.CELCIUS,
+            forecastMode: ForecastMode.DETAILED,
+            showDetails: false,
+            showForecast: false,
+            layout: WeatherLayout.WIDE,
+            language: 'es'
+        };
+    }
     // registerCustomChartJSPlugin() {
     //     (<any>window).Chart.plugins.register({
     //         afterDatasetsDraw: function (chart, easing) {
