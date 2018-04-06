@@ -20,238 +20,184 @@
         <div class="content p-24">
     
             <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
-    
-                <!-- REACTIVE FORM EXAMPLE -->
-    
                 <form class="mat-white-bg mat-elevation-z4 p-20 mr-20 mb-20" fxLayout="column" fxLayoutAlign="start"
-                      fxFlex="1 0 auto" name="form" [formGroup]="form">
+                      fxFlex="1 0 auto" name="formPersonal" [formGroup]="formPersonal">
     
-                    <div class="h2 mb-24">Reactive Form Example</div>
-    
-                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-    
-                        <mat-form-field fxFlex="100">
-                            <input matInput placeholder="Company (disabled)" formControlName="company">
-                        </mat-form-field>
-    
-                    </div>
+                    <div class="h2 mb-24">Información Personal</div>
     
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="First name" formControlName="firstName" required>
-                            <mat-error *ngIf="formErrors.firstName.required">
-                                First Name is required!
-                            </mat-error>
+                            <input matInput placeholder="Nombres" formControlName="firstName" readonly>
                         </mat-form-field>
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Last name" formControlName="lastName" required>
-                            <mat-error *ngIf="formErrors.lastName.required">
-                                Last Name is required!
-                            </mat-error>
+                            <input matInput placeholder="Apellidos" formControlName="lastName" readonly>
                         </mat-form-field>
     
                     </div>
+
+                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field fxFlex="50">
+                                <input matInput placeholder="Correo electrónico" formControlName="email" readonly>
+                            </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
+                        <mat-form-field fxFlex="50">
+                            <input matInput placeholder="DNI" formControlName="dni" required>
+                            <mat-error *ngIf="formErrors.dni.required">
+                                El DNI es requerido.
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="50" class="mr-sm-24">
+                                <input matInput [matDatepicker]="startDatePicker" placeholder="Fecha de nacimiento" formControlName="fecNac" required>
+                                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #startDatePicker></mat-datepicker>
+                                <mat-error *ngIf="formErrors.fecNac.required">
+                                        La fecha de nacimiento no es valida.
+                                </mat-error>
+                        </mat-form-field>
+
+                    </div>
+
                     <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
-    
                         <mat-form-field fxFlex="100">
-                            <textarea matInput placeholder="Address" formControlName="address" required>
-                                1600 Amphitheatre Pkwy
-                            </textarea>
-                            <mat-error *ngIf="formErrors.address.required">
-                                Address is required!
+                            <input matInput placeholder="Lugar de Procedencia (Departamento, Provincia, Distrito)" formControlName="lugPrc" required>
+                            <mat-error *ngIf="formErrors.lugPrc.required">
+                                        El lugar de procedencia es requerido.
                             </mat-error>
                         </mat-form-field>
     
                         <mat-form-field fxFlex="100">
-                            <textarea matInput placeholder="Address 2" formControlName="address2"></textarea>
-                            <mat-error *ngIf="formErrors.address2.required">
-                                Address 2 is required!
+                            <input matInput placeholder="Dirección Actual" formControlName="dirAct" required>
+                            <mat-error *ngIf="formErrors.dirAct.required">
+                                        La dirección actual es requerida.
                             </mat-error>
-                        </mat-form-field>
-    
+                        </mat-form-field>    
                     </div>
-    
+
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-    
-                        <mat-form-field fxFlex="33">
-                            <input matInput placeholder="City" formControlName="city" required>
-                            <mat-error *ngIf="formErrors.city.required">
-                                City is required!
-                            </mat-error>
-                        </mat-form-field>
-    
-                        <mat-form-field fxFlex="34">
-                            <input matInput placeholder="State" formControlName="state" required>
-                            <mat-error *ngIf="formErrors.state.required">
-                                State is required!
-                            </mat-error>
-                        </mat-form-field>
-    
-                        <mat-form-field fxFlex="33">
-                            <input matInput #postalCode placeholder="Postal Code" value="94043"
-                                   formControlName="postalCode" required>
-                            <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
-                            <mat-error *ngIf="formErrors.postalCode.maxlength">
-                                Postal Code needs to be max. {{formErrors.postalCode.maxlength.requiredLength}} characters
-                            </mat-error>
-                            <mat-error *ngIf="formErrors.postalCode.required">
-                                Postal Code is required!
-                            </mat-error>
-                        </mat-form-field>
-    
+                            <mat-form-field fxFlex="50">
+                                <mat-select placeholder="Tiempo promedio en llegar a la académia" formControlName="timAca" required>
+                                    <mat-option [value]="1">
+                                        Menor a 1 hora
+                                    </mat-option>
+                                    <mat-option [value]="2">
+                                        1 hora
+                                    </mat-option>
+                                    <mat-option [value]="3">
+                                        Mayor a 1 hora
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formErrors.timAca.required">
+                                    Country is required!
+                                </mat-error>
+                            </mat-form-field>
+            
+                            <mat-form-field fxFlex="50">
+                                    <mat-select placeholder="Estado Civil" formControlName="estCiv" required>
+                                        <mat-option [value]="1">
+                                            Soltero
+                                        </mat-option>
+                                        <mat-option [value]="2">
+                                            Casado
+                                        </mat-option>
+                                        <mat-option [value]="3">
+                                            Viudo
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="formErrors.estCiv.required">
+                                        Country is required!
+                                    </mat-error>
+                            </mat-form-field>
                     </div>
+                    <div style="margin-top:2%; margin-bottom: 2%;" fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
-                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-radio-group fxFlex="33">
+                                <label class="example-margin">¿Tiene Hijos?   </label>
+                                <mat-radio-group matInput formControlName="hijos">
+                                        <mat-radio-button class="example-margin" value="1">SI</mat-radio-button>
+                                        <mat-radio-button class="example-margin" value="0">NO</mat-radio-button>
+                                </mat-radio-group>
+                            </mat-radio-group>
+        
+                            <mat-radio-group fxFlex="33">
+                                <label class="example-margin">¿Vive Solo?   </label>
+                                <mat-radio-group matInput formControlName="vivSol">
+                                        <mat-radio-button class="example-margin" value="1">SI</mat-radio-button>
+                                        <mat-radio-button class="example-margin" value="0">NO</mat-radio-button>
+                                </mat-radio-group>
+                            </mat-radio-group>
     
-                        <mat-form-field fxFlex="100">
-                            <mat-select placeholder="Country" formControlName="country" required>
-                                <mat-option [value]="'United States of America'">
-                                    United States of America
-                                </mat-option>
-                                <mat-option [value]="'United Kingdom'">
-                                    United Kingdom
-                                </mat-option>
-                                <mat-option [value]="'Russia'">
-                                    Russia
-                                </mat-option>
-                                <mat-option [value]="'China'">
-                                    China
-                                </mat-option>
-                                <mat-option [value]="'Japan'">
-                                    Japan
-                                </mat-option>
-                                <mat-option [value]="'Turkey'">
-                                    Turkey
-                                </mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="formErrors.country.required">
-                                Country is required!
-                            </mat-error>
-                        </mat-form-field>
-    
+                            <mat-radio-group fxFlex="33">
+                                    <label class="example-margin">¿Tiene Internet?   </label>
+                                    <mat-radio-group matInput formControlName="inter">
+                                            <mat-radio-button class="example-margin" value="1">SI</mat-radio-button>
+                                            <mat-radio-button class="example-margin" value="0">NO</mat-radio-button>
+                                    </mat-radio-group>
+                            </mat-radio-group>
                     </div>
-    
+
                 </form>
-    
-                <!-- / REACTIVE FORM EXAMPLE -->
-    
+                
                 <form class="mat-white-bg mat-elevation-z4 p-20 mr-20 mb-20" fxLayout="column" fxLayoutAlign="start"
-                      fxFlex="1 0 auto" name="form" [formGroup]="form">
+                      fxFlex="1 0 auto" name="formAcademy" [formGroup]="formAcademy">
     
-                    <div class="h2 mb-24">Reactive Form Example</div>
-    
-                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-    
-                        <mat-form-field fxFlex="100">
-                            <input matInput placeholder="Company (disabled)" formControlName="company">
-                        </mat-form-field>
-    
-                    </div>
+                    <div class="h2 mb-24">Información Académica</div>
     
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="First name" formControlName="firstName" required>
-                            <mat-error *ngIf="formErrors.firstName.required">
-                                First Name is required!
-                            </mat-error>
+                            <input matInput placeholder="Primera opción de especialidad para el ENARM" formControlName="priEsp" >
                         </mat-form-field>
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Last name" formControlName="lastName" required>
-                            <mat-error *ngIf="formErrors.lastName.required">
-                                Last Name is required!
-                            </mat-error>
-                        </mat-form-field>
-    
+                            <input matInput placeholder="Segunda opción de especialidad para el ENARM" formControlName="segEsp" >
+                        </mat-form-field>    
                     </div>
-    
-                    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
-    
-                        <mat-form-field fxFlex="100">
-                            <textarea matInput placeholder="Address" formControlName="address" required>
-                                1600 Amphitheatre Pkwy
-                            </textarea>
-                            <mat-error *ngIf="formErrors.address.required">
-                                Address is required!
-                            </mat-error>
-                        </mat-form-field>
-    
-                        <mat-form-field fxFlex="100">
-                            <textarea matInput placeholder="Address 2" formControlName="address2"></textarea>
-                            <mat-error *ngIf="formErrors.address2.required">
-                                Address 2 is required!
-                            </mat-error>
-                        </mat-form-field>
-    
-                    </div>
-    
+
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
-                        <mat-form-field fxFlex="33">
-                            <input matInput placeholder="City" formControlName="city" required>
-                            <mat-error *ngIf="formErrors.city.required">
-                                City is required!
-                            </mat-error>
+                        <mat-form-field fxFlex="50">
+                            <input matInput placeholder="Primera opción de universidad para el ENARM" formControlName="priUni" >
                         </mat-form-field>
     
-                        <mat-form-field fxFlex="34">
-                            <input matInput placeholder="State" formControlName="state" required>
-                            <mat-error *ngIf="formErrors.state.required">
-                                State is required!
-                            </mat-error>
-                        </mat-form-field>
-    
-                        <mat-form-field fxFlex="33">
-                            <input matInput #postalCode placeholder="Postal Code" value="94043"
-                                   formControlName="postalCode" required>
-                            <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
-                            <mat-error *ngIf="formErrors.postalCode.maxlength">
-                                Postal Code needs to be max. {{formErrors.postalCode.maxlength.requiredLength}} characters
-                            </mat-error>
-                            <mat-error *ngIf="formErrors.postalCode.required">
-                                Postal Code is required!
-                            </mat-error>
-                        </mat-form-field>
-    
+                        <mat-form-field fxFlex="50">
+                            <input matInput placeholder="Primera opción de universidad para el ENARM" formControlName="segUni" >
+                        </mat-form-field>    
                     </div>
-    
+
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
-                        <mat-form-field fxFlex="100">
-                            <mat-select placeholder="Country" formControlName="country" required>
-                                <mat-option [value]="'United States of America'">
-                                    United States of America
+                            <mat-form-field fxFlex="50">
+                                <input matInput placeholder="Universidad de procedencia (Pregrado)" formControlName="uniPrc" >
+                            </mat-form-field>
+        
+                            <mat-form-field fxFlex="50">
+                            <mat-select placeholder="Pertenece al quinto superior" formControlName="qtoSup" >
+                                <mat-option [value]="1">
+                                    SI
                                 </mat-option>
-                                <mat-option [value]="'United Kingdom'">
-                                    United Kingdom
-                                </mat-option>
-                                <mat-option [value]="'Russia'">
-                                    Russia
-                                </mat-option>
-                                <mat-option [value]="'China'">
-                                    China
-                                </mat-option>
-                                <mat-option [value]="'Japan'">
-                                    Japan
-                                </mat-option>
-                                <mat-option [value]="'Turkey'">
-                                    Turkey
+                                <mat-option [value]="0">
+                                    NO
                                 </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="formErrors.country.required">
-                                Country is required!
-                            </mat-error>
-                        </mat-form-field>
+                            </mat-form-field>      
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <button [disabled]="formPersonal.invalid" (click)="saveUserInformation()" style="margin-right: 2%; margin-left: 2%;" fxFlex="50" type="button" mat-raised-button color="accent" class="submit-button" >
+                                    <mat-icon>save</mat-icon> Guardar información
+                            </button>
+                            <button (click)="navigateProfile()" style="margin-right: 2%; margin-left: 2%;" fxFlex="50" type="button" mat-raised-button color="primary" class="submit-button" >
+                                    <mat-icon>reply</mat-icon> Volver al perfil
+                            </button>
                     </div>
                 </form>
             </div>
         </div>
-        <!-- / CONTENT -->
+        <!-- / CONTENT -->        
     </div>
-    
-    
-    

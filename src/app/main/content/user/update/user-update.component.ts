@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Base64 } from 'js-base64';
 
 @Component({
     selector   : 'user-update-forms',
@@ -8,151 +10,56 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UserUpdateComponent implements OnInit
 {
-    form: FormGroup;
+    formPersonal: FormGroup;
+    formAcademy: FormGroup;
+
     formErrors: any;
 
-    // Horizontal Stepper
-    horizontalStepperStep1: FormGroup;
-    horizontalStepperStep2: FormGroup;
-    horizontalStepperStep3: FormGroup;
-    horizontalStepperStep1Errors: any;
-    horizontalStepperStep2Errors: any;
-    horizontalStepperStep3Errors: any;
-
-    // Vertical Stepper
-    verticalStepperStep1: FormGroup;
-    verticalStepperStep2: FormGroup;
-    verticalStepperStep3: FormGroup;
-    verticalStepperStep1Errors: any;
-    verticalStepperStep2Errors: any;
-    verticalStepperStep3Errors: any;
-
-    constructor(private formBuilder: FormBuilder)
+    constructor(
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private activatedRoute: ActivatedRoute)
     {
         // Reactive form errors
         this.formErrors = {
-            company   : {},
-            firstName : {},
-            lastName  : {},
-            address   : {},
-            address2  : {},
-            city      : {},
-            state     : {},
-            postalCode: {},
-            country   : {}
-        };
-
-        // Horizontal Stepper form error
-        this.horizontalStepperStep1Errors = {
-            firstName: {},
-            lastName : {}
-        };
-
-        this.horizontalStepperStep2Errors = {
-            address: {}
-        };
-
-        this.horizontalStepperStep3Errors = {
-            city      : {},
-            state     : {},
-            postalCode: {}
-        };
-
-        // Vertical Stepper form error
-        this.verticalStepperStep1Errors = {
-            firstName: {},
-            lastName : {}
-        };
-
-        this.verticalStepperStep2Errors = {
-            address: {}
-        };
-
-        this.verticalStepperStep3Errors = {
-            city      : {},
-            state     : {},
-            postalCode: {}
+            dni    : {},
+            fecNac : {},
+            lugPrc : {},
+            dirAct : {},
+            timAca : {},
+            estCiv : {}
         };
     }
 
     ngOnInit()
     {
         // Reactive Form
-        this.form = this.formBuilder.group({
-            company   : [
-                {
-                    value   : 'Google',
-                    disabled: true
-                }, Validators.required
-            ],
-            firstName : ['', Validators.required],
-            lastName  : ['', Validators.required],
-            address   : ['', Validators.required],
-            address2  : ['', Validators.required],
-            city      : ['', Validators.required],
-            state     : ['', Validators.required],
-            postalCode: ['', [Validators.required, Validators.maxLength(5)]],
-            country   : ['', Validators.required]
+        this.formPersonal = this.formBuilder.group({
+            firstName : ['Alex'],
+            lastName  : ['Vasquez'],
+            email     : ['vasquez8d@gmail.com'],
+            dni       : ['', Validators.required],
+            fecNac    : ['', Validators.required],
+            lugPrc    : ['', Validators.required],
+            dirAct    : ['', Validators.required],
+            timAca    : ['', Validators.required],
+            estCiv    : ['', Validators.required],
+            hijos     : [''],
+            vivSol    : [''],
+            inter     : [''],
         });
 
-        this.form.valueChanges.subscribe(() => {
+        this.formPersonal.valueChanges.subscribe(() => {
             this.onFormValuesChanged();
         });
 
-        // Horizontal Stepper form steps
-        this.horizontalStepperStep1 = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName : ['', Validators.required]
-        });
-
-        this.horizontalStepperStep2 = this.formBuilder.group({
-            address: ['', Validators.required]
-        });
-
-        this.horizontalStepperStep3 = this.formBuilder.group({
-            city      : ['', Validators.required],
-            state     : ['', Validators.required],
-            postalCode: ['', [Validators.required, Validators.maxLength(5)]]
-        });
-
-        this.horizontalStepperStep1.valueChanges.subscribe(() => {
-            this.onFormValuesChanged();
-        });
-
-        this.horizontalStepperStep2.valueChanges.subscribe(() => {
-            this.onFormValuesChanged();
-        });
-
-        this.horizontalStepperStep3.valueChanges.subscribe(() => {
-            this.onFormValuesChanged();
-        });
-
-        // Vertical Stepper form stepper
-        this.verticalStepperStep1 = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName : ['', Validators.required]
-        });
-
-        this.verticalStepperStep2 = this.formBuilder.group({
-            address: ['', Validators.required]
-        });
-
-        this.verticalStepperStep3 = this.formBuilder.group({
-            city      : ['', Validators.required],
-            state     : ['', Validators.required],
-            postalCode: ['', [Validators.required, Validators.maxLength(5)]]
-        });
-
-        this.verticalStepperStep1.valueChanges.subscribe(() => {
-            this.onFormValuesChanged();
-        });
-
-        this.verticalStepperStep2.valueChanges.subscribe(() => {
-            this.onFormValuesChanged();
-        });
-
-        this.verticalStepperStep3.valueChanges.subscribe(() => {
-            this.onFormValuesChanged();
+        this.formAcademy = this.formBuilder.group({
+            priEsp : [''],
+            segEsp : [''],
+            priUni : [''],
+            segUni : [''],
+            uniPrc : [''],
+            qtoSup : ['']
         });
     }
 
@@ -169,7 +76,7 @@ export class UserUpdateComponent implements OnInit
             this.formErrors[field] = {};
 
             // Get the control
-            const control = this.form.get(field);
+            const control = this.formPersonal.get(field);
 
             if ( control && control.dirty && !control.valid )
             {
@@ -186,5 +93,22 @@ export class UserUpdateComponent implements OnInit
     finishVerticalStepper()
     {
         alert('You have finished the vertical stepper!');
+    }
+
+    navigateProfile(){
+        this.activatedRoute.params.subscribe( params =>{
+            if( params.user_id ){
+              const user_id = Base64.decode(params.user_id);
+              const encryptUser = Base64.encode(user_id.toString());
+              this.router.navigate(['user/' + encryptUser + '/profile']);
+            }
+          })
+    }
+
+    saveUserInformation(){
+        const dataRegisterPersonal = this.formPersonal.value;
+        const dataRegisterAcademy = this.formAcademy.value;
+        console.log(dataRegisterPersonal);
+        console.log(dataRegisterAcademy);
     }
 }
