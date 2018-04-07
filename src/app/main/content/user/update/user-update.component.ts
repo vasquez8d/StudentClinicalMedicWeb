@@ -24,7 +24,9 @@ export class UserUpdateComponent implements OnInit
         this.formErrors = {
             dni    : {},
             fecNac : {},
-            lugPrc : {},
+            dpt    : {},
+            prv    : {},
+            dst    : {},
             dirAct : {},
             timAca : {},
             estCiv : {}
@@ -40,7 +42,9 @@ export class UserUpdateComponent implements OnInit
             email     : ['vasquez8d@gmail.com'],
             dni       : ['', Validators.required],
             fecNac    : ['', Validators.required],
-            lugPrc    : ['', Validators.required],
+            dpt       : ['', Validators.required],
+            prv       : ['', Validators.required],
+            dst       : ['', Validators.required],
             dirAct    : ['', Validators.required],
             timAca    : ['', Validators.required],
             estCiv    : ['', Validators.required],

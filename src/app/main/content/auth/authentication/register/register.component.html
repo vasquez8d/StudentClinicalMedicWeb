@@ -52,7 +52,7 @@
                 </mat-error>
 
                 <mat-form-field>
-                    <input matInput placeholder="Correo electrónico" formControlName="user_mail">
+                    <input type="email" matInput placeholder="Correo electrónico" formControlName="user_mail">
                     <mat-error *ngIf="registerFormErrors.user_mail.required">
                         El correo electrónico es requerido.
                     </mat-error>
@@ -85,7 +85,16 @@
                     <a href="#">Terminos y condiciones</a>
                 </div> -->
 
-                <button (click)="register()" mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
+                <mat-form-field *ngIf="bAceptar">
+                    <input matInput placeholder="Codigo de validación" formControlName="code_validate">
+                </mat-form-field>
+
+                <button *ngIf="bValidarEmail" (click)="validateEmail()" mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
+                        [disabled]="registerForm.invalid">
+                    Validar correo electrónico
+                </button>
+
+                <button *ngIf="bAceptar" (click)="register()" mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
                         [disabled]="registerForm.invalid">
                     Aceptar
                 </button>

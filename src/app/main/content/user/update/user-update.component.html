@@ -65,20 +65,20 @@
                     
                     <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
                         <mat-form-field fxFlex="50">
-                            <input type="text" matInput placeholder="Lugar de Procedencia (Departamento)" formControlName="lugPrc" required>
-                            <mat-error *ngIf="formErrors.lugPrc.required">
+                            <input type="text" matInput placeholder="Departamento" formControlName="dpt" required>
+                            <mat-error *ngIf="formErrors.dpt.required">
                                 El departamento es requerido.
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="50">
-                            <input type="text" matInput placeholder="Lugar de Procedencia (Provincia)" formControlName="lugPrc" required>
-                            <mat-error *ngIf="formErrors.lugPrc.required">
+                            <input type="text" matInput placeholder="Provincia" formControlName="prv" required>
+                            <mat-error *ngIf="formErrors.prv.required">
                                 La provincia es requerida.
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="50">
-                            <input type="text" matInput placeholder="Lugar de Procedencia (Distrito)" formControlName="lugPrc" required>
-                            <mat-error *ngIf="formErrors.lugPrc.required">
+                            <input type="text" matInput placeholder="Distrito" formControlName="dst" required>
+                            <mat-error *ngIf="formErrors.dst.required">
                                 El distrito es requerido.
                             </mat-error>
                         </mat-form-field>                        

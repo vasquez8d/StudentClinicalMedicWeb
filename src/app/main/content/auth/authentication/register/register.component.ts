@@ -7,6 +7,8 @@ import { AuthregisterService } from '../../../../../services/authregister.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalUser } from '../../../../../global/globaluser';
 
+import Swal from 'sweetalert2';
+
 @Component({
     selector   : 'fuse-register',
     templateUrl: './register.component.html',
@@ -20,6 +22,11 @@ export class FuseRegisterComponent implements OnInit
 
     registerIncorrect_email = false;
     reg_incorrect_message = '';
+
+    bValidarEmail : boolean = true;
+    bAceptar      : boolean = false;
+
+    validateMail: any;
 
     constructor(
         private fuseConfig: FuseConfigService,
@@ -55,7 +62,8 @@ export class FuseRegisterComponent implements OnInit
             user_pw         : ['', Validators.required],
             user_pw_confirm : ['', [Validators.required, confirmPassword]],
             user_ape_pat    : ['', Validators.required],
-            user_ape_mat    : ['']
+            user_ape_mat    : [''],
+            code_validate   : ['']
         });
 
         this.registerForm.valueChanges.subscribe(() => {
@@ -85,27 +93,64 @@ export class FuseRegisterComponent implements OnInit
             }
         }
     }
-
-    register(){
+    validateEmail(){
         const dataRegister = this.registerForm.value;
-        this.authregisterService.registerwo(dataRegister).subscribe(
+        this.authregisterService.generateCodeValidateMail(dataRegister.user_mail).subscribe(
             success => {
                 if (success.res_service === 'ok') {
-                    // console.log(this.globalUser.user);
-                    // this.router.navigateByUrl('');
-                    location.href = '';
+                    this.bValidarEmail = false;
+                    Swal({
+                        title: 'Validación de correo electrónico',
+                        text: 'Se envío un código a tu correo electrónico, ingresalo para finalizar el registro.',
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar',
+                    }).then((resultAcept) => {
+                        this.validateMail = success.data_result;
+                        this.bAceptar = true;
+                    });
                 } else {
-                    if (success.type_error === 'email')
-                    {
-                        this.registerIncorrect_email = true;
-                        this.reg_incorrect_message = success.res_service;
-                    }
+                    console.log(success.des_error);
                 }
-            },
-            error => {
-                console.log(error);
             }
-        );
+        )
+    }
+    register(){
+        const dataRegister = this.registerForm.value;
+        if(dataRegister.code_validate == ''){
+            Swal( "Error de validación" ,  "Se debe ingresar un valor para la validación." ,  "error" );
+        }else{
+            if(this.validateMail.val_code == dataRegister.code_validate){
+                Swal({
+                    title: 'Validación de correo electrónico',
+                    text: 'Se validó correctamente el correo electrónico.',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Continuar',
+                }).then((resultAcept) => {
+                    this.authregisterService.registerwo(dataRegister).subscribe(
+                        success => {
+                            if (success.res_service === 'ok') {
+                                location.href = '';
+                            } else {
+                                if (success.type_error === 'email')
+                                {
+                                    this.registerIncorrect_email = true;
+                                    this.reg_incorrect_message = success.res_service;
+                                }
+                            }
+                        },
+                        error => {
+                            console.log(error);
+                        }
+                    );
+                });
+            }else{
+                Swal( "Error de validación" ,  "El código de validación no es el correcto." ,  "info" );
+            }
+        }
     }
 }
 

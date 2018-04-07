@@ -11,6 +11,7 @@ export class AuthregisterService {
 
     private headers: Headers;
     private regUrlwo = `${this.globalValues.urlAuthUser()}/createwo`;
+    private validateEmailUrl = `${this.globalValues.urlValidateMail()}/gencode`;
 
     constructor(
         private http: Http,
@@ -20,7 +21,6 @@ export class AuthregisterService {
 
     registerwo(credentials) {
 
-        console.log(credentials);
         const pwEncrypt = crypto.AES.encrypt(credentials.user_pw.toString(), this.globalValues.cryptoKey());
         credentials.user_pw = pwEncrypt.toString();
         credentials.rol_id = 4;
@@ -38,5 +38,16 @@ export class AuthregisterService {
                 }
                 return result;
             });
+    }
+
+    generateCodeValidateMail(email){
+        this.validateEmailUrl = this.validateEmailUrl + '/' + email;
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http
+          .get(this.validateEmailUrl, { headers: this.headers })
+          .map(res => {
+            const result = res.json();
+            return result;
+          });
     }
 }
