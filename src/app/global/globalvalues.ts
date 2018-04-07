@@ -7,7 +7,7 @@ export class GlobalValues {
     }
 
     urlValidateMail(){
-        return 'http://localhost:1337/emailauth';
+        return 'https://studentav.herokuapp.com/emailauth';
     }
 
     cryptoKey(){
