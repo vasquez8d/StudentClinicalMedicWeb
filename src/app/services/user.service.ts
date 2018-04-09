@@ -13,6 +13,7 @@ export class UserService {
 
     private headers: Headers;
     private userDetailsUrl = `${this.globalValues.urlAuthUser()}/details`;
+    private userUpdateUrl = `${this.globalValues.urlAuthUser()}/update`;
     private localsUserToken = localStorage.getItem('tokenStudentClinicalAccessWS');
     private sessionUserTooen = sessionStorage.getItem('tokenStudentClinicalAccessWS');
     
@@ -39,6 +40,27 @@ export class UserService {
             (this.userDetailsUrl + '/' + user_id, { headers: this.headers })
             .map(res => {
                 const result = res.json();
+                return result;
+            });
+    }
+
+    postUpdateUserInfo(user){
+        let credentials = '';
+
+        if (this.localsUserToken != null) {
+            credentials = this.localsUserToken;
+        } else if (this.sessionUserTooen != null) {
+            credentials = this.sessionUserTooen;
+        }
+
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        this.headers.append('Authorization', credentials);
+
+        return this.http
+            .post(this.userUpdateUrl, user, { headers: this.headers })
+            .map(res => {
+                const result = res.json();
+                console.log(result);
                 return result;
             });
     }

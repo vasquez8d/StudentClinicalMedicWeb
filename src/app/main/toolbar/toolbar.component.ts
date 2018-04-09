@@ -173,11 +173,15 @@ export class FuseToolbarComponent
     }
 
     navigateToCourses(){
-
+        this.router.navigate(['course']);
     }
 
     navigateToNotifications(){
         
+    }
+
+    navigateToConfig(){
+        alert('configuracion');
     }
 
     navigateToChat(){
