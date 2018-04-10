@@ -18,7 +18,7 @@ import { Base64 } from 'js-base64';
 export class FuseProfileComponent implements OnInit
 {
 
-    bIsUser: boolean = false;
+    bIsUser = false;
     vCurrentUser: '';
 
     constructor(private globalUser: GlobalUser,
@@ -37,24 +37,25 @@ export class FuseProfileComponent implements OnInit
     loadGlobalUserDetials() {
         this.userService.getGlobalUserDetails().subscribe(
             successGlobalDetails => {
+                console.log('exito');
                 this.userModel.user = successGlobalDetails.data_result;
                 this.validateIsUser();
             },
             error => {
-                console.log(error);
+                console.log('error_loadGlobalUserDetials', error);
             }
         );
     }
 
     validateIsUser(){
-        this.activatedRoute.params.subscribe( params =>{
-            if( params.user_id ){
+        this.activatedRoute.params.subscribe( params => {
+            if ( params.user_id ){
               const user_id = Base64.decode(params.user_id);
-              if(user_id == this.userModel.user.user_id){
+              if (user_id === this.userModel.user.user_id){
                 this.bIsUser = true;
               }
             }
-          })
+          });
     }
 
     routeEditProfile(){

@@ -69,26 +69,26 @@
                     
                     <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
                         <mat-form-field fxFlex="50">
-                            <input type="text" matInput placeholder="Departamento" formControlName="dpt" required>
-                            <mat-error *ngIf="formErrors.dpt.required">
+                            <input type="text" matInput placeholder="Departamento" formControlName="user_dpt" required>
+                            <mat-error *ngIf="formErrors.user_dpt.required">
                                 El departamento es requerido.
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="50">
-                            <input type="text" matInput placeholder="Provincia" formControlName="prv" required>
-                            <mat-error *ngIf="formErrors.prv.required">
+                            <input type="text" matInput placeholder="Provincia" formControlName="user_prv" required>
+                            <mat-error *ngIf="formErrors.user_prv.required">
                                 La provincia es requerida.
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field fxFlex="50">
-                            <input type="text" matInput placeholder="Distrito" formControlName="dst" required>
-                            <mat-error *ngIf="formErrors.dst.required">
+                            <input type="text" matInput placeholder="Distrito" formControlName="user_dst" required>
+                            <mat-error *ngIf="formErrors.user_dst.required">
                                 El distrito es requerido.
                             </mat-error>
                         </mat-form-field>                        
                         <mat-form-field fxFlex="100">
-                            <input matInput placeholder="Dirección Actual" formControlName="dirAct" required>
-                            <mat-error *ngIf="formErrors.dirAct.required">
+                            <input matInput placeholder="Dirección Actual" formControlName="user_dir" required>
+                            <mat-error *ngIf="formErrors.user_dir.required">
                                         La dirección actual es requerida.
                             </mat-error>
                         </mat-form-field>    
@@ -96,7 +96,7 @@
 
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                             <mat-form-field fxFlex="50">
-                                <mat-select placeholder="Tiempo promedio en llegar a la académia" formControlName="timAca" required>
+                                <mat-select placeholder="Tiempo promedio en llegar a la académia" formControlName="user_tim_aca" required>
                                     <mat-option [value]="1">
                                         Menor a 1 hora
                                     </mat-option>
@@ -107,13 +107,13 @@
                                         Mayor a 1 hora
                                     </mat-option>
                                 </mat-select>
-                                <mat-error *ngIf="formErrors.timAca.required">
+                                <mat-error *ngIf="formErrors.user_tim_aca.required">
                                     Country is required!
                                 </mat-error>
                             </mat-form-field>
             
                             <mat-form-field fxFlex="50">
-                                    <mat-select placeholder="Estado Civil" formControlName="estCiv" required>
+                                    <mat-select placeholder="Estado Civil" formControlName="user_est_civil" required>
                                         <mat-option [value]="1">
                                             Soltero
                                         </mat-option>
@@ -124,7 +124,7 @@
                                             Viudo
                                         </mat-option>
                                     </mat-select>
-                                    <mat-error *ngIf="formErrors.estCiv.required">
+                                    <mat-error *ngIf="formErrors.user_est_civil.required">
                                         Country is required!
                                     </mat-error>
                             </mat-form-field>

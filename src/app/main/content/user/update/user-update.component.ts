@@ -25,14 +25,14 @@ export class UserUpdateComponent implements OnInit
     {
         // Reactive form errors
         this.formErrors = {
-            user_dni     : {},
-            user_fec_nac : {},
-            dpt    : {},
-            prv    : {},
-            dst    : {},
-            dirAct : {},
-            timAca : {},
-            estCiv : {}
+            user_dni       : {},
+            user_fec_nac   : {},
+            user_dpt       : {},
+            user_prv       : {},
+            user_dst       : {},
+            user_dir       : {},
+            user_tim_aca   : {},
+            user_est_civil : {}
         };
     }
 
@@ -40,21 +40,21 @@ export class UserUpdateComponent implements OnInit
     {
         // Reactive Form
         this.formPersonal = this.formBuilder.group({
-            user_pri_nom : ['Alex'],
-            user_ape_pat : ['Vasquez'],
-            user_ape_mat : [''],
-            user_mail    : ['vasquez8d@gmail.com'],
-            user_dni     : ['', Validators.required],
-            user_fec_nac : ['', Validators.required],
-            dpt       : ['', Validators.required],
-            prv       : ['', Validators.required],
-            dst       : ['', Validators.required],
-            dirAct    : ['', Validators.required],
-            timAca    : ['', Validators.required],
-            estCiv    : ['', Validators.required],
-            hijos     : [''],
-            vivSol    : [''],
-            inter     : [''],
+            user_pri_nom   : ['Alex'],
+            user_ape_pat   : ['Vasquez'],
+            user_ape_mat   : [''],
+            user_mail      : ['vasquez8d@gmail.com'],
+            user_dni       : ['', Validators.required],
+            user_fec_nac   : ['', Validators.required],
+            user_dpt       : ['', Validators.required],
+            user_prv       : ['', Validators.required],
+            user_dst       : ['', Validators.required],
+            user_dir       : ['', Validators.required],
+            user_tim_aca   : ['', Validators.required],
+            user_est_civil : ['', Validators.required],
+            user_flg_hijos : [''],
+            user_flg_vsolo : [''],
+            user_flg_inter : [''],
         });
 
         this.formPersonal.valueChanges.subscribe(() => {

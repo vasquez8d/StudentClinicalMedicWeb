@@ -36,59 +36,54 @@ export class UserService {
 
         this.headers = new Headers({ 'Content-Type': 'application/json' });
         this.headers.append('Authorization', credentials);
-        return this.http.get
-            (this.userDetailsUrl + '/' + user_id, { headers: this.headers })
-            .map(res => {
-                const result = res.json();
-                return result;
-            });
-    }
 
-    postUpdateUserInfo(user){
-        let credentials = '';
-
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
+        try{
+            return this.http.get
+                (this.userDetailsUrl + '/' + user_id, { headers: this.headers })
+                .map(res => {
+                    const result = res.json();
+                    console.log(result);
+                    return result;
+                });
+        }catch (err){
+            console.log('error_getUserDetails', err);
         }
-
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
-
-        return this.http
-            .post(this.userUpdateUrl, user, { headers: this.headers })
-            .map(res => {
-                const result = res.json();
-                console.log(result);
-                return result;
-            });
     }
 
     getGlobalUserDetails(){
 
+        console.log('getGlobalUserDetails');
+
         const localsUserToken = localStorage.getItem('tokenStudentClinicalAccessWS');
         const sessionUserTooen = sessionStorage.getItem('tokenStudentClinicalAccessWS');
+        
+        console.log(sessionUserTooen);
 
         if (localsUserToken != null) {
-            // console.log('1');
+            console.log('1');
             if (this.globalUser.user == null) {
-                // console.log('2');
-                this.authloginService.getTokenUser(localsUserToken).subscribe(
-                    success => {
-                        if (success.res_service === 'ok') {
-                            this.globalUser.user = success.data_result;
-                            return this.getUserDetails(this.globalUser.user.user_id);
-                        } else {
-                            this.router.navigateByUrl('/auth/login');
+                console.log('2');
+                try{
+                    this.authloginService.getTokenUser(localsUserToken).subscribe(
+                        success => {
+                            if (success.res_service === 'ok') {
+                                this.globalUser.user = success.data_result;
+                                return this.getUserDetails(this.globalUser.user.user_id);
+                            } else {
+                                this.router.navigateByUrl('/auth/login');
+                            }
+                        },
+                        error => {
+                            console.log('error_getGlobalUserDetails3', error);
                         }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
+                    );
+                } catch (err){
+                    console.log('error_getGlobalUserDetails2', err);
+                }
+
             } else {
-            //    console.log('3');
+               console.log('3');
+               console.log(this.globalUser.user);
                return this.getUserDetails(this.globalUser.user.user_id);
             }
         } else if (sessionUserTooen != null) {
@@ -107,8 +102,30 @@ export class UserService {
                     }
                 );
             } else {
+                console.log('3');
                 return this.getUserDetails(this.globalUser.user.user_id);
             }
         }
+    }
+
+    postUpdateUserInfo(user) {
+        let credentials = '';
+
+        if (this.localsUserToken != null) {
+            credentials = this.localsUserToken;
+        } else if (this.sessionUserTooen != null) {
+            credentials = this.sessionUserTooen;
+        }
+
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        this.headers.append('Authorization', credentials);
+
+        return this.http
+            .post(this.userUpdateUrl, user, { headers: this.headers })
+            .map(res => {
+                const result = res.json();
+                console.log(result);
+                return result;
+            });
     }
 }
