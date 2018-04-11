@@ -97,7 +97,7 @@ export class NavigationService {
       ];
       
       switch (user.rol_id){
-        case 1:
+        case 1: // ADMIN
               DefaultNavigation.push({
                   'id': 'admin',
                   'title': 'Administrador',
@@ -166,7 +166,7 @@ export class NavigationService {
                   ]
               });
               break;
-        case 3:
+        case 4: // DOCENTE
               DefaultNavigation.push({
                   'id': 'profesor',
                   'title': 'Profesor',

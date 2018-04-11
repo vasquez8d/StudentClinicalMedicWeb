@@ -188,6 +188,49 @@ export class UserService {
         }
     }
 
+    getSyncUserList(): Observable<any[]> {
+        let credentials = '';
+        if (this.localsUserToken != null) {
+            credentials = this.localsUserToken;
+        } else if (this.sessionUserTooen != null) {
+            credentials = this.sessionUserTooen;
+        }
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        this.headers.append('Authorization', credentials);
+        const getUsersListUrl = `${this.globalValues.urlAuthUser()}/list`;
+        try {
+            return this.http.get
+                (getUsersListUrl, { headers: this.headers })
+                .map(res => {
+                    const result = res.json();
+                    return result;
+                });
+        } catch (err) {
+            console.log('error_getUsersList', err);
+        }
+    }
+
+    getUsersList(){
+        let credentials = '';
+        if (this.localsUserToken != null) {
+            credentials = this.localsUserToken;
+        } else if (this.sessionUserTooen != null) {
+            credentials = this.sessionUserTooen;
+        }
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        this.headers.append('Authorization', credentials);
+        const getUsersListUrl = `${this.globalValues.urlAuthUser()}/list`;
+        try {
+            return this.http.get
+                (getUsersListUrl, { headers: this.headers })
+                .map(res => {
+                    const result = res.json();
+                    return result;
+                });
+        } catch (err) {
+            console.log('error_getUsersList', err);
+        }
+    }
     postUpdateUserInfo(user) {
         let credentials = '';
 

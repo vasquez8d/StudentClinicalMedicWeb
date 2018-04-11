@@ -187,11 +187,11 @@ export class UserUpdateComponent implements OnInit
                 const encryptUser = Base64.encode(user_id.toString());
 
                 const dataRegisterPersonal = this.formPersonal.value;
-                dataRegisterPersonal["usu_registro"] = "web";
+                dataRegisterPersonal['usu_registro'] = 'web';
 
                 const dataRegisterAcademy = this.formAcademy.value;
-                dataRegisterAcademy["usu_registro"] = "web";
-                dataRegisterAcademy["user_id"] = user_id;
+                dataRegisterAcademy['usu_registro'] = 'web';
+                dataRegisterAcademy['user_id'] = user_id;
 
                 const userUpdate = {
                     user_id: user_id,
@@ -203,7 +203,7 @@ export class UserUpdateComponent implements OnInit
 
                 this.userService.postUpdateUserInfo(userUpdate).subscribe(
                     success => {
-                        if(success.res_service == "ok"){
+                        if (success.res_service == 'ok'){
                             Swal({
                                 title: 'Actualizar información',
                                 text: 'Se registró correctamente la información.',

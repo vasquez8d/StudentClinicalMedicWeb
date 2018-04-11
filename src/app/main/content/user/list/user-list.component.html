@@ -32,46 +32,46 @@
                         <mat-table [dataSource]="dataSource" matSort>
 
                             <!-- ID Column -->
-                            <ng-container matColumnDef="id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Codigo</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
+                            <ng-container matColumnDef="user_id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.user_id}}</mat-cell>
                             </ng-container>
 
                             <!-- Progress Column -->
-                            <ng-container matColumnDef="progress">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Curso</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.progress}}%</mat-cell>
-                            </ng-container>
-
-                            <!-- Name Column -->
-                            <ng-container matColumnDef="name">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Profesor</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
+                            <ng-container matColumnDef="user_full_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombres y Apellidos</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.user_full_name}}</mat-cell>
                             </ng-container>
 
                             <!-- Color Column -->
-                            <ng-container matColumnDef="color">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> N° Matriculados</mat-header-cell>
-                                <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}}</mat-cell>
+                            <ng-container matColumnDef="user_mail">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Email</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.user_mail}}</mat-cell>
                             </ng-container>
 
                             <!-- Color Column -->
-                            <ng-container matColumnDef="status">
+                            <ng-container matColumnDef="rol_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Rol</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.rol_name}}</mat-cell>
+                            </ng-container>
+
+                            <!-- Color Column -->
+                            <ng-container matColumnDef="est_registro">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
+                                <mat-cell *matCellDef="let row"> {{row.est_registro}}</mat-cell>
                             </ng-container>
 
                             <!-- Options Column -->
                             <ng-container matColumnDef="options">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                    <button mat-mini-fab color="accent">
+                                    <button (click)="userDetails(row.user_id)" mat-mini-fab color="accent">
                                         <mat-icon class="mat-24">zoom_in</mat-icon>
                                     </button>
-                                    <button mat-mini-fab>
+                                    <button (click)="userEdit(row.user_id)" mat-mini-fab>
                                         <mat-icon class="mat-24">edit</mat-icon>
                                     </button>
-                                    <button mat-mini-fab color="warn">
+                                    <button (click)="userDelete(row.user_id)" mat-mini-fab color="warn">
                                         <mat-icon class="mat-24">delete</mat-icon>
                                     </button>
                                 </mat-cell>

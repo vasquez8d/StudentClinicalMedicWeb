@@ -67,12 +67,12 @@ export class FuseLoginComponent implements OnInit
         };
     }
 
-    socialSignIn(socialPlatform : string) {
+    socialSignIn(socialPlatform: string) {
         
         let socialPlatformProvider;
-        if(socialPlatform == "facebook"){
+        if (socialPlatform == 'facebook'){
           socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-        }else if(socialPlatform == "google"){
+        }else if (socialPlatform == 'google'){
           socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
         }
 
@@ -94,7 +94,7 @@ export class FuseLoginComponent implements OnInit
                         this.userRegProvider.user = userData;
                         try{
                             this.router.navigateByUrl('/auth/regprovider');
-                        }catch(err){
+                        }catch (err){
                             console.log(err);
                         }                        
                     }
@@ -104,7 +104,7 @@ export class FuseLoginComponent implements OnInit
                 }
             );
           }
-        )
+        );
     }
     
     ngOnInit()
