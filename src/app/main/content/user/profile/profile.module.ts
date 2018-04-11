@@ -12,6 +12,7 @@ import { FuseProfileAboutComponent } from './tabs/about/about.component';
 import { FuseProfilePhotosVideosComponent } from './tabs/photos-videos/photos-videos.component';
 import { UserService } from '../../../../services/user.service';
 import { AuthloginService } from '../../../../services/authlogin.service';
+import { MomentModule } from 'angular2-moment';
 
 const routes = [
     {
@@ -36,7 +37,9 @@ const routes = [
         MatDividerModule,
         MatIconModule,
         MatTabsModule,
-        FuseSharedModule
+        FuseSharedModule,
+
+        MomentModule
     ],
     providers   : [
         ProfileService,

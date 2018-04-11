@@ -12,6 +12,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 
 import { MaterialModule } from '../../components/angular-material/material.module';
 import { UserUpdateComponent } from './user-update.component';
+import { UserModel } from '../../../../models/user.model';
 
 const routes: Routes = [
     {
@@ -35,6 +36,9 @@ const routes: Routes = [
         MatStepperModule,
         FuseSharedModule,
         MaterialModule
+    ],
+    providers: [
+        UserModel
     ]
 })
 export class UserUpdateModule {

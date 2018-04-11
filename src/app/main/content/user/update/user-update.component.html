@@ -85,7 +85,13 @@
                             <mat-error *ngIf="formErrors.user_dst.required">
                                 El distrito es requerido.
                             </mat-error>
-                        </mat-form-field>                        
+                        </mat-form-field>   
+                        <mat-form-field fxFlex="50">
+                            <input type="text" matInput placeholder="N° Celular" formControlName="user_num_cell" required>
+                            <mat-error *ngIf="formErrors.user_num_cell.required">
+                                El número de celular es requerido.
+                            </mat-error>
+                        </mat-form-field>                       
                         <mat-form-field fxFlex="100">
                             <input matInput placeholder="Dirección Actual" formControlName="user_dir" required>
                             <mat-error *ngIf="formErrors.user_dir.required">
@@ -96,14 +102,15 @@
 
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                             <mat-form-field fxFlex="50">
-                                <mat-select placeholder="Tiempo promedio en llegar a la académia" formControlName="user_tim_aca" required>
-                                    <mat-option [value]="1">
+                                <mat-select placeholder="Tiempo promedio en llegar a la académia" [(value)]="user_tim_aca" 
+                                            formControlName="user_tim_aca" required>
+                                    <mat-option value="1">
                                         Menor a 1 hora
                                     </mat-option>
-                                    <mat-option [value]="2">
+                                    <mat-option value="2">
                                         1 hora
                                     </mat-option>
-                                    <mat-option [value]="3">
+                                    <mat-option value="3">
                                         Mayor a 1 hora
                                     </mat-option>
                                 </mat-select>
@@ -113,14 +120,15 @@
                             </mat-form-field>
             
                             <mat-form-field fxFlex="50">
-                                    <mat-select placeholder="Estado Civil" formControlName="user_est_civil" required>
-                                        <mat-option [value]="1">
+                                    <mat-select placeholder="Estado Civil" [(value)]="user_est_civil" 
+                                                formControlName="user_est_civil" required>
+                                        <mat-option value="1">
                                             Soltero
                                         </mat-option>
-                                        <mat-option [value]="2">
+                                        <mat-option value="2">
                                             Casado
                                         </mat-option>
-                                        <mat-option [value]="3">
+                                        <mat-option value="3">
                                             Viudo
                                         </mat-option>
                                     </mat-select>
@@ -133,7 +141,7 @@
     
                             <mat-radio-group fxFlex="33">
                                 <label class="example-margin">¿Tiene Hijos?   </label>
-                                <mat-radio-group matInput formControlName="hijos">
+                                <mat-radio-group matInput formControlName="user_flg_hijos">
                                         <mat-radio-button class="example-margin" value="1">SI</mat-radio-button>
                                         <mat-radio-button class="example-margin" value="0">NO</mat-radio-button>
                                 </mat-radio-group>
@@ -141,7 +149,7 @@
         
                             <mat-radio-group fxFlex="33">
                                 <label class="example-margin">¿Vive Solo?   </label>
-                                <mat-radio-group matInput formControlName="vivSol">
+                                <mat-radio-group matInput formControlName="user_flg_vsolo">
                                         <mat-radio-button class="example-margin" value="1">SI</mat-radio-button>
                                         <mat-radio-button class="example-margin" value="0">NO</mat-radio-button>
                                 </mat-radio-group>
@@ -149,7 +157,7 @@
     
                             <mat-radio-group fxFlex="33">
                                     <label class="example-margin">¿Tiene Internet?   </label>
-                                    <mat-radio-group matInput formControlName="inter">
+                                    <mat-radio-group matInput formControlName="user_flg_inter">
                                             <mat-radio-button class="example-margin" value="1">SI</mat-radio-button>
                                             <mat-radio-button class="example-margin" value="0">NO</mat-radio-button>
                                     </mat-radio-group>
@@ -166,37 +174,38 @@
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Primera opción de especialidad para el ENARM" formControlName="priEsp" >
+                            <input matInput placeholder="Primera opción de especialidad para el ENARM" formControlName="user_pri_esp" >
                         </mat-form-field>
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Segunda opción de especialidad para el ENARM" formControlName="segEsp" >
+                            <input matInput placeholder="Segunda opción de especialidad para el ENARM" formControlName="user_seg_esp" >
                         </mat-form-field>    
                     </div>
 
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Primera opción de universidad para el ENARM" formControlName="priUni" >
+                            <input matInput placeholder="Primera opción de universidad para el ENARM" formControlName="user_pri_uni" >
                         </mat-form-field>
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Primera opción de universidad para el ENARM" formControlName="segUni" >
+                            <input matInput placeholder="Primera opción de universidad para el ENARM" formControlName="user_seg_uni" >
                         </mat-form-field>    
                     </div>
 
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
                             <mat-form-field fxFlex="50">
-                                <input matInput placeholder="Universidad de procedencia (Pregrado)" formControlName="uniPrc" >
+                                <input matInput placeholder="Universidad de procedencia (Pregrado)" formControlName="user_uni_prc" >
                             </mat-form-field>
         
                             <mat-form-field fxFlex="50">
-                            <mat-select placeholder="Pertenece al quinto superior" formControlName="qtoSup" >
-                                <mat-option [value]="1">
+                            <mat-select placeholder="Pertenece al quinto superior" [(value)]="user_flg_qto_sup" 
+                                        formControlName="user_flg_qto_sup" >
+                                <mat-option value="1">
                                     SI
                                 </mat-option>
-                                <mat-option [value]="0">
+                                <mat-option value="0">
                                     NO
                                 </mat-option>
                             </mat-select>

@@ -105,6 +105,8 @@ export class UserRegisterProviderComponent implements OnInit
         const dataRegister = this.registerForm.value;
         dataRegister["user_reg_provider"] = this.userProvider.provider;
         dataRegister["user_reg_provider_id"] = this.userProvider.id;
+        dataRegister["user_reg_provider_photo"] = this.userProvider.image;
+
         this.authregisterService.registerwo(dataRegister).subscribe(
             success => {
                 if (success.res_service === 'ok') {
@@ -121,7 +123,6 @@ export class UserRegisterProviderComponent implements OnInit
                 console.log(error);
             }
         );
-
     }
 }
 

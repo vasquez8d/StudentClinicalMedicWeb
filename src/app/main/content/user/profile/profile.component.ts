@@ -35,23 +35,27 @@ export class FuseProfileComponent implements OnInit
     }
 
     loadGlobalUserDetials() {
-        this.userService.getGlobalUserDetails().subscribe(
-            successGlobalDetails => {
-                console.log('exito');
-                this.userModel.user = successGlobalDetails.data_result;
-                this.validateIsUser();
-            },
-            error => {
-                console.log('error_loadGlobalUserDetials', error);
+        this.activatedRoute.params.subscribe( params => {
+            if ( params.user_id ){
+              const user_id = Base64.decode(params.user_id);
+              this.userService.getUserDetailsUpdate(user_id).subscribe(
+                successGlobalDetails => {
+                    this.userModel.user = successGlobalDetails.data_result;
+                    this.validateIsUser();
+                },
+                error => {
+                    console.log('error_loadGlobalUserDetials', error);
+                }
+            );
             }
-        );
+          });
     }
 
     validateIsUser(){
         this.activatedRoute.params.subscribe( params => {
             if ( params.user_id ){
               const user_id = Base64.decode(params.user_id);
-              if (user_id === this.userModel.user.user_id){
+              if (user_id == this.userModel.user.user_id){
                 this.bIsUser = true;
               }
             }

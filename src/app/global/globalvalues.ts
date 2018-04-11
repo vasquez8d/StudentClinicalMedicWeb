@@ -7,6 +7,11 @@ export class GlobalValues {
         return 'http://localhost:1337/user';
     }
 
+    urlAuthUserAcademy() {
+        // return 'https://studentav.herokuapp.com/user';
+        return 'http://localhost:1337/useracademy';
+    }
+
     urlValidateMail(){
         return 'http://localhost:1337/emailauth';
         // return 'https://studentav.herokuapp.com/emailauth';
