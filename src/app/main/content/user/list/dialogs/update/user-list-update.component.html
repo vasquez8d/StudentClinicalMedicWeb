@@ -1,0 +1,97 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+            
+            <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal"
+                [formGroup]="formPersonal">
+
+                <div class="h2 mb-24">Información Personal</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Nombres" formControlName="user_pri_nom" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Apellido Paterno" formControlName="user_ape_pat" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Apellido Materno" formControlName="user_ape_mat" required>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Correo electrónico" formControlName="user_mail" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <input type="number" matInput placeholder="DNI" formControlName="user_dni" required>
+                        <mat-error *ngIf="formErrors.user_dni.required">
+                            El DNI es requerido.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50" class="mr-sm-24">
+                        <input matInput [matDatepicker]="startDatePicker" placeholder="Fecha de nacimiento" formControlName="user_fec_nac" required>
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                        <mat-error *ngIf="formErrors.user_fec_nac.required">
+                            La fecha de nacimiento no es valida.
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="50">
+                        <input type="text" matInput placeholder="Departamento" formControlName="user_dpt" required>
+                        <mat-error *ngIf="formErrors.user_dpt.required">
+                            El departamento es requerido.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input type="text" matInput placeholder="Provincia" formControlName="user_prv" required>
+                        <mat-error *ngIf="formErrors.user_prv.required">
+                            La provincia es requerida.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input type="text" matInput placeholder="Distrito" formControlName="user_dst" required>
+                        <mat-error *ngIf="formErrors.user_dst.required">
+                            El distrito es requerido.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input type="number" matInput placeholder="N° Celular" formControlName="user_num_cell" required>
+                        <mat-error *ngIf="formErrors.user_num_cell.required">
+                            El número de celular es requerido.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="100">
+                        <input matInput placeholder="Dirección Actual" formControlName="user_dir" required>
+                        <mat-error *ngIf="formErrors.user_dir.required">
+                            La dirección actual es requerida.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <button [disabled]="formPersonal.invalid" (click)="saveUserInformation()" style="margin-right: 2%; margin-left: 2%;" fxFlex="50"
+                        type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>save</mat-icon> Guardar información
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

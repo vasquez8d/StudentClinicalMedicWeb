@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Información de usuario</h1>
+        <!-- CONTENT -->
+        <div class="content p-24">
+        
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                <div class="h2 mb-24">Información Personal</div>
+            
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Nombres" readonly>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Apellido Paterno" readonly>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Apellido Materno" readonly>
+                    </mat-form-field>
+                </div>
+            
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Correo electrónico" readonly>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Número de celular" readonly>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Fecha de nacimiento" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="200">
+                        <input matInput placeholder="Ubigeo" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="200">
+                        <input matInput placeholder="Dirección" readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>

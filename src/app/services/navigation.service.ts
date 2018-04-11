@@ -79,21 +79,6 @@ export class NavigationService {
                 },
               ]
           },
-        //   {
-        //       'id': 'user-interface',
-        //       'title': 'User Interface',
-        //       'type': 'group',
-        //       'icon': 'web',
-        //       'children': [
-        //           {
-        //               'id': 'forms',
-        //               'title': 'Forms',
-        //               'type': 'item',
-        //               'icon': 'web_asset',
-        //               'url': '/ui/forms'
-        //           }
-        //       ]
-        //   }
       ];
       
       switch (user.rol_id){
@@ -138,28 +123,6 @@ export class NavigationService {
                                   'type': 'item',
                                   'icon': 'view_headline',
                                   'url': '/user/list'
-                              }
-                          ]
-                      },
-                      {
-                          'id': 'Examenes',
-                          'title': 'Exámenes',
-                          'type': 'collapse',
-                          'icon': 'playlist_add_check',
-                          'children': [
-                              {
-                                  'id': 'examen-list',
-                                  'title': 'Listado',
-                                  'type': 'item',
-                                  'icon': 'view_headline',
-                                  'url': '/components-third-party/datatables/ngx-datatable'
-                              },
-                              {
-                                  'id': 'examen-create',
-                                  'title': 'Nuevo',
-                                  'type': 'item',
-                                  'icon': 'control_point',
-                                  'url': '/components-third-party/datatables/ngx-datatable'
                               }
                           ]
                       }

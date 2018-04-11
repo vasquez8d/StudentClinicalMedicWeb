@@ -1,9 +1,12 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Inject  } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { GlobalUser } from '../../../../global/globaluser';
 import { UserService } from '../../../../services/user.service';
 import Swal from 'sweetalert2';
+import { UserListDetailsComponent } from './dialogs/details/user-list.details.component';
+import { UserListUpdateComponent } from './dialogs/update/user-list.update.component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -15,6 +18,11 @@ import Swal from 'sweetalert2';
 })
 
 export class UserListComponent implements OnInit {
+    animal: string;
+    name: string;
+    
+    UserListDetailsDialogRef: MatDialogRef<UserListDetailsComponent>;
+
     displayedColumns = ['user_id', 'user_full_name', 'user_mail', 
                         'rol_name', 'est_registro', 'options'];
     dataSource: MatTableDataSource<UserData>;
@@ -27,7 +35,8 @@ export class UserListComponent implements OnInit {
     constructor(
         private router: Router,
         private globalUser: GlobalUser,
-        private userService: UserService
+        private userService: UserService,
+        public dialog: MatDialog
     ) {   
     }
     
@@ -71,11 +80,25 @@ export class UserListComponent implements OnInit {
     }
 
     userDetails(user_id){
-        alert('userDetails' + user_id);
+        const dialogRef = this.dialog.open(UserListDetailsComponent, {
+            data: {
+                user_id: user_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
     }
+
     userEdit(user_id){
-        alert('userEdit' + user_id);
+        const dialogRef = this.dialog.open(UserListUpdateComponent, {
+            data: {
+                user_id: user_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
     }
+
     userDelete(user_id){
         Swal({
             title: '¿Estas seguro de deshabilitar al usuario?',

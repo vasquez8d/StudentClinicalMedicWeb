@@ -203,6 +203,7 @@ export class UserUpdateComponent implements OnInit
 
                 this.userService.postUpdateUserInfo(userUpdate).subscribe(
                     success => {
+                        // tslint:disable-next-line:triple-equals
                         if (success.res_service == 'ok'){
                             Swal({
                                 title: 'Actualizar información',

@@ -8,6 +8,10 @@ import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 // import { CourListComponent } from './cour-list.component';
 import { UserListComponent } from './user-list.component';
 import { CourseMaterialModule } from '../../course/course-material.module';
+import { UserListDetailsComponent } from './dialogs/details/user-list.details.component';
+import { UserListDetailsModule } from './dialogs/details/user-list.details.module';
+import { UserListUpdateModule } from './dialogs/update/user-list.update.module';
+import { UserListUpdateComponent } from './dialogs/update/user-list.update.component';
 
 const routes: Routes = [
     {
@@ -18,14 +22,20 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        UserListComponent
+        UserListComponent 
     ],
     imports: [
         RouterModule.forChild(routes),
         CourseMaterialModule,
         FuseSharedModule,
         FuseHighlightModule,
-        FuseWidgetModule
+        FuseWidgetModule,
+        UserListDetailsModule,
+        UserListUpdateModule
+    ],
+    entryComponents: [
+        UserListDetailsComponent,
+        UserListUpdateComponent
     ]
 })
 export class UserListModule {
