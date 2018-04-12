@@ -11,7 +11,8 @@
                 <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
                 <span class="secondary-text">Listado de Usuarios</span>
             </div>
-            <div class="h2 mt-16">Listado de Usuarios</div>
+            <div class="h2 mt-16">Listado de Usuarios </div>
+
         </div>
     </div>
     <!-- / HEADER -->
@@ -55,10 +56,15 @@
                                 <mat-cell *matCellDef="let row"> {{row.rol_name}}</mat-cell>
                             </ng-container>
 
-                            <!-- Color Column -->
+                            <!-- Color Column row.est_registro -->
                             <ng-container matColumnDef="est_registro">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.est_registro}}</mat-cell>
+                                <mat-cell *matCellDef="let row"> 
+                                        <mat-chip-list>
+                                                <mat-chip *ngIf="row.est_registro == 0" color="primary" selected="true">Deshabilitado</mat-chip>
+                                                <mat-chip *ngIf="row.est_registro == 1" color="accent" selected="true">Habilitado</mat-chip>
+                                        </mat-chip-list>
+                                </mat-cell>
                             </ng-container>
 
                             <!-- Options Column -->
@@ -71,8 +77,14 @@
                                     <button (click)="userEdit(row.user_id)" mat-mini-fab>
                                         <mat-icon class="mat-24">edit</mat-icon>
                                     </button>
-                                    <button (click)="userDelete(row.user_id)" mat-mini-fab color="warn">
+                                    <button (click)="userEdirRole(row.user_id)" mat-mini-fab>
+                                        <mat-icon class="mat-24">person</mat-icon>
+                                    </button>
+                                    <button *ngIf="row.est_registro == 1" (click)="userDelete(row.user_id)" mat-mini-fab color="warn">
                                         <mat-icon class="mat-24">delete</mat-icon>
+                                    </button>
+                                    <button *ngIf="row.est_registro == 0" (click)="userEnable(row.user_id)" mat-mini-fab color="accent">
+                                        <mat-icon class="mat-24">check</mat-icon>
                                     </button>
                                 </mat-cell>
                             </ng-container>

@@ -15,9 +15,14 @@ export class UserService {
     private userDetailsUrl = `${this.globalValues.urlAuthUser()}/details`;
     private userDetailsUpdateUrl = `${this.globalValues.urlAuthUser()}/detailsupdate`;
     private userUpdateUrl = `${this.globalValues.urlAuthUser()}/update`;
+    
     private localsUserToken = localStorage.getItem('tokenStudentClinicalAccessWS');
     private sessionUserTooen = sessionStorage.getItem('tokenStudentClinicalAccessWS');
+
     private userDetailsUpdateAcademyUrl = `${this.globalValues.urlAuthUserAcademy()}/detailsacademyupdate`;
+    private userDisabledUrl = `${this.globalValues.urlAuthUser()}/delete`;
+    private userEnableUrl = `${this.globalValues.urlAuthUser()}/enable`;
+    
     constructor(
         private http: Http,
         private globalValues: GlobalValues,
@@ -70,6 +75,54 @@ export class UserService {
         }
     }
 
+    getDisableUser(user_id){
+
+        let credentials = '';
+        if (this.localsUserToken != null) {
+            credentials = this.localsUserToken;
+        } else if (this.sessionUserTooen != null) {
+            credentials = this.sessionUserTooen;
+        }
+
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        this.headers.append('Authorization', credentials);
+        const UserDisabledUrl = this.userDisabledUrl + '/' + user_id;
+        try{
+            return this.http.get
+                (UserDisabledUrl, { headers: this.headers })
+                .map(res => { 
+                    const result = res.json();
+                    return result;
+                });
+        }catch (err){
+            console.log('error_getUserDetails', err);
+        }
+    }
+
+    getEnableUser(user_id){
+
+        let credentials = '';
+        if (this.localsUserToken != null) {
+            credentials = this.localsUserToken;
+        } else if (this.sessionUserTooen != null) {
+            credentials = this.sessionUserTooen;
+        }
+
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        this.headers.append('Authorization', credentials);
+        const UserEnableUrl = this.userEnableUrl + '/' + user_id;
+        try{
+            return this.http.get
+                (UserEnableUrl, { headers: this.headers })
+                .map(res => { 
+                    const result = res.json();
+                    return result;
+                });
+        }catch (err){
+            console.log('error_getUserDetails', err);
+        }
+    }
+    
     getGlobalUserDetails(){
 
         const localsUserToken = localStorage.getItem('tokenStudentClinicalAccessWS');

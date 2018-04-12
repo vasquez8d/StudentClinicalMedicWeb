@@ -8,7 +8,7 @@
             <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal"
                 [formGroup]="formPersonal">
 
-                <div class="h2 mb-24">Información Personal</div>
+                <div class="h2 mb-24">Cambiar de rol</div>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
@@ -33,39 +33,38 @@
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-
                     <mat-form-field fxFlex="50">
-                        <input type="number" matInput placeholder="DNI" formControlName="user_dni" readonly>
-                    </mat-form-field>
-
-                    <mat-form-field fxFlex="50">
-                        <input matInput [matDatepicker]="startDatePicker" placeholder="Fecha de nacimiento" formControlName="user_fec_nac" readonly>
-                    </mat-form-field>
-
-                </div>
-
-                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
-                    <mat-form-field fxFlex="50">
-                        <input type="text" matInput placeholder="Departamento" formControlName="user_dpt" readonly>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="50">
-                        <input type="text" matInput placeholder="Provincia" formControlName="user_prv" readonly>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="50">
-                        <input type="text" matInput placeholder="Distrito" formControlName="user_dst" readonly>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="50">
-                        <input type="number" matInput placeholder="N° Celular" formControlName="user_num_cell" readonly>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="100">
-                        <input matInput placeholder="Dirección Actual" formControlName="user_dir" readonly>
+                        <mat-select placeholder="Rol del usuario" [(value)]="rol_id" 
+                                    formControlName="rol_id" required>
+                            <mat-option value=1>
+                                Administrador
+                            </mat-option>
+                            <mat-option value=2>
+                                Gestor
+                            </mat-option>
+                            <mat-option value=3>
+                                Alumno
+                            </mat-option>
+                            <mat-option value=4>
+                                Docente
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formErrors.rol_id.required">
+                            El rol es requerido.
+                        </mat-error>
                     </mat-form-field>
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                     <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%;"
-                        type="button" mat-raised-button color="accent" class="submit-button">
+                    type="button" mat-raised-button color="accent" class="submit-button">
                         <mat-icon>close</mat-icon> Cerrar
+                    </button>
+
+                    <button [disabled]="formPersonal.invalid" (click)="saveUserInformation()" fxFlex="25" 
+                            style="margin-top: 2%; margin-right: 2%; margin-left: 2%;"
+                        type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>save</mat-icon> Guardar
                     </button>
                 </div>
             </form>

@@ -7,11 +7,11 @@ import { UserService } from '../../../../../../services/user.service';
 import Swal from 'sweetalert2';
 
 @Component({
-    selector: 'fuse-user-list-update',
-    templateUrl: 'user-list-update.component.html',
-    styleUrls: ['./user-list-update.component.scss']
+    selector: 'fuse-user-list-role',
+    templateUrl: 'user-list-role.component.html',
+    styleUrls: ['./user-list-role.component.scss']
 })
-export class UserListUpdateComponent implements OnInit {
+export class UserListRoleComponent implements OnInit {
 
     formPersonal: FormGroup;
 
@@ -21,7 +21,7 @@ export class UserListUpdateComponent implements OnInit {
     user_id: any;
 
     constructor(
-        public dialogRef: MatDialogRef<UserListUpdateComponent>,
+        public dialogRef: MatDialogRef<UserListRoleComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
         private userModel: UserModel,
@@ -30,15 +30,7 @@ export class UserListUpdateComponent implements OnInit {
         this.user_id = data.user_id;
         // Reactive form errors
         this.formErrors = {
-            user_pri_nom: {},
-            user_ape_pat: {},
-            user_dni: {},
-            user_fec_nac: {},
-            user_dpt: {},
-            user_prv: {},
-            user_dst: {},
-            user_num_cell: {},
-            user_dir: {},
+            rol_id: {}
         };
     }
 
@@ -46,17 +38,11 @@ export class UserListUpdateComponent implements OnInit {
         this.selected = 2;
         // Reactive Form
         this.formPersonal = this.formBuilder.group({
-            user_pri_nom: ['', Validators.required],
-            user_ape_pat: ['', Validators.required],
+            user_pri_nom: [''],
+            user_ape_pat: [''],
             user_ape_mat: [''],
-            user_mail: [''],
-            user_dni: ['', Validators.required],
-            user_fec_nac: ['', Validators.required],
-            user_dpt: ['', Validators.required],
-            user_prv: ['', Validators.required],
-            user_dst: ['', Validators.required],
-            user_num_cell: ['', Validators.required],
-            user_dir: ['', Validators.required],
+            user_mail   : [''],
+            rol_id      : ['', Validators.required],
         });
 
         this.loadGlobalUserDetials();
@@ -73,17 +59,11 @@ export class UserListUpdateComponent implements OnInit {
                         this.userModel.user = successGlobalDetails.data_result;
 
                         this.formPersonal = this.formBuilder.group({
-                            user_pri_nom: [this.userModel.user.user_pri_nom, Validators.required],
-                            user_ape_pat: [this.userModel.user.user_ape_pat, Validators.required],
+                            user_pri_nom: [this.userModel.user.user_pri_nom],
+                            user_ape_pat: [this.userModel.user.user_ape_pat],
                             user_ape_mat: [this.userModel.user.user_ape_mat],
-                            user_mail: [this.userModel.user.user_mail],
-                            user_dni: [this.userModel.user.user_dni, Validators.required],
-                            user_fec_nac: [this.userModel.user.user_fec_nac, Validators.required],
-                            user_dpt: [this.userModel.user.user_dpt, Validators.required],
-                            user_prv: [this.userModel.user.user_prv, Validators.required],
-                            user_dst: [this.userModel.user.user_dst, Validators.required],
-                            user_num_cell: [this.userModel.user.user_num_cell, Validators.required],
-                            user_dir: [this.userModel.user.user_dir, Validators.required],
+                            user_mail   : [this.userModel.user.user_mail],
+                            rol_id      : [this.userModel.user.rol_id, Validators.required]
                         });
 
                     },
@@ -120,8 +100,6 @@ export class UserListUpdateComponent implements OnInit {
                     user_id: this.user_id,
                     personalInfo: dataRegisterPersonal
                 };
-
-                console.log(userUpdate);
 
                 this.userService.postUpdateUserInfo(userUpdate).subscribe(
                     success => {

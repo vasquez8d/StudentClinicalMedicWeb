@@ -12,6 +12,9 @@ import { UserListDetailsComponent } from './dialogs/details/user-list.details.co
 import { UserListDetailsModule } from './dialogs/details/user-list.details.module';
 import { UserListUpdateModule } from './dialogs/update/user-list.update.module';
 import { UserListUpdateComponent } from './dialogs/update/user-list.update.component';
+import { UserListRoleModule } from './dialogs/role/user-list.role.module';
+import { UserListRoleComponent } from './dialogs/role/user-list.role.component';
+import { MatChipsModule } from '@angular/material';
 
 const routes: Routes = [
     {
@@ -31,11 +34,15 @@ const routes: Routes = [
         FuseHighlightModule,
         FuseWidgetModule,
         UserListDetailsModule,
-        UserListUpdateModule
+        UserListUpdateModule,
+        UserListRoleModule,
+
+        MatChipsModule
     ],
     entryComponents: [
         UserListDetailsComponent,
-        UserListUpdateComponent
+        UserListUpdateComponent,
+        UserListRoleComponent
     ]
 })
 export class UserListModule {

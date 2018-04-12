@@ -12,11 +12,11 @@ import {
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { UserListDetailsComponent } from './user-list.details.component';
+import { UserListRoleComponent } from './user-list.role.component';
 
 @NgModule({
     declarations: [
-        UserListDetailsComponent
+        UserListRoleComponent
     ],
     imports: [
         RouterModule,
@@ -30,5 +30,5 @@ import { UserListDetailsComponent } from './user-list.details.component';
         CourseMaterialModule
     ]
 })
-export class UserListDetailsModule {
+export class UserListRoleModule {
 }

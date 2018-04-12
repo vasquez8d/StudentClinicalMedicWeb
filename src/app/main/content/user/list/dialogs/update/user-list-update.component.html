@@ -13,11 +13,11 @@
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field fxFlex="50">
-                        <input matInput placeholder="Nombres" formControlName="user_pri_nom" readonly>
+                        <input matInput placeholder="Nombres" formControlName="user_pri_nom" required>
                     </mat-form-field>
 
                     <mat-form-field fxFlex="50">
-                        <input matInput placeholder="Apellido Paterno" formControlName="user_ape_pat" readonly>
+                        <input matInput placeholder="Apellido Paterno" formControlName="user_ape_pat" required>
                     </mat-form-field>
 
                     <mat-form-field fxFlex="50">
@@ -85,7 +85,13 @@
                     </mat-form-field>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-                    <button [disabled]="formPersonal.invalid" (click)="saveUserInformation()" style="margin-right: 2%; margin-left: 2%;" fxFlex="50"
+                    <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%;"
+                    type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>close</mat-icon> Cerrar
+                    </button>
+
+                    <button [disabled]="formPersonal.invalid" (click)="saveUserInformation()" fxFlex="25" 
+                            style="margin-top: 2%; margin-right: 2%; margin-left: 2%;"
                         type="button" mat-raised-button color="accent" class="submit-button">
                         <mat-icon>save</mat-icon> Guardar información
                     </button>

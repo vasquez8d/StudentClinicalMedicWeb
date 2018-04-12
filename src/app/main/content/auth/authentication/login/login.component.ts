@@ -112,7 +112,7 @@ export class FuseLoginComponent implements OnInit
         this.loginForm = this.formBuilder.group({
             email   : ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
-            remember: [false]
+            remember: [true]
         });
 
         this.loginForm.valueChanges.subscribe(() => {
