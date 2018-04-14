@@ -12,6 +12,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 
 import { CourseCreateComponent } from './course-create.component';
 import { MaterialModule } from '../../components/angular-material/material.module';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
     {
@@ -34,7 +35,9 @@ const routes: Routes = [
         MatSelectModule,
         MatStepperModule,
         FuseSharedModule,
-        MaterialModule
+        MaterialModule,
+
+        HttpClientModule
     ]
 })
 export class CourseCreateModule {

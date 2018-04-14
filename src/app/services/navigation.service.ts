@@ -20,7 +20,6 @@ export class NavigationService {
     //   const encryptUser = pwEncrypt.toString().replace('/', '_');
 
       const encryptUser = Base64.encode(user.user_id.toString());
-      console.log(encryptUser);
       let DefaultNavigation: any;
       DefaultNavigation = [
           {
@@ -70,8 +69,8 @@ export class NavigationService {
                       'url': '/exam/',
                   },
                   {
-                    'id': 'course',
-                    'title': 'Cursos',
+                    'id': 'my_course',
+                    'title': 'Mis Cursos',
                     'translate': 'NAV.COURSES',
                     'type': 'item',
                     'icon': 'school',
@@ -90,25 +89,40 @@ export class NavigationService {
                   'type': 'group',
                   'children': [
                       {
-                          'id': 'Cursos',
+                          'id': 'courses',
                           'title': 'Cursos',
                           'type': 'collapse',
                           'icon': 'school',
                           'children': [
                               {
-                                  'id': 'listar',
+                                  'id': 'list_course',
                                   'title': 'Listado',
                                   'type': 'item',
                                   'icon': 'view_headline',
                                   'url': '/course/list'
                               },
                               {
-                                  'id': 'crear',
+                                  'id': 'new_course',
                                   'title': 'Nuevo',
                                   'type': 'item',
                                   'icon': 'control_point',
                                   'url': '/course/create'
                               },
+                          ]
+                      },
+                      {
+                          'id': 'category',
+                          'title': 'Categorías',
+                          'type': 'collapse',
+                          'icon': 'layers',
+                          'children': [
+                              {
+                                  'id': 'list',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/category/list'
+                              }
                           ]
                       },
                       {

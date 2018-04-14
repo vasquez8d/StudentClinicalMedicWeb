@@ -1,0 +1,41 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+            <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal" [formGroup]="formPersonal">
+
+                <div class="h2 mb-24">Registrar una nueva categoría</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="100">
+                        <input matInput placeholder="Nombre" formControlName="cat_cor_name" required>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <textarea matInput placeholder="Descripción" formControlName="cat_cor_desc" required></textarea>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <button (click)="onNoClick()" fxFlex="50" style="margin-top: 2%;" type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>close</mat-icon> Cerrar
+                    </button>
+
+                    <button [disabled]="formPersonal.invalid" (click)="saveUserInformation()" fxFlex="50" style="margin-top: 2%; margin-right: 2%; margin-left: 2%;"
+                        type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>save</mat-icon> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

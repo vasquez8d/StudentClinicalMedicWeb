@@ -46,14 +46,13 @@ export class FuseProfileAboutComponent implements OnInit
             if ( params.user_id ){
               const user_id = Base64.decode(params.user_id);
               this.userService.getUserDetailsUpdate(user_id).subscribe(
-                successGlobalDetails => {
-                    console.log(successGlobalDetails);
-                    this.userModel.user = successGlobalDetails.data_result;
-                },
-                error => {
-                    console.log('error_loadGlobalUserDetials', error);
-                }
-            );
+                    successGlobalDetails => {
+                        this.userModel.user = successGlobalDetails.data_result;
+                    },
+                    error => {
+                        console.log('error_loadGlobalUserDetials', error);
+                    }
+                );
             }
           });
     }

@@ -4,6 +4,7 @@ import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import * as crypto from 'crypto-js';
 import { GlobalValues } from '../global/globalvalues';
+import { HttpHelper } from '../helpers/http.helper';
 
 @Injectable()
 export class AuthloginService {
@@ -16,7 +17,8 @@ export class AuthloginService {
 
   constructor(
     private http: Http,
-    private globalValues: GlobalValues
+    private globalValues: GlobalValues,
+    private httpHelper: HttpHelper
   ) { }
 
   login(credentials, remember) {
@@ -55,6 +57,16 @@ export class AuthloginService {
   getTokenUser(credentials){
     this.headers = new Headers({ 'Content-Type': 'application/json' });
     this.headers.append('Authorization', credentials);
+    return this.http
+      .get(this.getAuthUrl, { headers: this.headers })
+      .map(res => {
+        const result = res.json();
+        return result;
+      });
+  }
+
+  getTokenUserLoged(){
+    this.headers = this.httpHelper.getHeaderAuth();
     return this.http
       .get(this.getAuthUrl, { headers: this.headers })
       .map(res => {

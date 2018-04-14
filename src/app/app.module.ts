@@ -27,6 +27,7 @@ import { AuthloginService } from './services/authlogin.service';
 
 import { MomentModule } from 'angular2-moment';
 import { UserService } from './services/user.service';
+import { HttpHelper } from './helpers/http.helper';
 
 @NgModule({
     declarations: [
@@ -50,7 +51,7 @@ import { UserService } from './services/user.service';
         MomentModule
     ],
     providers: [AuthGuard, GlobalUser, GlobalValues, LoginGuard, NavigationService, 
-        AuthloginService, UserService],
+        AuthloginService, UserService, HttpHelper],
     bootstrap: [
         AppComponent
     ]

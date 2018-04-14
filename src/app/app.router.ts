@@ -48,6 +48,10 @@ const APP_ROUTES: Routes = [
         loadChildren: './main/content/exam/exam.module#ExamModule',
     },
     {
+        path: 'category',
+        loadChildren: './main/content/category/category.module#CategoryModule',
+    },
+    {
         path: '**',
         redirectTo: 'app/dashboard'
     }

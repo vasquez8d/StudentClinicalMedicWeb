@@ -1,0 +1,88 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+            
+            <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal"
+                [formGroup]="formPersonal">
+
+                <div class="h2 mb-24">Modificar la información del curso</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Nombre" formControlName="cor_name" required>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <mat-select placeholder="Categoría" [(value)]="cat_cor_id" formControlName="cat_cor_id" required>
+                            <mat-option *ngFor="let categ of ListCourseCategory" [value]="categ.cat_cor_id">
+                                {{categ.cat_cor_name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                
+                    <mat-form-field fxFlex="50">
+                        <input type="number" matInput placeholder="Precio" formControlName="cor_price" required>
+                    </mat-form-field>
+                
+                    <mat-form-field fxFlex="50">
+                        <mat-select placeholder="Docente encargado" [(value)]="user_doc_id" formControlName="user_doc_id"
+                            required>
+                            <mat-option *ngFor="let teacher of ListTeachers" [value]="teacher.user_id">
+                                {{teacher.doc_full_name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <textarea matInput placeholder="Descripción" formControlName="cor_des" required></textarea>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Usuario de registro" value="{{usu_regText}}" readonly>
+                    </mat-form-field>
+                
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Fecha de registro" value="{{fec_registroFormat | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}}" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Estado del curso" value="{{this.est_registroText}}" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Plataforma de registro" formControlName="usu_registro" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%;"
+                    type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>close</mat-icon> Cerrar
+                    </button>
+
+                    <button [disabled]="formPersonal.invalid" (click)="saveUserInformation()" fxFlex="25" 
+                            style="margin-top: 2%; margin-right: 2%; margin-left: 2%;"
+                        type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>save</mat-icon> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

@@ -1,45 +1,48 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2';
+import { CourseListDetailsComponent } from './dialog/details/course-list.details.component';
+import { CourseListUpdateComponent } from './dialog/update/course-list.update.component';
+import { CourseService } from '../../../../services/course.service';
+import { MomentModule } from 'angular2-moment';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
  */
 @Component({
-    selector: 'fuse-cour-list',
+    selector: 'fuse-course-list',
     styleUrls: ['./cour-list.component.scss'],
     templateUrl: './cour-list.component.html'
 })
-export class CourListComponent {
-    displayedColumns = ['id', 'name', 'progress', 'color', 'status', 'options'];
-    dataSource: MatTableDataSource<UserData>;
+
+export class CourListComponent implements OnInit {
+    animal: string;
+    name: string;
+
+    UserListDetailsDialogRef: MatDialogRef<CourseListDetailsComponent>;
+
+    displayedColumns = ['cor_id', 'cor_name', 'num_alumnos',
+        'cat_cor_name', 'user_full_name', 'fec_registro', 'est_registro', 'options'];
+    dataSource: MatTableDataSource<CourseData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(
-        private router: Router
-    ) {
-        // Create 100 users
-        const users: UserData[] = [];
-        for (let i = 1; i <= 100; i++) {
-            users.push(createNewUser(i));
-        }
+    userData: any;
 
-        // Assign the data to the data source for the table to render
-        this.dataSource = new MatTableDataSource(users);
-        console.log(this.dataSource);
+    constructor(
+        private router: Router,
+        private courseService: CourseService,
+        public dialog: MatDialog,
+        private momentModule: MomentModule
+    ) {
     }
 
-    /**
-     * Set the paginator and sort after the view init since this component will
-     * be able to query its view for the initialized paginator and sort.
-     */
-    // tslint:disable-next-line:use-life-cycle-interface
-    ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+    ngOnInit() {
+        this.loadCourseList();
+        // this.loadGlobalUserDetials();
     }
 
     applyFilter(filterValue: string) {
@@ -48,43 +51,130 @@ export class CourListComponent {
         this.dataSource.filter = filterValue;
     }
 
-    navigateCreateCouse(){
+    navigateCreateCouse() {
         this.router.navigate(['course/create']);
+    }
+
+    loadCourseList() {
+        this.courseService.getCourseList().subscribe(
+            (res) => {
+                this.dataSource = new MatTableDataSource(res.data_result);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
+
+    courseDetails(cor_id) {
+        const dialogRef = this.dialog.open(CourseListDetailsComponent, {
+            data: {
+                cor_id: cor_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    }
+
+    courseEdit(cor_id) {
+        const dialogRef = this.dialog.open(CourseListUpdateComponent, {
+            data: {
+                cor_id: cor_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.loadCourseList();
+        });
+    }
+
+    courseEnable(cor_id) {
+        Swal({
+            title: '¿Estas seguro de habilitar al curso?',
+            text: 'El curso volverá a ser visto por los usuarios.',
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.value) {
+                this.courseService.getEnableCourse(cor_id).subscribe(
+                    success => {
+                        Swal({
+                            title: 'Curso habilitado',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar',
+                        });
+                        this.loadCourseList();
+                    }, err => {
+                        Swal({
+                            title: 'Error Curso habilitado',
+                            type: 'info',
+                            text: err,
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar',
+                        });
+                    }
+                );
+            }
+        });
+    }
+
+    courseDelete(cor_id) {
+        Swal({
+            title: '¿Estas seguro de deshabilitar al curso?',
+            text: 'El curso no podrá ser visto por los usuarios.',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.value) {
+                this.courseService.getDisableCourse(cor_id).subscribe(
+                    success => {
+                        Swal({
+                            title: 'Curso deshabilitado',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar',
+                        });
+                        this.loadCourseList();
+                    }, err => {
+                        Swal({
+                            title: 'Error Curso deshabilitado',
+                            type: 'info',
+                            text: err,
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar',
+                        });
+                    }
+                );
+            }
+        });
+    }
+
+    navigateNewCourse(){
+        this.router.navigateByUrl('course/create');
     }
 }
 
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-    const name =
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-    return {
-        id: id.toString(),
-        name: name,
-        progress: Math.round(Math.random() * 100).toString(),
-        color: COLORS[Math.round(Math.random() * (COLORS.length - 1))],
-        status: id.toString(),
-        options: id.toString()
-    };
-}
-
-/** Constants used to fill up our data base. */
-const COLORS = [
-    'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-    'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES = [
-    'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-    'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-    'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
-
-export interface UserData {
-    id: string;
-    name: string;
-    progress: string;
-    color: string;
-    status: string;
+export interface CourseData {
+    cor_id: string;
+    cor_name: string;
+    num_alumnos: string;
+    cat_cor_name: string;
+    user_full_name: string;
+    fec_registro: string;
+    est_registro: string;
     options: string;
 }

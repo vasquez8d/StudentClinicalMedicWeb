@@ -48,29 +48,11 @@
                             </mat-form-field>
                             
                             <mat-form-field fxFlex="100">
-                                <mat-select placeholder="Categoría del curso" formControlName="cat_cor_id" required>
-                                    <mat-option [value]="'United States of America'">
-                                        United States of America
-                                    </mat-option>
-                                    <mat-option [value]="'United Kingdom'">
-                                        United Kingdom
-                                    </mat-option>
-                                    <mat-option [value]="'Russia'">
-                                        Russia
-                                    </mat-option>
-                                    <mat-option [value]="'China'">
-                                        China
-                                    </mat-option>
-                                    <mat-option [value]="'Japan'">
-                                        Japan
-                                    </mat-option>
-                                    <mat-option [value]="'Turkey'">
-                                        Turkey
+                                <mat-select placeholder="Categoría" [(value)]="cat_cor_id" formControlName="cat_cor_id" required>
+                                    <mat-option *ngFor="let categ of ListCourseCategory" [value]="categ.cat_cor_id">
+                                        {{categ.cat_cor_name}}
                                     </mat-option>
                                 </mat-select>
-                                <mat-error *ngIf="formErrors.cat_cor_id.required">
-                                    Country is required!
-                                </mat-error>
                             </mat-form-field>
 
                         </div>
@@ -86,30 +68,12 @@
                                 </mat-error>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="100">
-                                <mat-select placeholder="Profesor a cargo" formControlName="user_doc_id" required>
-                                    <mat-option [value]="'United States of America'">
-                                        United States of America
-                                    </mat-option>
-                                    <mat-option [value]="'United Kingdom'">
-                                        United Kingdom
-                                    </mat-option>
-                                    <mat-option [value]="'Russia'">
-                                        Russia
-                                    </mat-option>
-                                    <mat-option [value]="'China'">
-                                        China
-                                    </mat-option>
-                                    <mat-option [value]="'Japan'">
-                                        Japan
-                                    </mat-option>
-                                    <mat-option [value]="'Turkey'">
-                                        Turkey
+                            <mat-form-field fxFlex="50">
+                                <mat-select placeholder="Docente encargado" [(value)]="user_doc_id" formControlName="user_doc_id" required>
+                                    <mat-option *ngFor="let teacher of ListTeachers" [value]="teacher.user_id">
+                                        {{teacher.doc_full_name}}
                                     </mat-option>
                                 </mat-select>
-                                <mat-error *ngIf="formErrors.user_doc_id.required">
-                                    Country is required!
-                                </mat-error>
                             </mat-form-field>
 
                         </div>
@@ -153,13 +117,13 @@
                         <div>
 
                             <div class="file-uploader">
-                                <input (change)="handleFileInput($event.target.files)" 
+                                <input (change)="handleFileInput($event)" 
                                 hidden type="file" #fileInput/>
                             </div>
 
                             <mat-form-field fxFlex="50" style="margin-left:50px; margin-right: 50px;">
                                 <input readonly id="txtFileName" matInput placeholder="Imagen del curso" 
-                                       formControlName="cor_img">
+                                       formControlName="cor_photo">
                                 <span matPrefix>
                                     <button mat-mini-fab (click)="fileInput.click()" 
                                             aria-label="Add file">
@@ -194,9 +158,9 @@
                         <div>
         
                             <mat-form-field fxFlex="33">
-                                <input matInput placeholder="City" formControlName="cor_video" required>
+                                <input matInput placeholder="Ruta VIMEO del video para el curso" formControlName="cor_video" required>
                                 <mat-error *ngIf="horizontalStepperStep3Errors.cor_video.required">
-                                    City is required!
+                                    El video es requerido.
                                 </mat-error>
                             </mat-form-field>
         
@@ -204,10 +168,10 @@
         
                         <div class="pt-24" fxLayout="row" fxLayoutAlign="center center">
                             <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
-                                Previous
+                                Anterior
                             </button>
                             <button mat-raised-button matStepperNext type="button" color="accent">
-                                Next
+                                Siguiente
                             </button>
                         </div>
         
@@ -220,14 +184,14 @@
                     <ng-template matStepLabel>Finaliza</ng-template>
         
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center">
-                        Gracias por completar el registro.
+                        Completaste correctamente los pasos para registrar un curso.
                     </div>
         
                     <div class="pt-24" fxLayout="row" fxLayoutAlign="center center">
                         <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
                             Anterior
                         </button>
-                        <button mat-raised-button type="button" color="accent" (click)="finishHorizontalStepper()">
+                        <button mat-raised-button type="button" color="accent" (click)="courseSaveInfo()">
                             Guardar el curso
                         </button>
                     </div>

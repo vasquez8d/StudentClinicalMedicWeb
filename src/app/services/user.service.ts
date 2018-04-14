@@ -7,6 +7,7 @@ import { GlobalUser } from '../global/globaluser';
 import { AuthloginService } from './authlogin.service';
 import { Router } from '@angular/router';
 import { UserListComponent } from '../main/content/user/list/user-list.component';
+import { HttpHelper } from '../helpers/http.helper';
 
 @Injectable()
 export class UserService {
@@ -22,24 +23,19 @@ export class UserService {
     private userDetailsUpdateAcademyUrl = `${this.globalValues.urlAuthUserAcademy()}/detailsacademyupdate`;
     private userDisabledUrl = `${this.globalValues.urlAuthUser()}/delete`;
     private userEnableUrl = `${this.globalValues.urlAuthUser()}/enable`;
-    
+    private userListDocUrl = `${this.globalValues.urlAuthUser()}/listteachers`;
+
     constructor(
         private http: Http,
         private globalValues: GlobalValues,
         private globalUser: GlobalUser,
         private authloginService: AuthloginService,
-        private router: Router
+        private router: Router,
+        private httpHelper: HttpHelper
     ) { }
 
     getUserDetails(user_id) {
-        let credentials = '';
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
-        }
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
+        this.headers = this.httpHelper.getHeaderAuth();
         const UrlGetDetails = this.userDetailsUrl + '/' + user_id;
         try{
             return this.http.get
@@ -54,14 +50,7 @@ export class UserService {
     }
 
     getUserDetailsUpdate(user_id) {
-        let credentials = '';
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
-        }
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
+        this.headers = this.httpHelper.getHeaderAuth();
         const UrlGetDetails = this.userDetailsUpdateUrl + '/' + user_id;
         try{
             return this.http.get
@@ -75,17 +64,22 @@ export class UserService {
         }
     }
 
-    getDisableUser(user_id){
-
-        let credentials = '';
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
+    getListTechers(){
+        this.headers = this.httpHelper.getHeaderAuth();
+        try {
+            return this.http.get
+                (this.userListDocUrl, { headers: this.headers })
+                .map(res => {
+                    const result = res.json();
+                    return result;
+                });
+        } catch (err) {
+            console.log('error_getListTechers', err);
         }
+    }
 
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
+    getDisableUser(user_id){
+        this.headers = this.httpHelper.getHeaderAuth();
         const UserDisabledUrl = this.userDisabledUrl + '/' + user_id;
         try{
             return this.http.get
@@ -100,16 +94,7 @@ export class UserService {
     }
 
     getEnableUser(user_id){
-
-        let credentials = '';
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
-        }
-
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
+        this.headers = this.httpHelper.getHeaderAuth();
         const UserEnableUrl = this.userEnableUrl + '/' + user_id;
         try{
             return this.http.get
@@ -172,14 +157,7 @@ export class UserService {
     }
 
     getUserAcademyInfo(user_id){
-        let credentials = '';
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
-        }
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
+        this.headers = this.httpHelper.getHeaderAuth();
         const UrlGetDetailsAcademy = this.userDetailsUpdateAcademyUrl + '/' + user_id;
         try{
             return this.http.get
@@ -191,7 +169,6 @@ export class UserService {
         }catch (err){
             console.log('error_getUserDetails', err);
         }
-
     }
     getGlobalUserDetailsUpdate(){
 
@@ -242,14 +219,7 @@ export class UserService {
     }
 
     getSyncUserList(): Observable<any[]> {
-        let credentials = '';
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
-        }
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
+        this.headers = this.httpHelper.getHeaderAuth();
         const getUsersListUrl = `${this.globalValues.urlAuthUser()}/list`;
         try {
             return this.http.get
@@ -264,14 +234,7 @@ export class UserService {
     }
 
     getUsersList(){
-        let credentials = '';
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
-        }
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
+        this.headers = this.httpHelper.getHeaderAuth();
         const getUsersListUrl = `${this.globalValues.urlAuthUser()}/list`;
         try {
             return this.http.get
@@ -285,17 +248,7 @@ export class UserService {
         }
     }
     postUpdateUserInfo(user) {
-        let credentials = '';
-
-        if (this.localsUserToken != null) {
-            credentials = this.localsUserToken;
-        } else if (this.sessionUserTooen != null) {
-            credentials = this.sessionUserTooen;
-        }
-
-        this.headers = new Headers({ 'Content-Type': 'application/json' });
-        this.headers.append('Authorization', credentials);
-
+        this.headers = this.httpHelper.getHeaderAuth();
         return this.http
             .post(this.userUpdateUrl, user, { headers: this.headers })
             .map(res => {

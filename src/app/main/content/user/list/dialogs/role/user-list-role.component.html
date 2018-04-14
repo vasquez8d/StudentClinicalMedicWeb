@@ -36,16 +36,16 @@
                     <mat-form-field fxFlex="50">
                         <mat-select placeholder="Rol del usuario" [(value)]="rol_id" 
                                     formControlName="rol_id" required>
-                            <mat-option value=1>
+                            <mat-option [value]=1>
                                 Administrador
                             </mat-option>
-                            <mat-option value=2>
+                            <mat-option [value]=2>
                                 Gestor
                             </mat-option>
-                            <mat-option value=3>
+                            <mat-option [value]=3>
                                 Alumno
                             </mat-option>
-                            <mat-option value=4>
+                            <mat-option [value]=4>
                                 Docente
                             </mat-option>
                         </mat-select>

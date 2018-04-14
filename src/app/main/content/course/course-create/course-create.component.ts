@@ -4,6 +4,12 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
+import { CourseService } from '../../../../services/course.service';
+import { CorcategoryService } from '../../../../services/corcategory.service';
+import { UserService } from '../../../../services/user.service';
+import { AuthloginService } from '../../../../services/authlogin.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'fuse-course-create',
@@ -28,18 +34,27 @@ export class CourseCreateComponent implements OnInit {
     horizontalStepperStep3Errors: any;
     
     fileToUpload: File = null;
+    courseFileName: any;
+    ListCourseCategory: any;
+    ListTeachers: any;
 
-    constructor(private formBuilder: FormBuilder) {
+    user_id: any;
+
+    constructor(
+        private formBuilder: FormBuilder,
+        private courseService: CourseService,
+        private corCategoryService: CorcategoryService,
+        private userService: UserService,
+        private router: Router,
+        private authLoginService: AuthloginService) {
         // Reactive form errors
         this.formErrors = {
             cor_name: {},
             cor_price: {},
             cat_cor_id: {},
             user_doc_id: {},
-            
             cor_des: {},
             cor_intro: {},
-
             cor_video: {}
         };
 
@@ -61,19 +76,21 @@ export class CourseCreateComponent implements OnInit {
         };
 
     }
-
     ngOnInit() {
+
+        this.loadUserLoged();
+        this.loadCourseCategory();
+        this.loadListTeacher();
+
         // Reactive Form
         this.form = this.formBuilder.group({
             cor_name: ['', Validators.required],
             cor_price: ['', Validators.required],
             cat_cor_id: ['', Validators.required],
             user_doc_id: ['', Validators.required],
-
             cor_des: ['', Validators.required],
             cor_intro: ['', Validators.required],
-            cor_img: [''],
-
+            cor_photo: [''],
             cor_video: ['', Validators.required]
         });
 
@@ -92,7 +109,7 @@ export class CourseCreateComponent implements OnInit {
         this.horizontalStepperStep2 = this.formBuilder.group({
             cor_des: ['', Validators.required],
             cor_intro: ['', Validators.required],
-            cor_img: [''],
+            cor_photo: [''],
         });
 
         this.horizontalStepperStep3 = this.formBuilder.group({
@@ -117,7 +134,41 @@ export class CourseCreateComponent implements OnInit {
             map(val => this.filter(val))
         );
     }
+
+    loadUserLoged(){
+        this.authLoginService.getTokenUserLoged().subscribe(
+            sucess => {
+                if (sucess.res_service === 'ok'){
+                    this.user_id = sucess.data_result.user_id;
+                }else{
+                    this.router.navigateByUrl('auth/login');
+                }
+            }, err => {
+                console.log(err);
+            }
+        );
+    }
     
+    loadCourseCategory() {
+        this.corCategoryService.getCorCategoryList().subscribe(
+            sucess => {
+                this.ListCourseCategory = sucess.data_result;
+            }, err => {
+
+            }
+        );
+    }
+
+    loadListTeacher() {
+        this.userService.getListTechers().subscribe(
+            success => {
+                this.ListTeachers = success.data_result;
+            }, err => {
+                console.log('error_loadListTeacher', err);
+            }
+        );
+    }
+
     filter(val: string): string[] {
         return this.options.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
     }
@@ -127,7 +178,6 @@ export class CourseCreateComponent implements OnInit {
             if (!this.formErrors.hasOwnProperty(field)) {
                 continue;
             }
-
             // Clear previous errors
             this.formErrors[field] = {};
 
@@ -140,13 +190,74 @@ export class CourseCreateComponent implements OnInit {
         }
     }
 
-    finishHorizontalStepper() {
-        alert('You have finished the horizontal stepper!');
+    courseSaveInfo() {
+        const dataRegisterCourse1 = this.horizontalStepperStep1.value;
+        const dataRegisterCourse2 = this.horizontalStepperStep2.value;
+        const dataRegisterCourse3 = this.horizontalStepperStep3.value;
+        const dataCourse = this.courseService.getCourseJson(dataRegisterCourse1, dataRegisterCourse2, dataRegisterCourse3, this.user_id);
+        this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;
+
+        this.courseService.postCourseRegister(dataCourse).subscribe(
+            success => {
+                // tslint:disable-next-line:triple-equals
+                if (success.res_service == 'ok') {
+                    Swal({
+                        title: 'Actualizar información',
+                        text: 'Se registró correctamente la información.',
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar',
+                    }).then((resultAcept) => {
+                        // tslint:disable-next-line:triple-equals
+                        if (this.courseFileName != ''){
+                            this.saveImageFile(success.data_result.cor_id);
+                        }
+                        this.router.navigateByUrl('course/list');
+                    });
+                } else {
+                    Swal({
+                        title: 'Actualizar información',
+                        text: success.res_service,
+                        type: 'info',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Continuar',
+                    }).then((resultAcept) => {
+                    });
+                }
+            }, err => {
+                console.log('error_courseSaveInfo', err);
+            }
+        );
     }
 
-    handleFileInput(files: FileList) {
-        this.fileToUpload = files.item(0);
+    handleFileInput(event) {
+        this.fileToUpload = <File>event.target.files[0];
         (<HTMLInputElement>document.getElementById('txtFileName')).value = this.fileToUpload.name;
         this.onFormValuesChanged();
+    }
+
+    saveImageFile(cor_id){
+        this.courseService.postUploadCourseImage(this.fileToUpload).subscribe(
+            sucess => {
+                // tslint:disable-next-line:triple-equals
+                if (sucess.res_service == 'ok'){
+                    const dataUpdate = {
+                        cor_id: cor_id,
+                        cor_photo: sucess.data_result
+                    };
+                    this.courseService.postUpdateFileName(dataUpdate).subscribe(
+                        sucessUpdate => {
+                            console.log(sucessUpdate);
+                        }, err => {
+                            console.log('errr_postUpdateFileName', err);
+                        }
+                    );
+                }
+            }, err => {
+                console.log('error_saveImageFile', err);
+            }
+        );
     }
 }
