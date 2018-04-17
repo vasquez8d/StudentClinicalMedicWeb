@@ -15,10 +15,11 @@ import { CourseIndexComponent } from './course/course.component';
 
 import { CoursesIndexService } from './courses.service';
 import { CourseIndexService } from './course.service';
+import { MomentModule } from 'angular2-moment';
 
 const routes = [
     {
-        path     : '',
+        path     : ':user_id',
         component: CoursesIndexComponent,
         resolve  : {
             academy: CoursesIndexService
@@ -51,7 +52,7 @@ const routes = [
         MatInputModule,
         MatSelectModule,
         MatSidenavModule,
-
+        MomentModule,
         FuseSharedModule
     ],
     providers   : [

@@ -36,8 +36,8 @@
                         <mat-option [value]="'all'">
                             Todas
                         </mat-option>
-                        <mat-option *ngFor="let category of categories" [value]="category.value">
-                            {{ category.label }}
+                        <mat-option *ngFor="let category of categories" [value]="category.cat_cor_id">
+                            {{ category.cat_cor_name }}
                         </mat-option>
                     </mat-select>
 
@@ -53,27 +53,28 @@
                     <div class="course-content" fxLayout="column">
 
                         <div class="header" fxLayout="row" fxLayoutAlign="center center"
-                             [ngClass]="course.category + '-bg'">
+                             [ngStyle]="{'background' : course.cat_color}">
 
                             <div class="category" fxFlex>
-                                {{course.category}}
+                                {{course.cat_cor_name}}
                             </div>
 
                             <div class="length" fxLayout="row" fxLayoutAlign="center center">
                                 <mat-icon class="length-icon s-20">access_time</mat-icon>
-                                <div class="min">{{course.length}} min</div>
+                                <div class="min">{{course.cor_time}} min</div>
                             </div>
 
                         </div>
 
                         <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
-                            <div class="h1">{{course.title}}</div>
-                            <div class="updated">Publicado el {{course.updated}}</div>
+                            <div class="h1">{{course.cor_name}}</div>
+                            <div class="updated">Publicado el {{course.fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}}</div>
+                            <div class="updated">Docente encargado: {{course.user_full_name}}</div>
                         </div>
 
                         <div class="footer" fxLayout="row" fxLayoutAlign="center center">
                             <button mat-button color="accent"
-                                    [routerLink]="'/course/' + course.id + '/' + course.slug">
+                                    [routerLink]="'/course/' + course.cor_id + '/' + course.slug">
                                 Comenzar
                             </button>
                         </div>

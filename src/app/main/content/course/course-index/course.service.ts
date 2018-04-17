@@ -4,13 +4,17 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { HttpHelper } from '../../../../helpers/http.helper';
+import { GlobalValues } from '../../../../global/globalvalues';
 
 @Injectable()
 export class CourseIndexService implements Resolve<any>
 {
     onCourseChanged: BehaviorSubject<any> = new BehaviorSubject({});
 
-    constructor(private http: HttpClient)
+    constructor(private http: HttpClient,
+                private httpHelper: HttpHelper,
+                private globalValues: GlobalValues)
     {
     }
 

@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-
 import { CoursesIndexService } from '../courses.service';
+import { MomentModule } from 'angular2-moment';
+
 
 @Component({
     selector   : 'fuse-academy-courses',
@@ -22,7 +23,8 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
     searchTerm = '';
 
     constructor(
-        private coursesService: CoursesIndexService
+        private coursesService: CoursesIndexService,
+        private momentModule: MomentModule
     )
     {
     }
@@ -33,7 +35,8 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
         this.categoriesSubscription =
             this.coursesService.onCategoriesChanged
                 .subscribe(categories => {
-                    this.categories = categories;
+                    console.log(categories);
+                    this.categories = categories.data_result;
                 });
 
         // Subscribe to courses
@@ -41,7 +44,7 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
             this.coursesService.onCoursesChanged
                 .subscribe(courses => {
                     console.log(courses);
-                    this.filteredCourses = this.coursesFilteredByCategory = this.courses = courses;
+                    this.filteredCourses = this.coursesFilteredByCategory = this.courses = courses.data_result;
                 });
     }
 
@@ -62,7 +65,7 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
         else
         {
             this.coursesFilteredByCategory = this.courses.filter((course) => {
-                return course.category === this.currentCategory;
+                return course.cat_cor_id === this.currentCategory;
             });
 
             this.filteredCourses = [...this.coursesFilteredByCategory];
@@ -85,7 +88,7 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
         else
         {
             this.filteredCourses = this.coursesFilteredByCategory.filter((course) => {
-                return course.title.toLowerCase().includes(searchTerm);
+                return course.cor_name.toLowerCase().includes(searchTerm);
             });
         }
     }

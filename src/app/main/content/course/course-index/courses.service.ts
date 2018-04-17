@@ -4,6 +4,10 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { HttpHelper } from '../../../../helpers/http.helper';
+import { GlobalValues } from '../../../../global/globalvalues';
+import { AuthloginService } from '../../../../services/authlogin.service';
+import { Base64 } from 'js-base64';
 
 @Injectable()
 export class CoursesIndexService implements Resolve<any>
@@ -11,7 +15,13 @@ export class CoursesIndexService implements Resolve<any>
     onCategoriesChanged: BehaviorSubject<any> = new BehaviorSubject({});
     onCoursesChanged: BehaviorSubject<any> = new BehaviorSubject({});
 
-    constructor(private http: HttpClient)
+    private CorCategoryListlUrl = `${this.globalValues.urlCorcategory()}/list`;
+    private CourseListlUrl = `${this.globalValues.urlCourse()}/listxuser/`;
+
+    constructor(private http: HttpClient,
+                private httpHelper: HttpHelper,
+                private globalValues: GlobalValues,
+                private authService: AuthloginService)
     {
     }
 
@@ -28,7 +38,7 @@ export class CoursesIndexService implements Resolve<any>
 
             Promise.all([
                 this.getCategories(),
-                this.getCourses()
+                this.getCourses(route.params.user_id)
             ]).then(
                 () => {
                     resolve();
@@ -39,9 +49,9 @@ export class CoursesIndexService implements Resolve<any>
     }
 
     getCategories(): Promise<any>
-    {
+    {        
         return new Promise((resolve, reject) => {
-            this.http.get('api/academy-categories')
+            this.http.get(this.CorCategoryListlUrl, { headers: this.httpHelper.getHeaderHttpClientAuth() })
                 .subscribe((response: any) => {
                     this.onCategoriesChanged.next(response);
                     resolve(response);
@@ -49,15 +59,15 @@ export class CoursesIndexService implements Resolve<any>
         });
     }
 
-    getCourses(): Promise<any>
-    {
+    getCourses(user_id): Promise<any>
+    {   
+        const decode_user_id = Base64.decode(user_id);
         return new Promise((resolve, reject) => {
-            this.http.get('api/academy-courses')
+            this.http.get(this.CourseListlUrl + decode_user_id, { headers: this.httpHelper.getHeaderHttpClientAuth() })
                 .subscribe((response: any) => {
                     this.onCoursesChanged.next(response);
                     resolve(response);
                 }, reject);
         });
     }
-
 }

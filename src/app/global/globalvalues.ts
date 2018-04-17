@@ -2,34 +2,32 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class GlobalValues {
+
+    private ServerUrl = 'https://studentav.herokuapp.com';
+    // private ServerUrl = 'http://localhost:1337';
+
     urlAuthUser() {
-        return 'https://studentav.herokuapp.com/user';
-        // return 'http://localhost:1337/user';
+        return this.ServerUrl + '/user';
     }
 
     urlAuthUserAcademy() {
-        return 'https://studentav.herokuapp.com/useracademy';
-        // return 'http://localhost:1337/useracademy';
+        return this.ServerUrl + '/useracademy';
     }
 
     urlValidateMail(){
-        return 'https://studentav.herokuapp.com/emailauth';
-        // return 'http://localhost:1337/emailauth';
+        return this.ServerUrl + '/emailauth';
     }
 
     urlCourse(){
-        return 'https://studentav.herokuapp.com/course';
-        // return 'http://localhost:1337/course';
+        return this.ServerUrl + '/course';
     }
 
     urlCorcategory(){
-        return 'https://studentav.herokuapp.com/corcategory';
-        // return 'http://localhost:1337/corcategory';
+        return this.ServerUrl + '/corcategory';
     }
 
     urlServerImages(){
-        return 'https://studentav.herokuapp.com';
-        // return 'http://localhost:1337';
+        return this.ServerUrl;
     }
 
     cryptoKey(){
