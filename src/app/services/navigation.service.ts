@@ -74,7 +74,7 @@ export class NavigationService {
                     'translate': 'NAV.COURSES',
                     'type': 'item',
                     'icon': 'school',
-                    'url': '/course/' + encryptUser,
+                    'url': '/course/' + encryptUser + '/info',
                 },
               ]
           },

@@ -7,22 +7,22 @@ import { MomentModule } from 'angular2-moment';
 import { MatChipsModule } from '@angular/material';
 import { CourseMaterialModule } from '../../course/course-material.module';
 
-import { CourListComponent } from './cour-list.component';
-import { CourseListUpdateComponent } from './dialog/update/course-list.update.component';
-import { CourseListDetailsModule } from './dialog/details/course-list.details.module';
-import { CourseListUpdateModule } from './dialog/update/course-list.update.module';
-import { CourseListDetailsComponent } from './dialog/details/course-list.details.component';
+import { CourseClassListComponent } from './course-class-list.component';
+import { CourseClassListUpdateComponent } from './dialog/update/course-class-list-update.component';
+import { CourseClassListDetailsComponent } from './dialog/details/course-class-list-details.component';
+import { CourseClassListDetailsModule } from './dialog/details/course-class-list-details.module';
+import { CourseClassListUpdateModule } from './dialog/update/course-class-list-update.module';
 
 const routes: Routes = [
     {
-        path: 'list',
-        component: CourListComponent
+        path: 'class/:cor_id/list',
+        component: CourseClassListComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        CourListComponent
+        CourseClassListComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -30,16 +30,16 @@ const routes: Routes = [
         FuseSharedModule,
         FuseHighlightModule,
         FuseWidgetModule,
-        CourseListDetailsModule,
-        CourseListUpdateModule,
+        CourseClassListDetailsModule,
+        CourseClassListUpdateModule,
         MomentModule,
 
         MatChipsModule
     ],
     entryComponents: [
-        CourseListDetailsComponent,
-        CourseListUpdateComponent
+        CourseClassListDetailsComponent,
+        CourseClassListUpdateComponent
     ]
 })
-export class CourListModule {
+export class CourseClassListModule {
 }

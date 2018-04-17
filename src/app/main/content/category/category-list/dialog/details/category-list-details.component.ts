@@ -16,7 +16,7 @@ export class CategoryListDetailsComponent implements OnInit {
 
     formPersonal: FormGroup;
     fec_registro: any;
-
+    cat_color_html: any;
     cat_cor_id: any;
     category: any;
 
@@ -50,6 +50,7 @@ export class CategoryListDetailsComponent implements OnInit {
         this.corCategoryService.getCategoryDetails(this.cat_cor_id).subscribe(
             successGlobalDetails => {
                 this.category = successGlobalDetails.data_result;
+                this.cat_color_html = successGlobalDetails.data_result.cat_color;
                 const est_registro = this.category.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
                 this.fec_registro = this.category.fec_registro;
                 this.formPersonal = this.formBuilder.group({

@@ -19,7 +19,7 @@ import { MomentModule } from 'angular2-moment';
 
 const routes = [
     {
-        path     : ':user_id',
+        path     : ':user_id/info',
         component: CoursesIndexComponent,
         resolve  : {
             academy: CoursesIndexService
@@ -34,7 +34,7 @@ const routes = [
     },
     {
         path      : '**',
-        redirectTo: ''
+        redirectTo: '../app/dashboard'
     }
 ];
 

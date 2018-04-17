@@ -8,15 +8,17 @@ import { CourseService } from '../../../../services/course.service';
 import { CorcategoryService } from '../../../../services/corcategory.service';
 import { UserService } from '../../../../services/user.service';
 import { AuthloginService } from '../../../../services/authlogin.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 import Swal from 'sweetalert2';
 
 @Component({
-    selector: 'fuse-course-create',
-    templateUrl: './course-create.component.html',
-    styleUrls: ['./course-create.component.scss']
+    selector: 'fuse-course-class-create',
+    templateUrl: './course-class-create.component.html',
+    styleUrls: ['./course-class-create.component.scss']
 })
-export class CourseCreateComponent implements OnInit {
+export class CourseClassCreateComponent implements OnInit {
     form: FormGroup;
     formErrors: any;
 
@@ -44,8 +46,10 @@ export class CourseCreateComponent implements OnInit {
         private formBuilder: FormBuilder,
         private courseService: CourseService,
         private corCategoryService: CorcategoryService,
+        private activateRouter: ActivatedRoute,
         private userService: UserService,
         private router: Router,
+        private _location: Location,
         private authLoginService: AuthloginService) {
         // Reactive form errors
         this.formErrors = {
@@ -171,6 +175,10 @@ export class CourseCreateComponent implements OnInit {
 
     filter(val: string): string[] {
         return this.options.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+    }
+
+    navigateBack2List(){
+        this._location.back();
     }
 
     onFormValuesChanged() {

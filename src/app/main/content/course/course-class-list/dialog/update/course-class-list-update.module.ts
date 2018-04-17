@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CourseMaterialModule } from '../../../../course/course-material.module';
 import { RouterModule, Routes } from '@angular/router';
 
 import {
@@ -13,12 +12,11 @@ import {
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { MomentModule } from 'angular2-moment';
+import { CourseClassListUpdateComponent } from './course-class-list-update.component';
 
-import { CategoryListCreateComponent } from './category-list-create.component';
-import { FuseMaterialColorPickerModule } from '@fuse/components';
 @NgModule({
     declarations: [
-        CategoryListCreateComponent
+        CourseClassListUpdateComponent
     ],
     imports: [
         RouterModule,
@@ -29,11 +27,8 @@ import { FuseMaterialColorPickerModule } from '@fuse/components';
         MatSelectModule,
         MatStepperModule,
         FuseSharedModule,
-        CourseMaterialModule,
-        MomentModule,
-
-        FuseMaterialColorPickerModule
+        MomentModule
     ]
 })
-export class CategoryListCreateModule {
+export class CourseClassListUpdateModule {
 }

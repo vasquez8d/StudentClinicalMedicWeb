@@ -24,6 +24,8 @@ export class CategoryListCreateComponent implements OnInit {
     est_registroText: any;
     usu_regText: any;
 
+    categoryColor: any;
+
     constructor(
         public dialogRef: MatDialogRef<CategoryListCreateComponent>,
         private formBuilder: FormBuilder,
@@ -50,7 +52,12 @@ export class CategoryListCreateComponent implements OnInit {
 
     }
 
-
+    onColorCategoryChange(event){
+        console.log(event.bg);
+        if (event.bg !== ''){
+            this.categoryColor = event.bg;
+        }
+    }
     onFormValuesChanged() {
         for (const field in this.formErrors) {
             if (!this.formErrors.hasOwnProperty(field)) {
@@ -79,6 +86,7 @@ export class CategoryListCreateComponent implements OnInit {
     saveUserInformation() {
         const dataRegisterCategory = this.formPersonal.value;
         dataRegisterCategory['usu_registro'] = 'web';
+        dataRegisterCategory['cat_color'] = this.categoryColor;
 
         this.corCategoryService.postCategoryRegister(dataRegisterCategory).subscribe(
             success => {

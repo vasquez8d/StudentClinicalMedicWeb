@@ -61,7 +61,9 @@ export class CoursesIndexService implements Resolve<any>
 
     getCourses(user_id): Promise<any>
     {   
-        const decode_user_id = Base64.decode(user_id);
+        const decode_user_id = 41;
+        // const decode_user_id = Base64.decode(user_id);
+
         return new Promise((resolve, reject) => {
             this.http.get(this.CourseListlUrl + decode_user_id, { headers: this.httpHelper.getHeaderHttpClientAuth() })
                 .subscribe((response: any) => {

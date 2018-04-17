@@ -24,6 +24,8 @@ import { CourseService } from '../../../services/course.service';
 
 import { MomentModule } from 'angular2-moment';
 import { CorcategoryService } from '../../../services/corcategory.service';
+import { CourseClassListModule } from './course-class-list/course-class-list.module';
+import { CourseClassCreateModule } from './course-class-create/course-class-create.module';
 
 @NgModule({
     imports: [
@@ -44,11 +46,13 @@ import { CorcategoryService } from '../../../services/corcategory.service';
         FuseHighlightModule,
         FuseMaterialColorPickerModule,
         FuseWidgetModule,
-
+        
         CourListModule,
         CourseCreateModule,
         CourseIndexModule,
 
+        CourseClassListModule,
+        CourseClassCreateModule,
         MomentModule
     ],
     providers: [

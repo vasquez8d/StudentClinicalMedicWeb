@@ -24,6 +24,13 @@
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <h2>Color de la categoría &nbsp;&nbsp;</h2>
+                    <p fxLayout="row" fxLayoutAlign="start start">
+                        <fuse-material-color-picker (onValueChange)="onColorCategoryChange($event)"></fuse-material-color-picker>
+                    </p>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <button (click)="onNoClick()" fxFlex="50" style="margin-top: 2%;" type="button" mat-raised-button color="accent" class="submit-button">
                         <mat-icon>close</mat-icon> Cerrar

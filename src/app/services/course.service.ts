@@ -149,7 +149,10 @@ export class CourseService {
             });
     }
 
-    getCourseJson(datastep1, datastep2, datastep3, user_id){
+    getCourseJson(datastep1, 
+                  datastep2, 
+                //   datastep3, 
+                  user_id){
         const dataCourse = {
             cor_name: datastep1.cor_name,
             cor_price: datastep1.cor_price,
@@ -157,7 +160,7 @@ export class CourseService {
             cat_cor_id: datastep1.cat_cor_id,
             cor_des: datastep2.cor_des,
             cor_intro: datastep2.cor_intro,
-            cor_video: datastep3.cor_video,
+            // cor_video: datastep3.cor_video,
             usu_registro: 'web',
             user_reg_id: user_id
         };

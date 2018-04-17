@@ -81,16 +81,19 @@
                             <ng-container matColumnDef="options">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                    <button (click)="courseDetails(row.cor_id)" mat-mini-fab color="accent">
+                                    <button mat-raised-button matTooltip="Detalle" (click)="courseDetails(row.cor_id)" mat-mini-fab color="accent">
                                         <mat-icon class="mat-24">zoom_in</mat-icon>
                                     </button>
-                                    <button (click)="courseEdit(row.cor_id)" mat-mini-fab>
+                                    <button mat-raised-button matTooltip="Editar" (click)="courseEdit(row.cor_id)" mat-mini-fab>
                                         <mat-icon class="mat-24">edit</mat-icon>
                                     </button>
-                                    <button *ngIf="row.est_registro == 1" (click)="courseDelete(row.cor_id)" mat-mini-fab color="warn">
+                                    <button mat-raised-button matTooltip="Ver Clases" text (click)="courseViewClass(row.cor_id)" mat-mini-fab>
+                                        <mat-icon class="mat-24">add_to_photos</mat-icon>
+                                    </button>
+                                    <button mat-raised-button matTooltip="Deshabilitar" *ngIf="row.est_registro == 1" (click)="courseDelete(row.cor_id)" mat-mini-fab color="warn">
                                         <mat-icon class="mat-24">delete</mat-icon>
                                     </button>
-                                    <button *ngIf="row.est_registro == 0" (click)="courseEnable(row.cor_id)" mat-mini-fab color="accent">
+                                    <button mat-raised-button matTooltip="Habilitar" *ngIf="row.est_registro == 0" (click)="courseEnable(row.cor_id)" mat-mini-fab color="accent">
                                         <mat-icon class="mat-24">check</mat-icon>
                                     </button>
                                 </mat-cell>

@@ -1,40 +1,39 @@
 import { Component, ViewChild, OnInit, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { CourseListDetailsComponent } from './dialog/details/course-list.details.component';
-import { CourseListUpdateComponent } from './dialog/update/course-list.update.component';
 import { CourseService } from '../../../../services/course.service';
 import { MomentModule } from 'angular2-moment';
+import { CourseClassListDetailsComponent } from './dialog/details/course-class-list-details.component';
+import { CourseClassListUpdateComponent } from './dialog/update/course-class-list-update.component';
 import { Base64 } from 'js-base64';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
  */
 @Component({
-    selector: 'fuse-course-list',
-    styleUrls: ['./cour-list.component.scss'],
-    templateUrl: './cour-list.component.html'
+    selector: 'fuse-course-class-list',
+    styleUrls: ['./course-class-list.component.scss'],
+    templateUrl: './course-class-list.component.html'
 })
 
-export class CourListComponent implements OnInit {
-    animal: string;
-    name: string;
+export class CourseClassListComponent implements OnInit {
 
-    UserListDetailsDialogRef: MatDialogRef<CourseListDetailsComponent>;
+    UserListDetailsDialogRef: MatDialogRef<CourseClassListDetailsComponent>;
 
     displayedColumns = ['cor_id', 'cor_name', 'num_alumnos',
-        'cat_cor_name', 'user_full_name', 'fec_registro', 'est_registro', 'options'];
+        'cat_cor_name', 'fec_registro', 'est_registro', 'options'];
     dataSource: MatTableDataSource<CourseData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
     userData: any;
-
+    courseName: any = 'Alex';
     constructor(
         private router: Router,
+        private activateRouter: ActivatedRoute,
         private courseService: CourseService,
         public dialog: MatDialog,
         private momentModule: MomentModule
@@ -43,7 +42,6 @@ export class CourListComponent implements OnInit {
 
     ngOnInit() {
         this.loadCourseList();
-        // this.loadGlobalUserDetials();
     }
 
     applyFilter(filterValue: string) {
@@ -52,8 +50,16 @@ export class CourListComponent implements OnInit {
         this.dataSource.filter = filterValue;
     }
 
-    navigateCreateCouse() {
-        this.router.navigate(['course/create']);
+    navigateNewClass() {
+        this.activateRouter.params.subscribe(params => {
+            if (params.cor_id) {
+                this.router.navigate(['course/class/' + params.cor_id + '/create']);
+            }
+        });
+    }
+    
+    navigateReturnCourse(){
+        this.router.navigate(['course/list']);
     }
 
     loadCourseList() {
@@ -70,7 +76,7 @@ export class CourListComponent implements OnInit {
     }
 
     courseDetails(cor_id) {
-        const dialogRef = this.dialog.open(CourseListDetailsComponent, {
+        const dialogRef = this.dialog.open(CourseClassListDetailsComponent, {
             data: {
                 cor_id: cor_id
             }
@@ -80,7 +86,7 @@ export class CourListComponent implements OnInit {
     }
 
     courseEdit(cor_id) {
-        const dialogRef = this.dialog.open(CourseListUpdateComponent, {
+        const dialogRef = this.dialog.open(CourseClassListUpdateComponent, {
             data: {
                 cor_id: cor_id
             }
@@ -89,9 +95,8 @@ export class CourListComponent implements OnInit {
             this.loadCourseList();
         });
     }
-    courseViewClass(cor_id){
-        const encryptCourse = Base64.encode(cor_id.toString());
-        this.router.navigate(['course/class/' + encryptCourse + '/list']);
+    courseViewClass(cor_id) {
+        this.router.navigateByUrl('course/class/1/list');
     }
     courseEnable(cor_id) {
         Swal({
@@ -167,7 +172,7 @@ export class CourListComponent implements OnInit {
         });
     }
 
-    navigateNewCourse(){
+    navigateNewCourse() {
         this.router.navigateByUrl('course/create');
     }
 }
@@ -177,7 +182,6 @@ export interface CourseData {
     cor_name: string;
     num_alumnos: string;
     cat_cor_name: string;
-    user_full_name: string;
     fec_registro: string;
     est_registro: string;
     options: string;

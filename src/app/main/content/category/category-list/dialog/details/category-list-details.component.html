@@ -31,6 +31,10 @@
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field fxFlex="50">
+                        <input [ngStyle]="{'color': cat_color_html}" matInput placeholder="Color de la categoría" value="COLOR" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
                         <input matInput placeholder="Estado de la categoría" formControlName="est_registro" readonly>
                     </mat-form-field>
 

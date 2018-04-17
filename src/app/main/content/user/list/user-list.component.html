@@ -71,19 +71,19 @@
                             <ng-container matColumnDef="options">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                    <button (click)="userDetails(row.user_id)" mat-mini-fab color="accent">
+                                    <button mat-raised-button matTooltip="Detalle" (click)="userDetails(row.user_id)" mat-mini-fab color="accent">
                                         <mat-icon class="mat-24">zoom_in</mat-icon>
                                     </button>
-                                    <button (click)="userEdit(row.user_id)" mat-mini-fab>
+                                    <button mat-raised-button matTooltip="Editar" (click)="userEdit(row.user_id)" mat-mini-fab>
                                         <mat-icon class="mat-24">edit</mat-icon>
                                     </button>
-                                    <button (click)="userEdirRole(row.user_id)" mat-mini-fab>
+                                    <button mat-raised-button matTooltip="Roles" (click)="userEdirRole(row.user_id)" mat-mini-fab>
                                         <mat-icon class="mat-24">person</mat-icon>
                                     </button>
-                                    <button *ngIf="row.est_registro == 1" (click)="userDelete(row.user_id)" mat-mini-fab color="warn">
+                                    <button mat-raised-button matTooltip="Deshabilitar" *ngIf="row.est_registro == 1" (click)="userDelete(row.user_id)" mat-mini-fab color="warn">
                                         <mat-icon class="mat-24">delete</mat-icon>
                                     </button>
-                                    <button *ngIf="row.est_registro == 0" (click)="userEnable(row.user_id)" mat-mini-fab color="accent">
+                                    <button mat-raised-button matTooltip="Habilitar" *ngIf="row.est_registro == 0" (click)="userEnable(row.user_id)" mat-mini-fab color="accent">
                                         <mat-icon class="mat-24">check</mat-icon>
                                     </button>
                                 </mat-cell>

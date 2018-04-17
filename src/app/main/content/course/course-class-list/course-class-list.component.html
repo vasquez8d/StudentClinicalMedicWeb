@@ -7,11 +7,13 @@
             <div class="black-fg" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="secondary-text s-16">home</mat-icon>
                 <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
-                <span class="secondary-text">Categorías</span>
+                <span class="secondary-text">Cursos</span>
                 <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
-                <span class="secondary-text">Listado de Categorías</span>
+                <span class="secondary-text">Clases</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Listado de Clases</span>
             </div>
-            <div class="h2 mt-16">Listado de Categorías </div>
+            <div class="h2 mt-16">Clases del curso {{courseName}}</div>
 
         </div>
     </div>
@@ -24,37 +26,45 @@
                 <div class="example-viewer-body">
 
                     <div class="example-header">
-                        <button (click)="categoryCreate()" style="margin-top: 1%;" mat-raised-button color="accent">
-                            <mat-icon class="mat-24">add_circle</mat-icon> Nuevo
+                        <button (click)="navigateNewClass()" style="margin-top: 1%;" mat-raised-button color="accent">
+                            <mat-icon class="mat-24">add_circle</mat-icon> Nueva Clase
+                        </button>
+                        <button (click)="navigateReturnCourse()" style="margin-top: 1%; margin-left: 1%;" mat-raised-button color="primary">
+                            <mat-icon class="mat-24">reply</mat-icon> Volver al Curso
                         </button>
                     </div>
 
                     <div class="example-header">
                         <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar una categoría">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar una Clase">
                         </mat-form-field>
                     </div>
                     <div class="example-container mat-elevation-z8">
 
                         <mat-table [dataSource]="dataSource" matSort>
 
-                            <ng-container matColumnDef="cat_cor_id">
+                            <ng-container matColumnDef="cor_id">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.cat_cor_id}}</mat-cell>
+                                <mat-cell *matCellDef="let row"> {{row.cor_id}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="cor_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Título</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.cor_name}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="num_alumnos">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.num_alumnos}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="cat_cor_name">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</mat-header-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Duración</mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.cat_cor_name}}</mat-cell>
                             </ng-container>
 
-                            <ng-container matColumnDef="num_cursos">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Número de cursos</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.num_cursos}}</mat-cell>
-                            </ng-container>
-
                             <ng-container matColumnDef="fec_registro">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de registro</mat-header-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Registro</mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.fec_registro | amLocale:'es' | amDateFormat:'DD/MM/YYYY'}}</mat-cell>
                             </ng-container>
 
@@ -71,16 +81,18 @@
                             <ng-container matColumnDef="options">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                    <button mat-raised-button matTooltip="Detalle" (click)="categoryDetails(row.cat_cor_id)" mat-mini-fab color="accent">
+                                    <button mat-raised-button matTooltip="Detalle" (click)="courseDetails(row.cor_id)" mat-mini-fab color="accent">
                                         <mat-icon class="mat-24">zoom_in</mat-icon>
                                     </button>
-                                    <button mat-raised-button matTooltip="Editar" (click)="categoryEdit(row.cat_cor_id)" mat-mini-fab>
+                                    <button mat-raised-button matTooltip="Editar" (click)="courseEdit(row.cor_id)" mat-mini-fab>
                                         <mat-icon class="mat-24">edit</mat-icon>
                                     </button>
-                                    <button mat-raised-button matTooltip="Deshabilitar" *ngIf="row.est_registro == 1" (click)="categoryDelete(row.cat_cor_id)" mat-mini-fab color="warn">
+                                    <button mat-raised-button matTooltip="Deshabilitar" *ngIf="row.est_registro == 1" (click)="courseDelete(row.cor_id)" mat-mini-fab
+                                        color="warn">
                                         <mat-icon class="mat-24">delete</mat-icon>
                                     </button>
-                                    <button mat-raised-button matTooltip="Habilitar" *ngIf="row.est_registro == 0" (click)="categoryEnable(row.cat_cor_id)" mat-mini-fab color="accent">
+                                    <button mat-raised-button matTooltip="Habilitar" *ngIf="row.est_registro == 0" (click)="courseEnable(row.cor_id)" mat-mini-fab
+                                        color="accent">
                                         <mat-icon class="mat-24">check</mat-icon>
                                     </button>
                                 </mat-cell>

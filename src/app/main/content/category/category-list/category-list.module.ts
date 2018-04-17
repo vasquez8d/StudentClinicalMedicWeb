@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseHighlightModule } from '@fuse/components';
+import { FuseHighlightModule, FuseMaterialColorPickerModule } from '@fuse/components';
 import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 import { MomentModule } from 'angular2-moment';
 import { MatChipsModule } from '@angular/material';
@@ -40,6 +40,8 @@ const routes: Routes = [
         CategoryListDetailsModule,
         CategoryListUpdateModule,
         CategoryListCreateModule,
+
+        FuseMaterialColorPickerModule,
         
         MatChipsModule
     ],
