@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import Swal from 'sweetalert2';
 import { MomentModule } from 'angular2-moment';
-import { CourseService } from '../../../../../../services/course.service';
+import { ClassService } from '../../../../../../services/class.service';
 
 @Component({
     selector: 'fuse-course-class-list-details',
@@ -14,39 +14,29 @@ import { CourseService } from '../../../../../../services/course.service';
 export class CourseClassListDetailsComponent implements OnInit {
 
     formPersonal: FormGroup;
-
-    selected: any;
-    formErrors: any;
-
     fec_registro: any;
-
-    cor_id: any;
-    course: any;
+    class_id: any;
+    class: any;
 
     constructor(
         public dialogRef: MatDialogRef<CourseClassListDetailsComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
-        private courseService: CourseService,
+        private classService: ClassService,
         private momentModule: MomentModule
     ) {
-        this.cor_id = data.cor_id;
-        console.log(this.cor_id);
+        this.class_id = data.class_id;
     }
 
     ngOnInit() {
-        this.selected = 2;
-        // Reactive Form
         this.formPersonal = this.formBuilder.group({
-            cor_id: [''],
+            class_id: [''],
+            class_tittle: [''],
+            class_desc: [''],
+            class_time: [''],
+            class_video_embed: [''],
             cor_name: [''],
-            cor_price: [''],
-            cor_des: [''],
-            cat_cor_name: [''],
-            num_alumnos: [''],
-            user_doc_id: [''],
-            user_doc_name: [''],
-            user_reg_id: [''],
+            count: [''],
             user_reg_name: [''],
             est_registro: [''],
             fec_registro: ['']
@@ -57,32 +47,27 @@ export class CourseClassListDetailsComponent implements OnInit {
     }
 
     loadCourseDetials() {
-        this.courseService.getCourseDetails(this.cor_id).subscribe(
+        this.classService.getClassDetails(this.class_id).subscribe(
             successGlobalDetails => {
-
-                this.course = successGlobalDetails.data_result[0];
-
-                const est_registro = this.course.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
-                this.fec_registro = this.course.fec_registro;
-
+                this.class = successGlobalDetails.data_result[0];
+                const est_registro = this.class.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
+                this.fec_registro = this.class.fec_registro;
                 this.formPersonal = this.formBuilder.group({
-                    cor_id: [this.course.cor_id],
-                    cor_name: [this.course.cor_name],
-                    cor_price: [this.course.cor_price],
-                    cor_des: [this.course.cor_des],
-                    cat_cor_name: [this.course.cat_cor_name],
-                    num_alumnos: [this.course.num_alumnos],
-                    user_doc_id: [this.course.user_doc_id],
-                    user_doc_name: [this.course.user_doc_name],
-                    user_reg_id: [this.course.user_reg_id],
-                    user_reg_name: [this.course.user_reg_name],
-                    est_registro: [est_registro],
-                    fec_registro: [this.course.fec_registro]
+                    class_id         : [this.class.class_id],
+                    class_tittle     : [this.class.class_tittle],
+                    class_desc       : [this.class.class_desc],
+                    class_time       : [this.class.class_time],
+                    class_video_embed: [this.class.class_video_embed],
+                    cor_name         : [this.class.cor_name],
+                    count            : [this.class.count],
+                    user_reg_name    : [this.class.user_reg_name],
+                    est_registro     : [est_registro],
+                    fec_registro     : [this.fec_registro]
                 });
 
             },
             error => {
-                console.log('error_loadGlobalUserDetials', error);
+                console.log('error_loadCourseDetials', error);
             }
         );
     }

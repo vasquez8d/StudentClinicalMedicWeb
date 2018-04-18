@@ -4,10 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import Swal from 'sweetalert2';
 import { MomentModule } from 'angular2-moment';
-import { UserModel } from '../../../../../../models/user.model';
-import { UserService } from '../../../../../../services/user.service';
-import { CourseService } from '../../../../../../services/course.service';
-import { CorcategoryService } from '../../../../../../services/corcategory.service';
+import { ClassService } from '../../../../../../services/class.service';
 
 @Component({
     selector: 'fuse-course-class-list-update',
@@ -17,115 +14,62 @@ import { CorcategoryService } from '../../../../../../services/corcategory.servi
 export class CourseClassListUpdateComponent implements OnInit {
 
     formPersonal: FormGroup;
-
-    selected: any;
     formErrors: any;
 
-    cor_id: any;
-
-    fec_registroFormat: any;
-    est_registroText: any;
-    usu_regText: any;
-
-    ListCourseCategory: any;
-    ListTeachers: any;
+    fec_registro: any;
+    est_registro: any;
+    
+    class_id: any;
+    class: any;
 
     constructor(
         public dialogRef: MatDialogRef<CourseClassListUpdateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
-        private userModel: UserModel,
-        private userService: UserService,
-        private courseService: CourseService,
-        private corCategoryService: CorcategoryService,
+        private classService: ClassService,
         private momentModule: MomentModule
     ) {
-        this.cor_id = data.cor_id;
-        // Reactive form errors
+        this.class_id = data.class_id;
         this.formErrors = {
-            user_pri_nom: {},
-            user_ape_pat: {},
-            user_dni: {},
-            user_fec_nac: {},
-            user_dpt: {},
-            user_prv: {},
-            user_dst: {},
-            user_num_cell: {},
-            user_dir: {},
+            class_tittle: {},
+            class_desc: {},
+            class_video_embed: {},
+            class_time: {}
         };
     }
 
     ngOnInit() {
-        this.selected = 2;
-        // Reactive Form
         this.formPersonal = this.formBuilder.group({
-            cor_id: ['', Validators.required],
-            cor_name: ['', Validators.required],
-            cor_des: ['', Validators.required],
-            cor_price: ['', Validators.required],
-            cor_state: ['', Validators.required],
-            cat_cor_id: ['', Validators.required],
-            user_doc_id: ['', Validators.required],
-            usu_registro: ['']
+            class_id: [''],
+            class_tittle: ['', Validators.required],
+            class_desc: ['', Validators.required],
+            class_video_embed: ['', Validators.required],
+            class_time       : ['', Validators.required]
         });
 
-        this.loadCourseDetails();
-        this.loadCourseCategory();
-        this.loadListTeacher();
+        this.loadClassDetails();
         this.formPersonal.valueChanges.subscribe(() => {
             this.onFormValuesChanged();
         });
 
     }
 
-    loadListTeacher() {
-        this.userService.getListTechers().subscribe(
+    loadClassDetails() {
+        this.classService.getClassDetails(this.class_id).subscribe(
             success => {
-                this.ListTeachers = success.data_result;
-            }, err => {
-                console.log('error_loadListTeacher', err);
-            }
-        );
-    }
+                this.class = success.data_result[0];
+                this.fec_registro = this.class.fec_registro;
+                this.est_registro = this.class.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
 
-    loadCourseDetails() {
-        this.courseService.getCourseDetailsUpdate(this.cor_id).subscribe(
-            success => {
-                const course = success.data_result[0];
-
-                this.fec_registroFormat = course.fec_registro;
-                this.est_registroText = course.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
-
-                this.userService.getUserDetails(course.user_reg_id).subscribe(
-                    sucessUser => {
-                        this.usu_regText = sucessUser.data_result.user_pri_nom + ' ' + sucessUser.data_result.user_ape_pat;
-                        this.formPersonal = this.formBuilder.group({
-                            cor_id: [course.cor_id, Validators.required],
-                            cor_name: [course.cor_name, Validators.required],
-                            cor_des: [course.cor_des, Validators.required],
-                            cor_price: [course.cor_price, Validators.required],
-                            cor_state: [course.cor_state, Validators.required],
-                            cat_cor_id: [course.cat_cor_id, Validators.required],
-                            user_doc_id: [course.user_doc_id, Validators.required],
-                            usu_registro: [course.usu_registro]
-                        });
-                    }, err => {
-                        console.log(err);
-                    }
-                );
-
+                this.formPersonal = this.formBuilder.group({
+                    class_id          : [this.class.class_id],
+                    class_tittle      : [this.class.class_tittle, Validators.required],
+                    class_desc        : [this.class.class_desc, Validators.required],
+                    class_video_embed : [this.class.class_video_embed, Validators.required],
+                    class_time        : [this.class.class_time, Validators.required]
+                });
             }, err => {
                 console.log(err);
-            }
-        );
-    }
-
-    loadCourseCategory() {
-        this.corCategoryService.getCorCategoryList().subscribe(
-            sucess => {
-                this.ListCourseCategory = sucess.data_result;
-            }, err => {
-
             }
         );
     }
@@ -149,14 +93,16 @@ export class CourseClassListUpdateComponent implements OnInit {
     }
 
     saveUserInformation() {
-        const dataRegisterCourse = this.formPersonal.value;
-        this.courseService.postCourseUpdate(dataRegisterCourse).subscribe(
+        const dataRegisterClass = this.formPersonal.value;
+        console.log(dataRegisterClass);
+        this.classService.postClassUpdate(dataRegisterClass).subscribe(
             success => {
+                console.log(success);
                 // tslint:disable-next-line:triple-equals
                 if (success.res_service == 'ok') {
                     Swal({
                         title: 'Actualizar información',
-                        text: 'Se registró correctamente la información.',
+                        text: 'Se actualizó correctamente la información.',
                         type: 'success',
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',

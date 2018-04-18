@@ -26,6 +26,10 @@ export class GlobalValues {
         return this.ServerUrl + '/corcategory';
     }
 
+    urlClass(){
+        return this.ServerUrl + '/class';
+    }
+
     urlServerImages(){
         return this.ServerUrl;
     }
