@@ -26,6 +26,7 @@ import { MomentModule } from 'angular2-moment';
 import { CorcategoryService } from '../../../services/corcategory.service';
 import { CourseClassListModule } from './course-class-list/course-class-list.module';
 import { CourseClassCreateModule } from './course-class-create/course-class-create.module';
+import { ClassService } from '../../../services/class.service';
 
 @NgModule({
     imports: [
@@ -57,7 +58,8 @@ import { CourseClassCreateModule } from './course-class-create/course-class-crea
     ],
     providers: [
         CourseService,
-        CorcategoryService
+        CorcategoryService,
+        ClassService
     ]
 })
 export class CourseModule {

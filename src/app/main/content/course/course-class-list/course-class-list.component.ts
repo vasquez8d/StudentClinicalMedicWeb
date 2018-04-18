@@ -3,11 +3,12 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { CourseService } from '../../../../services/course.service';
 import { MomentModule } from 'angular2-moment';
 import { CourseClassListDetailsComponent } from './dialog/details/course-class-list-details.component';
 import { CourseClassListUpdateComponent } from './dialog/update/course-class-list-update.component';
 import { Base64 } from 'js-base64';
+import { ClassService } from '../../../../services/class.service';
+import { CourseService } from '../../../../services/course.service';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -21,19 +22,19 @@ import { Base64 } from 'js-base64';
 export class CourseClassListComponent implements OnInit {
 
     UserListDetailsDialogRef: MatDialogRef<CourseClassListDetailsComponent>;
-
-    displayedColumns = ['cor_id', 'cor_name', 'num_alumnos',
-        'cat_cor_name', 'fec_registro', 'est_registro', 'options'];
+    displayedColumns = ['class_id', 'class_tittle', 'class_time',
+        'cor_name', 'fec_registro', 'est_registro', 'options'];
     dataSource: MatTableDataSource<CourseData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
     userData: any;
-    courseName: any = 'Alex';
+    courseName: any;
     constructor(
         private router: Router,
         private activateRouter: ActivatedRoute,
+        private classService: ClassService,
         private courseService: CourseService,
         public dialog: MatDialog,
         private momentModule: MomentModule
@@ -41,7 +42,8 @@ export class CourseClassListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadCourseList();
+        this.loadClassList();
+        this.loadCourseName();
     }
 
     applyFilter(filterValue: string) {
@@ -62,46 +64,66 @@ export class CourseClassListComponent implements OnInit {
         this.router.navigate(['course/list']);
     }
 
-    loadCourseList() {
-        this.courseService.getCourseList().subscribe(
-            (res) => {
-                this.dataSource = new MatTableDataSource(res.data_result);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-            },
-            (err) => {
-                console.log(err);
+    loadCourseName(){
+        this.activateRouter.params.subscribe(params => {
+            if (params.cor_id) {
+                var decode_code_id = Base64.decode(params.cor_id);
+                this.courseService.getCourseDetails(decode_code_id).subscribe(
+                    success => {
+                        this.courseName = success.data_result[0].cor_name;
+                    }, err => {
+                        console.log(err);
+                    }
+                );
             }
-        );
+        });
     }
 
-    courseDetails(cor_id) {
+    loadClassList() {
+        this.activateRouter.params.subscribe(params => {
+            if (params.cor_id) {
+                var decode_code_id = Base64.decode(params.cor_id);
+                this.classService.getClassList(decode_code_id).subscribe(
+                    (res) => {
+                        if(res.data_result.length > 0 ){
+                            this.dataSource = new MatTableDataSource(res.data_result);
+                            this.dataSource.paginator = this.paginator;
+                            this.dataSource.sort = this.sort;
+                        }
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
+            }
+        });
+
+    }
+
+    classDetails(class_id) {
         const dialogRef = this.dialog.open(CourseClassListDetailsComponent, {
             data: {
-                cor_id: cor_id
+                class_id: class_id
             }
         });
         dialogRef.afterClosed().subscribe(result => {
         });
     }
 
-    courseEdit(cor_id) {
+    classEdit(class_id) {
         const dialogRef = this.dialog.open(CourseClassListUpdateComponent, {
             data: {
-                cor_id: cor_id
+                class_id: class_id
             }
         });
         dialogRef.afterClosed().subscribe(result => {
-            this.loadCourseList();
+            this.loadClassList();
         });
     }
-    courseViewClass(cor_id) {
-        this.router.navigateByUrl('course/class/1/list');
-    }
-    courseEnable(cor_id) {
+    classEnable(class_id) {
         Swal({
-            title: '¿Estas seguro de habilitar al curso?',
-            text: 'El curso volverá a ser visto por los usuarios.',
+            title: '¿Estas seguro de habilitar la clase?',
+            text: 'La clase volverá a ser vista por los usuarios.',
             type: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -110,19 +132,19 @@ export class CourseClassListComponent implements OnInit {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) {
-                this.courseService.getEnableCourse(cor_id).subscribe(
+                this.classService.getEnableClass(class_id).subscribe(
                     success => {
                         Swal({
-                            title: 'Curso habilitado',
+                            title: 'Clase habilitada',
                             type: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Continuar',
                         });
-                        this.loadCourseList();
+                        this.loadClassList();
                     }, err => {
                         Swal({
-                            title: 'Error Curso habilitado',
+                            title: 'Error Clase habilitado',
                             type: 'info',
                             text: err,
                             showCancelButton: false,
@@ -135,10 +157,10 @@ export class CourseClassListComponent implements OnInit {
         });
     }
 
-    courseDelete(cor_id) {
+    classDelete(class_id) {
         Swal({
-            title: '¿Estas seguro de deshabilitar al curso?',
-            text: 'El curso no podrá ser visto por los usuarios.',
+            title: '¿Estas seguro de deshabilitar la clase?',
+            text: 'La clase no podrá ser vista por los usuarios.',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -147,19 +169,19 @@ export class CourseClassListComponent implements OnInit {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) {
-                this.courseService.getDisableCourse(cor_id).subscribe(
+                this.classService.getDisableClass(class_id).subscribe(
                     success => {
                         Swal({
-                            title: 'Curso deshabilitado',
+                            title: 'Clase deshabilitada',
                             type: 'success',
                             showCancelButton: false,
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Continuar',
                         });
-                        this.loadCourseList();
+                        this.loadClassList();
                     }, err => {
                         Swal({
-                            title: 'Error Curso deshabilitado',
+                            title: 'Error Clase deshabilitado',
                             type: 'info',
                             text: err,
                             showCancelButton: false,
@@ -178,10 +200,10 @@ export class CourseClassListComponent implements OnInit {
 }
 
 export interface CourseData {
-    cor_id: string;
+    class_id: string;
+    class_tittle: string;
+    class_time: string;
     cor_name: string;
-    num_alumnos: string;
-    cat_cor_name: string;
     fec_registro: string;
     est_registro: string;
     options: string;

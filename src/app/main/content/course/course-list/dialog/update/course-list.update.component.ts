@@ -44,15 +44,11 @@ export class CourseListUpdateComponent implements OnInit {
         this.cor_id = data.cor_id;
         // Reactive form errors
         this.formErrors = {
-            user_pri_nom: {},
-            user_ape_pat: {},
-            user_dni: {},
-            user_fec_nac: {},
-            user_dpt: {},
-            user_prv: {},
-            user_dst: {},
-            user_num_cell: {},
-            user_dir: {},
+            cor_name: {},
+            cor_des: {},
+            cor_price: {},
+            cat_cor_id: {},
+            user_doc_id: {},
         };
     }
 
@@ -60,11 +56,10 @@ export class CourseListUpdateComponent implements OnInit {
         this.selected = 2;
         // Reactive Form
         this.formPersonal = this.formBuilder.group({
-            cor_id: ['', Validators.required],
+            cor_id: [''],
             cor_name: ['', Validators.required],
             cor_des: ['', Validators.required],
             cor_price: ['', Validators.required],
-            cor_state: ['', Validators.required],
             cat_cor_id: ['', Validators.required],
             user_doc_id: ['', Validators.required],
             usu_registro: ['']
@@ -101,11 +96,10 @@ export class CourseListUpdateComponent implements OnInit {
                     sucessUser => {
                         this.usu_regText = sucessUser.data_result.user_pri_nom + ' ' + sucessUser.data_result.user_ape_pat;
                         this.formPersonal = this.formBuilder.group({
-                            cor_id: [course.cor_id, Validators.required],
+                            cor_id: [course.cor_id],
                             cor_name: [course.cor_name, Validators.required],
                             cor_des: [course.cor_des, Validators.required],
                             cor_price: [course.cor_price, Validators.required],
-                            cor_state: [course.cor_state, Validators.required],
                             cat_cor_id: [course.cat_cor_id, Validators.required],
                             user_doc_id: [course.user_doc_id, Validators.required],
                             usu_registro: [course.usu_registro]
