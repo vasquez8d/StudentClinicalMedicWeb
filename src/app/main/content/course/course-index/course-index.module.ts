@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { MatButtonModule, 
-        MatFormFieldModule, 
-        MatIconModule, 
-        MatInputModule, 
-        MatSelectModule, 
-        MatSidenavModule } from '@angular/material';
+         MatFormFieldModule, 
+         MatIconModule, 
+         MatInputModule, 
+         MatSelectModule, 
+         MatSidenavModule } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 

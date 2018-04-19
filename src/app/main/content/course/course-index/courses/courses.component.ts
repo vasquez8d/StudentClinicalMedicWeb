@@ -35,7 +35,6 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
         this.categoriesSubscription =
             this.coursesService.onCategoriesChanged
                 .subscribe(categories => {
-                    console.log(categories);
                     this.categories = categories.data_result;
                 });
 
@@ -43,7 +42,6 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
         this.coursesSubscription =
             this.coursesService.onCoursesChanged
                 .subscribe(courses => {
-                    console.log(courses);
                     this.filteredCourses = this.coursesFilteredByCategory = this.courses = courses.data_result;
                 });
     }

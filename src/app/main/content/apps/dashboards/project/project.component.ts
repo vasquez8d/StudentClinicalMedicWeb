@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -9,12 +9,13 @@ import { fuseAnimations } from '@fuse/animations';
 import { ProjectDashboardService } from './project.service';
 import { GlobalUser } from '../../../../../global/globaluser';
 import { MomentModule } from 'angular2-moment';
-import { AnalyticsDashboardService } from '../analytics/analytics.service';
 
 import { WeatherSettings, 
          TemperatureScale, 
          ForecastMode, 
          WeatherLayout } from 'angular-weather-widget';
+import { ProjectCoursesIndexService } from './project-courses.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector     : 'fuse-project-dashboard',
@@ -24,156 +25,101 @@ import { WeatherSettings,
     animations   : fuseAnimations
 })
 
-export class FuseProjectDashboardComponent implements OnInit
+export class FuseProjectDashboardComponent implements OnInit, OnDestroy
 {
     settings: WeatherSettings;
-
-    projects: any[];
-    selectedProject: any;
-
-    widgets: any;
-    widget5: any = {};
-    widget6: any = {};
-    widget7: any = {};
-    widget8: any = {};
-    widget9: any = {};
-    widget11: any = {};
 
     user = {
         user_seg_nom: '',
         user_pri_nom: ''
     };
+    
+    categories: any[];
+    courses: any[];
+    coursesFilteredByCategory: any[];
+    filteredCourses: any[];
+
+    categoriesSubscription: Subscription;
+    coursesSubscription: Subscription;
+
+    currentCategory = 'all';
+    searchTerm = '';
 
     dateNow = Date.now();
 
-    public pos: any;
-
-    constructor(private projectDashboardService: ProjectDashboardService,
-                private analyticsDashboardService: AnalyticsDashboardService,
+    constructor(private coursesService: ProjectCoursesIndexService,
                 private globalUser: GlobalUser,
                 private momentModule: MomentModule
             )
     {
-        this.projects = this.projectDashboardService.projects;
-        this.selectedProject = this.projects[0];
-
-        this.widgets = this.projectDashboardService.widgets;
-
         // this.widgetsAna = this.analyticsDashboardService.widgets;
         if (this.globalUser.user != null){
             this.user = this.globalUser.user;
         }
-
-        this.widget5 = {
-            currentRange  : 'TW',
-            xAxis         : true,
-            yAxis         : true,
-            gradient      : false,
-            legend        : false,
-            showXAxisLabel: false,
-            xAxisLabel    : 'Days',
-            showYAxisLabel: false,
-            yAxisLabel    : 'Isues',
-            scheme        : {
-                domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
-            },
-            onSelect      : (ev) => {
-                console.log(ev);
-            },
-            supporting    : {
-                currentRange  : '',
-                xAxis         : false,
-                yAxis         : false,
-                gradient      : false,
-                legend        : false,
-                showXAxisLabel: false,
-                xAxisLabel    : 'Days',
-                showYAxisLabel: false,
-                yAxisLabel    : 'Isues',
-                scheme        : {
-                    domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
-                },
-                curve         : shape.curveBasis
-            }
-        };
-
-        /**
-         * Widget 6
-         */
-        this.widget6 = {
-            currentRange : 'TW',
-            legend       : false,
-            explodeSlices: false,
-            labels       : true,
-            doughnut     : true,
-            gradient     : false,
-            scheme       : {
-                domain: ['#f44336', '#9c27b0', '#03a9f4', '#e91e63']
-            },
-            onSelect     : (ev) => {
-                console.log(ev);
-            }
-        };
-
-        /**
-         * Widget 7
-         */
-        this.widget7 = {
-            currentRange: 'T'
-        };
-
-        /**
-         * Widget 8
-         */
-        this.widget8 = {
-            legend       : false,
-            explodeSlices: false,
-            labels       : true,
-            doughnut     : false,
-            gradient     : false,
-            scheme       : {
-                domain: ['#f44336', '#9c27b0', '#03a9f4', '#e91e63', '#ffc107']
-            },
-            onSelect     : (ev) => {
-                console.log(ev);
-            }
-        };
-
-        /**
-         * Widget 9
-         */
-        this.widget9 = {
-            currentRange  : 'TW',
-            xAxis         : false,
-            yAxis         : false,
-            gradient      : false,
-            legend        : false,
-            showXAxisLabel: false,
-            xAxisLabel    : 'Days',
-            showYAxisLabel: false,
-            yAxisLabel    : 'Isues',
-            scheme        : {
-                domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
-            },
-            curve         : shape.curveBasis
-        };
-
         setInterval(() => {
             this.dateNow = Date.now();
         }, 1000);
-        
-        // this.registerCustomChartJSPlugin();
     }
 
     ngOnInit()
     {
         this.loadCurrentWeather();
+        // Subscribe to categories
+        this.categoriesSubscription =
+            this.coursesService.onCategoriesChanged
+                .subscribe(categories => {
+                    this.categories = categories.data_result;
+                });
 
-        this.widget11.onContactsChanged = new BehaviorSubject({});
-        this.widget11.onContactsChanged.next(this.widgets.widget11.table.rows);
-        this.widget11.dataSource = new FilesDataSource(this.widget11);
+        // Subscribe to courses
+        this.coursesSubscription =
+            this.coursesService.onCoursesChanged
+                .subscribe(courses => {
+                    console.log(courses);
+                    this.filteredCourses = this.coursesFilteredByCategory = this.courses = courses.data_result;
+                });
+    }
+    formatNumber(number){
+        return Math.round(number);
+    }
+    ngOnDestroy() {
+        this.categoriesSubscription.unsubscribe();
+        this.coursesSubscription.unsubscribe();
     }
 
+    filterCoursesByCategory() {
+        // Filter
+        if (this.currentCategory === 'all') {
+            this.coursesFilteredByCategory = this.courses;
+            this.filteredCourses = this.courses;
+        }
+        else {
+            this.coursesFilteredByCategory = this.courses.filter((course) => {
+                return course.cat_cor_id === this.currentCategory;
+            });
+
+            this.filteredCourses = [...this.coursesFilteredByCategory];
+
+        }
+
+        // Re-filter by search term
+        this.filterCoursesByTerm();
+    }
+
+    filterCoursesByTerm() {
+        const searchTerm = this.searchTerm.toLowerCase();
+
+        // Search
+        if (searchTerm === '') {
+            this.filteredCourses = this.coursesFilteredByCategory;
+        }
+        else {
+            this.filteredCourses = this.coursesFilteredByCategory.filter((course) => {
+                return course.cor_name.toLowerCase().includes(searchTerm);
+            });
+        }
+    }
+    
     loadCurrentWeather(){        
         this.settings = {
             location: {
@@ -193,22 +139,3 @@ export class FuseProjectDashboardComponent implements OnInit
         };
     }
 }
-
-export class FilesDataSource extends DataSource<any>
-{
-    constructor(private widget11)
-    {
-        super();
-    }
-
-    /** Connect function called by the table to retrieve one stream containing the data to render. */
-    connect(): Observable<any[]>
-    {
-        return this.widget11.onContactsChanged;
-    }
-
-    disconnect()
-    {
-    }
-}
-

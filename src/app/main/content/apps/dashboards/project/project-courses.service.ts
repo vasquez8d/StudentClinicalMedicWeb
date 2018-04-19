@@ -4,13 +4,13 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { HttpHelper } from '../../../../helpers/http.helper';
-import { GlobalValues } from '../../../../global/globalvalues';
-import { AuthloginService } from '../../../../services/authlogin.service';
 import { Base64 } from 'js-base64';
+import { HttpHelper } from '../../../../../helpers/http.helper';
+import { GlobalValues } from '../../../../../global/globalvalues';
+import { AuthloginService } from '../../../../../services/authlogin.service';
 
 @Injectable()
-export class CoursesIndexService implements Resolve<any>
+export class ProjectCoursesIndexService implements Resolve<any>
 {
     onCategoriesChanged: BehaviorSubject<any> = new BehaviorSubject({});
     onCoursesChanged: BehaviorSubject<any> = new BehaviorSubject({});
@@ -20,8 +20,7 @@ export class CoursesIndexService implements Resolve<any>
 
     constructor(private http: HttpClient,
                 private httpHelper: HttpHelper,
-                private globalValues: GlobalValues,
-                private authService: AuthloginService)
+                private globalValues: GlobalValues)
     {
     }
 
@@ -38,7 +37,7 @@ export class CoursesIndexService implements Resolve<any>
 
             Promise.all([
                 this.getCategories(),
-                this.getCourses(route.params.user_id)
+                this.getCourses()
             ]).then(
                 () => {
                     resolve();
@@ -59,10 +58,9 @@ export class CoursesIndexService implements Resolve<any>
         });
     }
 
-    getCourses(user_id): Promise<any>
+    getCourses(): Promise<any>
     {   
-        const decode_user_id = Base64.decode(user_id);
-
+        const decode_user_id = 41;
         return new Promise((resolve, reject) => {
             this.http.get(this.CourseListlUrl + decode_user_id, { headers: this.httpHelper.getHeaderHttpClientAuth() })
                 .subscribe((response: any) => {
