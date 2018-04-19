@@ -13,7 +13,7 @@
                 <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
                 <span class="secondary-text">Agregar una Clase</span>
             </div>
-            <div class="h2 mt-16">Agregar una clase al curso </div>
+            <div class="h2 mt-16">Nueva clase para el curso de {{courseName}} </div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -22,11 +22,11 @@
     <div class="mat-white-bg mat-elevation-z4 p-24" fxLayout="column">
 
         <div class="h1 pt-32">
-            Completa el formulario de registro para agregar una clase al curso
+            Completa el formulario de registro para agregar una clase al curso de {{courseName}}
         </div>
         
         <p class="pb-32">
-            Toda la información es necesaria para registrar correctamente una nueva Clase.
+            Toda la información es necesaria para registrar correctamente una nueva clase.
         </p>
 
         <div class="horizontal-stepper-wrapper">
@@ -42,41 +42,20 @@
         
                         <div>
                             <mat-form-field fxFlex="50" style="margin-left:50px; margin-right: 50px;">
-                                <input matInput placeholder="Nombre del curso" formControlName="cor_name" required>
-                                <mat-error *ngIf="horizontalStepperStep1Errors.cor_name.required">
+                                <input matInput placeholder="Titulo" formControlName="class_tittle" required>
+                                <mat-error *ngIf="horizontalStepperStep1Errors.class_tittle.required">
                                     El nombre del curso es requerido.
                                 </mat-error>
                             </mat-form-field>
-                            
-                            <mat-form-field fxFlex="100">
-                                <mat-select placeholder="Categoría" [(value)]="cat_cor_id" formControlName="cat_cor_id" required>
-                                    <mat-option *ngFor="let categ of ListCourseCategory" [value]="categ.cat_cor_id">
-                                        {{categ.cat_cor_name}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-
                         </div>
 
                         <div>
-                            <mat-form-field fxFlex="50" style="margin-left:50px; margin-right: 50px;">
-                                <input style="text-align: right !important;" matInput placeholder="Precio del curso" type="number" 
-                                       formControlName="cor_price" class="example-right-align" required>
-                                <span matPrefix>S/.&nbsp;</span>
-                                <span matSuffix>.00</span>
-                                <mat-error *ngIf="horizontalStepperStep1Errors.cor_price.required">
-                                    El precio es requerido.
+                            <mat-form-field fxFlex="100" style="margin-left:50px; margin-right: 50px;">
+                                <textarea matInput placeholder="Descrición" formControlName="class_desc" required></textarea>
+                                <mat-error *ngIf="horizontalStepperStep1Errors.class_desc.required">
+                                    El nombre del curso es requerido.
                                 </mat-error>
                             </mat-form-field>
-
-                            <mat-form-field fxFlex="50">
-                                <mat-select placeholder="Docente encargado" [(value)]="user_doc_id" formControlName="user_doc_id" required>
-                                    <mat-option *ngFor="let teacher of ListTeachers" [value]="teacher.user_id">
-                                        {{teacher.doc_full_name}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-
                         </div>
 
                         <div class="pt-24" fxLayout="row" fxLayoutAlign="center center">
@@ -94,48 +73,24 @@
         
                     <form [formGroup]="horizontalStepperStep2">
         
-                        <ng-template matStepLabel>Descripción</ng-template>
-        
+                        <ng-template matStepLabel>Video</ng-template>
+
                         <div>
                             <mat-form-field fxFlex="100" style="margin-left:50px; margin-right: 50px;">
-                                <textarea matInput placeholder="Introducción" formControlName="cor_intro" required>
-                                                                        1600 Amphitheatre Pkwy
-                                                                    </textarea>
-                                <mat-error *ngIf="horizontalStepperStep2Errors.cor_intro.required">
-                                    Address is required!
-                                </mat-error>
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex="100" style="margin-left:50px; margin-right: 50px;">
-                                <textarea matInput placeholder="Descripción" formControlName="cor_des" required>
-                                                                        1600 Amphitheatre Pkwy
-                                                                    </textarea>
-                                <mat-error *ngIf="horizontalStepperStep2Errors.cor_des.required">
-                                    Address is required!
+                                <textarea matInput placeholder="Código embed vimeo del video" formControlName="class_video_embed" required></textarea>
+                                <mat-error *ngIf="horizontalStepperStep2Errors.class_video_embed.required">
+                                    El código es requerido.
                                 </mat-error>
                             </mat-form-field>
                         </div>
-
+                        
                         <div>
-
-                            <div class="file-uploader">
-                                <input (change)="handleFileInput($event)" 
-                                hidden type="file" #fileInput/>
-                            </div>
-
                             <mat-form-field fxFlex="50" style="margin-left:50px; margin-right: 50px;">
-                                <input readonly id="txtFileName" matInput placeholder="Imagen del curso" 
-                                       formControlName="cor_photo">
-                                <span matPrefix>
-                                    <button mat-mini-fab (click)="fileInput.click()" 
-                                            aria-label="Add file">
-                                            <mat-icon>file_upload</mat-icon>
-                                    </button>
-                                     &nbsp;
-                                     &nbsp;
-                                </span>
+                                <input type="number" matInput placeholder="Duración del video (min)" formControlName="class_time" required>
+                                <mat-error *ngIf="horizontalStepperStep2Errors.class_time.required">
+                                    La duración del video es requerida.
+                                </mat-error>
                             </mat-form-field>
-
                         </div>
 
                         <div class="pt-24" fxLayout="row" fxLayoutAlign="center center">
@@ -151,49 +106,19 @@
         
                 </mat-step>
         
-                <!-- <mat-step [stepControl]="horizontalStepperStep3">
-        
-                    <form [formGroup]="horizontalStepperStep3">
-        
-                        <ng-template matStepLabel>Video</ng-template>
-        
-                        <div>
-        
-                            <mat-form-field fxFlex="33">
-                                <input matInput placeholder="Ruta VIMEO del video para el curso" formControlName="cor_video" required>
-                                <mat-error *ngIf="horizontalStepperStep3Errors.cor_video.required">
-                                    El video es requerido.
-                                </mat-error>
-                            </mat-form-field>
-        
-                        </div>
-        
-                        <div class="pt-24" fxLayout="row" fxLayoutAlign="center center">
-                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
-                                Anterior
-                            </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent">
-                                Siguiente
-                            </button>
-                        </div>
-        
-                    </form>
-        
-                </mat-step> -->
-        
                 <mat-step>
         
                     <ng-template matStepLabel>Finaliza</ng-template>
         
                     <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center">
-                        Completaste correctamente los pasos para registrar un curso.
+                        Completaste correctamente los pasos para registrar una clase.
                     </div>
         
                     <div class="pt-24" fxLayout="row" fxLayoutAlign="center center">
                         <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
                             Anterior
                         </button>
-                        <button mat-raised-button type="button" color="accent" (click)="courseSaveInfo()">
+                        <button mat-raised-button type="button" color="accent" (click)="classSaveInfo()">
                             Guardar el curso
                         </button>
                     </div>

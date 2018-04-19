@@ -34,14 +34,14 @@ export class ClassService {
         }
     }
 
-    // postCategoryRegister(data) {
-    //     return this.http
-    //         .post(this.CorCategoryRegisterUrl, data, { headers: this.httpHelper.getHeaderAuth() })
-    //         .map(res => {
-    //             const result = res.json();
-    //             return result;
-    //         });
-    // }
+    postClassRegister(data) {
+        return this.http
+            .post(this.ClassRegisterUrl, data, { headers: this.httpHelper.getHeaderAuth() })
+            .map(res => {
+                const result = res.json();
+                return result;
+            });
+    }
 
     getClassDetails(class_id){
         return this.http.get
@@ -77,5 +77,18 @@ export class ClassService {
                 const result = res.json();
                 return result;
             });
+    }
+
+    getClassJson(dataRegisterCourse1: any, dataRegisterCourse2: any, user_id: any, cor_id: any) {
+        const dataClass = {
+            class_tittle: dataRegisterCourse1.class_tittle,
+            class_desc: dataRegisterCourse1.class_desc,
+            class_video_embed: dataRegisterCourse2.class_video_embed,
+            cor_id: cor_id,
+            usu_registro: 'web',
+            usu_reg_id: user_id,
+            class_time: dataRegisterCourse2.class_time,
+        };
+        return dataClass;
     }
 }

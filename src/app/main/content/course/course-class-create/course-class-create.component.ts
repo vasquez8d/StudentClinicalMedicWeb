@@ -10,8 +10,10 @@ import { UserService } from '../../../../services/user.service';
 import { AuthloginService } from '../../../../services/authlogin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Base64 } from 'js-base64';
 
 import Swal from 'sweetalert2';
+import { ClassService } from '../../../../services/class.service';
 
 @Component({
     selector: 'fuse-course-class-create',
@@ -39,12 +41,14 @@ export class CourseClassCreateComponent implements OnInit {
     courseFileName: any;
     ListCourseCategory: any;
     ListTeachers: any;
-
+    courseName: any;
     user_id: any;
+    cor_id: any;
 
     constructor(
         private formBuilder: FormBuilder,
         private courseService: CourseService,
+        private classSerivce: ClassService,
         private corCategoryService: CorcategoryService,
         private activateRouter: ActivatedRoute,
         private userService: UserService,
@@ -53,49 +57,32 @@ export class CourseClassCreateComponent implements OnInit {
         private authLoginService: AuthloginService) {
         // Reactive form errors
         this.formErrors = {
-            cor_name: {},
-            cor_price: {},
-            cat_cor_id: {},
-            user_doc_id: {},
-            cor_des: {},
-            cor_intro: {},
-            cor_video: {}
+            class_tittle: {},
+            class_desc: {},
+            class_video_embed: {},
+            class_time: {},
         };
 
-        // Horizontal Stepper form error
         this.horizontalStepperStep1Errors = {
-            cor_name: {},
-            cor_price: {},
-            cat_cor_id: {},
-            user_doc_id: {}
+            class_tittle: {},
+            class_desc: {},
         };
 
         this.horizontalStepperStep2Errors = {
-            cor_des: {},
-            cor_intro: {}
+            class_video_embed: {},
+            class_time: {}
         };
-
-        // this.horizontalStepperStep3Errors = {
-        //     cor_video: {}
-        // };
-
     }
     ngOnInit() {
-
+        this.loadCourseName();
         this.loadUserLoged();
-        this.loadCourseCategory();
-        this.loadListTeacher();
 
         // Reactive Form
         this.form = this.formBuilder.group({
-            cor_name: ['', Validators.required],
-            cor_price: ['', Validators.required],
-            cat_cor_id: ['', Validators.required],
-            user_doc_id: ['', Validators.required],
-            cor_des: ['', Validators.required],
-            cor_intro: ['', Validators.required],
-            cor_photo: [''],
-            cor_video: ['', Validators.required]
+            class_tittle: ['', Validators.required],
+            class_desc: ['', Validators.required],
+            class_video_embed: ['', Validators.required],
+            class_time: ['', Validators.required],
         });
 
         this.form.valueChanges.subscribe(() => {
@@ -104,22 +91,14 @@ export class CourseClassCreateComponent implements OnInit {
 
         // Horizontal Stepper form steps
         this.horizontalStepperStep1 = this.formBuilder.group({
-            cor_name: ['', Validators.required],
-            cor_price: ['', Validators.required],
-            cat_cor_id: ['', Validators.required],
-            user_doc_id: ['', Validators.required],
+            class_tittle: ['', Validators.required],
+            class_desc: ['', Validators.required],
         });
 
         this.horizontalStepperStep2 = this.formBuilder.group({
-            cor_des: ['', Validators.required],
-            cor_intro: ['', Validators.required],
-            cor_photo: [''],
+            class_video_embed: ['', Validators.required],
+            class_time: ['', Validators.required],
         });
-
-        // this.horizontalStepperStep3 = this.formBuilder.group({
-        //     cor_video: ['', Validators.required]
-        //     // postalCode: ['', [Validators.required, Validators.maxLength(5)]]
-        // });
 
         this.horizontalStepperStep1.valueChanges.subscribe(() => {
             this.onFormValuesChanged();
@@ -129,14 +108,22 @@ export class CourseClassCreateComponent implements OnInit {
             this.onFormValuesChanged();
         });
 
-        // this.horizontalStepperStep3.valueChanges.subscribe(() => {
-        //     this.onFormValuesChanged();
-        // });
+    }
 
-        this.filteredOptions = this.myControl.valueChanges.pipe(
-            startWith(''),
-            map(val => this.filter(val))
-        );
+    loadCourseName() {
+        this.activateRouter.params.subscribe(params => {
+            if (params.cor_id) {
+                const decode_code_id = Base64.decode(params.cor_id);
+                this.cor_id = decode_code_id;
+                this.courseService.getCourseDetails(decode_code_id).subscribe(
+                    success => {
+                        this.courseName = success.data_result[0].cor_name;
+                    }, err => {
+                        console.log(err);
+                    }
+                );
+            }
+        });
     }
 
     loadUserLoged(){
@@ -151,30 +138,6 @@ export class CourseClassCreateComponent implements OnInit {
                 console.log(err);
             }
         );
-    }
-    
-    loadCourseCategory() {
-        this.corCategoryService.getCorCategoryList().subscribe(
-            sucess => {
-                this.ListCourseCategory = sucess.data_result;
-            }, err => {
-
-            }
-        );
-    }
-
-    loadListTeacher() {
-        this.userService.getListTechers().subscribe(
-            success => {
-                this.ListTeachers = success.data_result;
-            }, err => {
-                console.log('error_loadListTeacher', err);
-            }
-        );
-    }
-
-    filter(val: string): string[] {
-        return this.options.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
     }
 
     navigateBack2List(){
@@ -198,18 +161,17 @@ export class CourseClassCreateComponent implements OnInit {
         }
     }
 
-    courseSaveInfo() {
+    classSaveInfo() {
         const dataRegisterCourse1 = this.horizontalStepperStep1.value;
         const dataRegisterCourse2 = this.horizontalStepperStep2.value;
-        // const dataRegisterCourse3 = this.horizontalStepperStep3.value;
-        const dataCourse = this.courseService.getCourseJson(dataRegisterCourse1, 
-                                                            dataRegisterCourse2, 
-                                                            // dataRegisterCourse3, 
-                                                            this.user_id);
-        this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;
 
-        this.courseService.postCourseRegister(dataCourse).subscribe(
+        const dataClass = this.classSerivce.getClassJson(dataRegisterCourse1, 
+                                                         dataRegisterCourse2, 
+                                                         this.user_id,
+                                                         this.cor_id);
+        this.classSerivce.postClassRegister(dataClass).subscribe(
             success => {
+                console.log(success);
                 // tslint:disable-next-line:triple-equals
                 if (success.res_service == 'ok') {
                     Swal({
@@ -220,11 +182,7 @@ export class CourseClassCreateComponent implements OnInit {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Continuar',
                     }).then((resultAcept) => {
-                        // tslint:disable-next-line:triple-equals
-                        if (this.courseFileName != ''){
-                            this.saveImageFile(success.data_result.cor_id);
-                        }
-                        this.router.navigateByUrl('course/list');
+                        this._location.back();
                     });
                 } else {
                     Swal({
@@ -235,39 +193,11 @@ export class CourseClassCreateComponent implements OnInit {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Continuar',
                     }).then((resultAcept) => {
+                        this._location.back();
                     });
                 }
             }, err => {
                 console.log('error_courseSaveInfo', err);
-            }
-        );
-    }
-
-    handleFileInput(event) {
-        this.fileToUpload = <File>event.target.files[0];
-        (<HTMLInputElement>document.getElementById('txtFileName')).value = this.fileToUpload.name;
-        this.onFormValuesChanged();
-    }
-
-    saveImageFile(cor_id){
-        this.courseService.postUploadCourseImage(this.fileToUpload).subscribe(
-            sucess => {
-                // tslint:disable-next-line:triple-equals
-                if (sucess.res_service == 'ok'){
-                    const dataUpdate = {
-                        cor_id: cor_id,
-                        cor_photo: sucess.data_result
-                    };
-                    this.courseService.postUpdateFileName(dataUpdate).subscribe(
-                        sucessUpdate => {
-                            console.log(sucessUpdate);
-                        }, err => {
-                            console.log('errr_postUpdateFileName', err);
-                        }
-                    );
-                }
-            }, err => {
-                console.log('error_saveImageFile', err);
             }
         );
     }

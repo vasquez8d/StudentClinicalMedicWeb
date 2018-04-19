@@ -14,12 +14,8 @@ import { MomentModule } from 'angular2-moment';
 export class CourseListDetailsComponent implements OnInit {
 
     formPersonal: FormGroup;
-
-    selected: any;
     formErrors: any;
-
     fec_registro: any;
-
     cor_id: any;
     course: any;
 
@@ -31,12 +27,9 @@ export class CourseListDetailsComponent implements OnInit {
         private momentModule: MomentModule
     ) {
         this.cor_id = data.cor_id;
-        console.log(this.cor_id);
     }
 
     ngOnInit() {
-        this.selected = 2;
-        // Reactive Form
         this.formPersonal = this.formBuilder.group({
             cor_id        : [''],
             cor_name      : [''],

@@ -15,11 +15,14 @@ export class CourseClassListUpdateComponent implements OnInit {
 
     formPersonal: FormGroup;
     formErrors: any;
-
     fec_registro: any;
     est_registro: any;
-    
     class_id: any;
+
+    cor_name: any;
+    cor_num_comments: any;
+    user_reg_name: any;
+
     class: any;
 
     constructor(
@@ -57,17 +60,23 @@ export class CourseClassListUpdateComponent implements OnInit {
     loadClassDetails() {
         this.classService.getClassDetails(this.class_id).subscribe(
             success => {
-                this.class = success.data_result[0];
-                this.fec_registro = this.class.fec_registro;
-                this.est_registro = this.class.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
+                console.log(success);
+                if (success.data_result.length > 0){
+                    this.cor_name = success.data_result[0].cor_name;
+                    this.cor_num_comments = success.data_result[0].count;
+                    this.user_reg_name = success.data_result[0].user_reg_name;
+                    this.class = success.data_result[0];
+                    this.fec_registro = this.class.fec_registro;
+                    this.est_registro = this.class.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
 
-                this.formPersonal = this.formBuilder.group({
-                    class_id          : [this.class.class_id],
-                    class_tittle      : [this.class.class_tittle, Validators.required],
-                    class_desc        : [this.class.class_desc, Validators.required],
-                    class_video_embed : [this.class.class_video_embed, Validators.required],
-                    class_time        : [this.class.class_time, Validators.required]
-                });
+                    this.formPersonal = this.formBuilder.group({
+                        class_id: [this.class.class_id],
+                        class_tittle: [this.class.class_tittle, Validators.required],
+                        class_desc: [this.class.class_desc, Validators.required],
+                        class_video_embed: [this.class.class_video_embed, Validators.required],
+                        class_time: [this.class.class_time, Validators.required]
+                    });
+                }
             }, err => {
                 console.log(err);
             }

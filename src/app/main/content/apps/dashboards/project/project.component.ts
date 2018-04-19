@@ -24,10 +24,6 @@ import { WeatherSettings,
     animations   : fuseAnimations
 })
 
-// @Component({
-//     template: '<weather-widget [settings]="settings"></weather-widget>'
-// })
-
 export class FuseProjectDashboardComponent implements OnInit
 {
     settings: WeatherSettings;
@@ -43,21 +39,14 @@ export class FuseProjectDashboardComponent implements OnInit
     widget9: any = {};
     widget11: any = {};
 
-    // widgetsAna: any;
-
-    user: any = {};
+    user = {
+        user_seg_nom: '',
+        user_pri_nom: ''
+    };
 
     dateNow = Date.now();
 
     public pos: any;
-
-    // getPosition() {
-    //     navigator.geolocation.getCurrentPosition( (position) => {
-    //         console.log(position);
-    //     }, (errorCoor) => {
-    //         console.log(errorCoor);
-    //     } , { timeout: 10000 });
-    // }
 
     constructor(private projectDashboardService: ProjectDashboardService,
                 private analyticsDashboardService: AnalyticsDashboardService,
@@ -71,11 +60,10 @@ export class FuseProjectDashboardComponent implements OnInit
         this.widgets = this.projectDashboardService.widgets;
 
         // this.widgetsAna = this.analyticsDashboardService.widgets;
+        if (this.globalUser.user != null){
+            this.user = this.globalUser.user;
+        }
 
-        this.user = this.globalUser.user;
-        /**
-         * Widget 5
-         */
         this.widget5 = {
             currentRange  : 'TW',
             xAxis         : true,
@@ -204,60 +192,6 @@ export class FuseProjectDashboardComponent implements OnInit
             language: 'es'
         };
     }
-    // registerCustomChartJSPlugin() {
-    //     (<any>window).Chart.plugins.register({
-    //         afterDatasetsDraw: function (chart, easing) {
-    //             // Only activate the plugin if it's made available
-    //             // in the options
-    //             if (
-    //                 !chart.options.plugins.xLabelsOnTop ||
-    //                 (chart.options.plugins.xLabelsOnTop && chart.options.plugins.xLabelsOnTop.active === false)
-    //             ) {
-    //                 return;
-    //             }
-
-    //             // To only draw at the end of animation, check for easing === 1
-    //             const ctx = chart.ctx;
-
-    //             chart.data.datasets.forEach(function (dataset, i) {
-    //                 const meta = chart.getDatasetMeta(i);
-    //                 if (!meta.hidden) {
-    //                     meta.data.forEach(function (element, index) {
-
-    //                         // Draw the text in black, with the specified font
-    //                         ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-    //                         const fontSize = 13;
-    //                         const fontStyle = 'normal';
-    //                         const fontFamily = 'Roboto, Helvetica Neue, Arial';
-    //                         ctx.font = (<any>window).Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
-
-    //                         // Just naively convert to string for now
-    //                         const dataString = dataset.data[index].toString() + 'k';
-
-    //                         // Make sure alignment settings are correct
-    //                         ctx.textAlign = 'center';
-    //                         ctx.textBaseline = 'middle';
-    //                         const padding = 15;
-    //                         const startY = 24;
-    //                         const position = element.tooltipPosition();
-    //                         ctx.fillText(dataString, position.x, startY);
-
-    //                         ctx.save();
-
-    //                         ctx.beginPath();
-    //                         ctx.setLineDash([5, 3]);
-    //                         ctx.moveTo(position.x, startY + padding);
-    //                         ctx.lineTo(position.x, position.y - padding);
-    //                         ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-    //                         ctx.stroke();
-
-    //                         ctx.restore();
-    //                     });
-    //                 }
-    //             });
-    //         }
-    //     });
-    // }
 }
 
 export class FilesDataSource extends DataSource<any>

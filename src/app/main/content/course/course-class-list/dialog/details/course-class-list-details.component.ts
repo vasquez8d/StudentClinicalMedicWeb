@@ -15,6 +15,7 @@ export class CourseClassListDetailsComponent implements OnInit {
 
     formPersonal: FormGroup;
     fec_registro: any;
+    est_registro: any;
     class_id: any;
     class: any;
 
@@ -49,22 +50,23 @@ export class CourseClassListDetailsComponent implements OnInit {
     loadCourseDetials() {
         this.classService.getClassDetails(this.class_id).subscribe(
             successGlobalDetails => {
-                this.class = successGlobalDetails.data_result[0];
-                const est_registro = this.class.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
-                this.fec_registro = this.class.fec_registro;
-                this.formPersonal = this.formBuilder.group({
-                    class_id         : [this.class.class_id],
-                    class_tittle     : [this.class.class_tittle],
-                    class_desc       : [this.class.class_desc],
-                    class_time       : [this.class.class_time],
-                    class_video_embed: [this.class.class_video_embed],
-                    cor_name         : [this.class.cor_name],
-                    count            : [this.class.count],
-                    user_reg_name    : [this.class.user_reg_name],
-                    est_registro     : [est_registro],
-                    fec_registro     : [this.fec_registro]
-                });
-
+                if (successGlobalDetails.data_result.length > 0){
+                    this.class = successGlobalDetails.data_result[0];
+                    this.est_registro = this.class.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
+                    this.fec_registro = this.class.fec_registro;
+                    this.formPersonal = this.formBuilder.group({
+                        class_id: [this.class.class_id],
+                        class_tittle: [this.class.class_tittle],
+                        class_desc: [this.class.class_desc],
+                        class_time: [this.class.class_time],
+                        class_video_embed: [this.class.class_video_embed],
+                        cor_name: [this.class.cor_name],
+                        count: [this.class.count],
+                        user_reg_name: [this.class.user_reg_name],
+                        est_registro: [this.est_registro],
+                        fec_registro: [this.fec_registro]
+                    });
+                }
             },
             error => {
                 console.log('error_loadCourseDetials', error);

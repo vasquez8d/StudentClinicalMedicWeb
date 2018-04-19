@@ -67,7 +67,7 @@ export class CourseClassListComponent implements OnInit {
     loadCourseName(){
         this.activateRouter.params.subscribe(params => {
             if (params.cor_id) {
-                var decode_code_id = Base64.decode(params.cor_id);
+                const decode_code_id = Base64.decode(params.cor_id);
                 this.courseService.getCourseDetails(decode_code_id).subscribe(
                     success => {
                         this.courseName = success.data_result[0].cor_name;
@@ -82,10 +82,10 @@ export class CourseClassListComponent implements OnInit {
     loadClassList() {
         this.activateRouter.params.subscribe(params => {
             if (params.cor_id) {
-                var decode_code_id = Base64.decode(params.cor_id);
+                const decode_code_id = Base64.decode(params.cor_id);
                 this.classService.getClassList(decode_code_id).subscribe(
                     (res) => {
-                        if(res.data_result.length > 0 ){
+                        if (res.data_result.length > 0 ){
                             this.dataSource = new MatTableDataSource(res.data_result);
                             this.dataSource.paginator = this.paginator;
                             this.dataSource.sort = this.sort;

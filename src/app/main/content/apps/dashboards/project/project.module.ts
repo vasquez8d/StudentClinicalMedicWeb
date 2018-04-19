@@ -19,6 +19,7 @@ import { MomentModule } from 'angular2-moment';
 import { AnalyticsDashboardService } from '../analytics/analytics.service';
 
 import { AngularWeatherWidgetModule, WeatherApiName } from 'angular-weather-widget';
+import { CourseMaterialModule } from '../../../course/course-material.module';
 
 const routes: Routes = [
     {
@@ -53,6 +54,8 @@ const routes: Routes = [
         FuseSharedModule,
         FuseWidgetModule,
         MomentModule,
+
+        CourseMaterialModule,
 
         AngularWeatherWidgetModule.forRoot({
             key: 'c22e86af051ce37943c8680a279e789d',
