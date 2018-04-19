@@ -16,6 +16,8 @@ import { WeatherSettings,
 import { ProjectCoursesIndexService } from './project-courses.service';
 import { Subscription } from 'rxjs/Subscription';
 import { GlobalValues } from '../../../../../global/globalvalues';
+import { Router } from '@angular/router';
+import { Base64 } from 'js-base64';
 
 @Component({
     selector     : 'fuse-project-dashboard',
@@ -58,7 +60,8 @@ export class FuseProjectDashboardComponent implements OnInit, OnDestroy
     constructor(private coursesService: ProjectCoursesIndexService,
                 private globalUser: GlobalUser,
                 private momentModule: MomentModule,
-                private globalValues: GlobalValues
+                private globalValues: GlobalValues,
+                private router: Router
             )
     {
         // this.widgetsAna = this.analyticsDashboardService.widgets;
@@ -133,6 +136,11 @@ export class FuseProjectDashboardComponent implements OnInit, OnDestroy
                 return course.cor_name.toLowerCase().includes(searchTerm);
             });
         }
+    }
+
+    navigateToCourseDetails(cor_id, cor_slug){
+        const encryptCourse = Base64.encode(cor_id.toString());
+        this.router.navigate(['course/' + encryptCourse + '/' + cor_slug + '/details']);
     }
     
     loadCurrentWeather(){        

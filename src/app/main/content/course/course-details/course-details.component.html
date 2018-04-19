@@ -1,0 +1,44 @@
+<div id="profile" class="page-layout simple tabbed" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between end">
+
+        <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
+            <!-- {{userModel.user.user_id}} -->
+            <img class="profile-image avatar huge" src="{{userModel.user.user_reg_provider_photo}}" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            <div style="text-transform: capitalize;" class="name" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                {{userModel.user.user_pri_nom}} {{userModel.user.user_ape_pat}}
+            </div>
+
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="end center" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'200ms'}}">
+            <button *ngIf="bIsUser" mat-raised-button (click)="routeEditProfile()" color="accent" aria-label="Follow">Actualizar Información</button>
+            <!-- <button mat-raised-button color="primary" aria-label="Send Message">Send Message</button> -->
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <mat-tab-group dynamicHeight="true">
+
+            <!-- <mat-tab label="Timeline">
+                <fuse-profile-timeline></fuse-profile-timeline>
+            </mat-tab> -->
+
+            <mat-tab label="Información">
+                <fuse-course-details-info></fuse-course-details-info>
+            </mat-tab>
+
+            <!-- <mat-tab label="Photos & Videos">
+                <fuse-profile-photos-videos></fuse-profile-photos-videos>
+            </mat-tab> -->
+
+        </mat-tab-group>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

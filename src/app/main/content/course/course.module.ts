@@ -27,6 +27,7 @@ import { CorcategoryService } from '../../../services/corcategory.service';
 import { CourseClassListModule } from './course-class-list/course-class-list.module';
 import { CourseClassCreateModule } from './course-class-create/course-class-create.module';
 import { ClassService } from '../../../services/class.service';
+import { CourseDetailsModule } from './course-details/course-details.module';
 
 @NgModule({
     imports: [
@@ -54,6 +55,8 @@ import { ClassService } from '../../../services/class.service';
 
         CourseClassListModule,
         CourseClassCreateModule,
+
+        CourseDetailsModule,
         MomentModule
     ],
     providers: [

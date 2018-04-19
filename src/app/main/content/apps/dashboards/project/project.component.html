@@ -51,7 +51,7 @@
                                             </div>
                                  
                                             <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="start center">
-                                                <button mat-button color="accent">Detalles</button>
+                                                <button mat-button (click)="navigateToCourseDetails(course.cor_id, course.cor_slug)" color="accent">Detalles</button>
                                                 <button mat-button color="accent">Comprar</button>                                
                                             </div>
                                         </div>

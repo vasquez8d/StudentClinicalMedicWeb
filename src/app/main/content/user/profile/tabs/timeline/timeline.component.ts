@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 
 import { fuseAnimations } from '@fuse/animations';
 
-import { ProfileService } from '../../profile.service';
-
 @Component({
     selector   : 'fuse-profile-timeline',
     templateUrl: './timeline.component.html',
@@ -14,10 +12,7 @@ export class FuseProfileTimelineComponent
 {
     timeline: any;
 
-    constructor(private profileService: ProfileService)
+    constructor()
     {
-        this.profileService.timelineOnChanged.subscribe(timeline => {
-            this.timeline = timeline;
-        });
     }
 }

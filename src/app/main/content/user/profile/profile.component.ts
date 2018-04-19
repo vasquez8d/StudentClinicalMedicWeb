@@ -55,6 +55,7 @@ export class FuseProfileComponent implements OnInit
         this.activatedRoute.params.subscribe( params => {
             if ( params.user_id ){
               const user_id = Base64.decode(params.user_id);
+              // tslint:disable-next-line:triple-equals
               if (user_id == this.userModel.user.user_id){
                 this.bIsUser = true;
               }

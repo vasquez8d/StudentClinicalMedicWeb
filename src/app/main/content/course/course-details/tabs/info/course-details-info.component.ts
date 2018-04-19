@@ -11,12 +11,12 @@ import { MomentModule } from 'angular2-moment';
 import { Base64 } from 'js-base64';
 
 @Component({
-    selector   : 'fuse-profile-about',
-    templateUrl: './about.component.html',
-    styleUrls  : ['./about.component.scss'],
+    selector   : 'fuse-course-details-info',
+    templateUrl: './course-details-info.component.html',
+    styleUrls: ['./course-details-info.component.scss'],
     animations : fuseAnimations
 })
-export class FuseProfileAboutComponent implements OnInit
+export class CourseDetailsInfoComponent implements OnInit
 {
     about: any;
     user: any;

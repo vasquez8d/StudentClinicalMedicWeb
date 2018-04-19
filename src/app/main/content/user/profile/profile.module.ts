@@ -5,7 +5,6 @@ import { MatButtonModule, MatDividerModule, MatIconModule, MatTabsModule } from 
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { ProfileService } from './profile.service';
 import { FuseProfileComponent } from './profile.component';
 import { FuseProfileTimelineComponent } from './tabs/timeline/timeline.component';
 import { FuseProfileAboutComponent } from './tabs/about/about.component';
@@ -17,10 +16,7 @@ import { MomentModule } from 'angular2-moment';
 const routes = [
     {
         path: ':user_id/profile',
-        component: FuseProfileComponent,
-        resolve  : {
-            profile: ProfileService
-        }
+        component: FuseProfileComponent
     }
 ];
 
@@ -38,11 +34,9 @@ const routes = [
         MatIconModule,
         MatTabsModule,
         FuseSharedModule,
-
         MomentModule
     ],
     providers   : [
-        ProfileService,
         UserService,
         AuthloginService
     ]
