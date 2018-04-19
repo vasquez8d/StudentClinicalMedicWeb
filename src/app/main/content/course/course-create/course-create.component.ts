@@ -20,10 +20,6 @@ export class CourseCreateComponent implements OnInit {
     form: FormGroup;
     formErrors: any;
 
-    myControl: FormControl = new FormControl();
-    options = ['One', 'Two', 'Three'];
-    filteredOptions: Observable<string[]>;
-
     // Horizontal Stepper
     horizontalStepperStep1: FormGroup;
     horizontalStepperStep2: FormGroup;
@@ -71,10 +67,6 @@ export class CourseCreateComponent implements OnInit {
             cor_intro: {}
         };
 
-        // this.horizontalStepperStep3Errors = {
-        //     cor_video: {}
-        // };
-
     }
     ngOnInit() {
 
@@ -112,11 +104,6 @@ export class CourseCreateComponent implements OnInit {
             cor_photo: [''],
         });
 
-        // this.horizontalStepperStep3 = this.formBuilder.group({
-        //     cor_video: ['', Validators.required]
-        //     // postalCode: ['', [Validators.required, Validators.maxLength(5)]]
-        // });
-
         this.horizontalStepperStep1.valueChanges.subscribe(() => {
             this.onFormValuesChanged();
         });
@@ -124,15 +111,6 @@ export class CourseCreateComponent implements OnInit {
         this.horizontalStepperStep2.valueChanges.subscribe(() => {
             this.onFormValuesChanged();
         });
-
-        // this.horizontalStepperStep3.valueChanges.subscribe(() => {
-        //     this.onFormValuesChanged();
-        // });
-
-        this.filteredOptions = this.myControl.valueChanges.pipe(
-            startWith(''),
-            map(val => this.filter(val))
-        );
     }
 
     loadUserLoged(){
@@ -169,10 +147,6 @@ export class CourseCreateComponent implements OnInit {
         );
     }
 
-    filter(val: string): string[] {
-        return this.options.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
-    }
-
     onFormValuesChanged() {
         for (const field in this.formErrors) {
             if (!this.formErrors.hasOwnProperty(field)) {
@@ -191,48 +165,59 @@ export class CourseCreateComponent implements OnInit {
     }
 
     courseSaveInfo() {
-        const dataRegisterCourse1 = this.horizontalStepperStep1.value;
-        const dataRegisterCourse2 = this.horizontalStepperStep2.value;
-        // const dataRegisterCourse3 = this.horizontalStepperStep3.value;
-        const dataCourse = this.courseService.getCourseJson(dataRegisterCourse1, 
-                                                            dataRegisterCourse2, 
-                                                            // dataRegisterCourse3, 
-                                                            this.user_id);
-        this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;
 
-        this.courseService.postCourseRegister(dataCourse).subscribe(
-            success => {
-                // tslint:disable-next-line:triple-equals
-                if (success.res_service == 'ok') {
-                    Swal({
-                        title: 'Actualizar información',
-                        text: 'Se registró correctamente la información.',
-                        type: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Continuar',
-                    }).then((resultAcept) => {
+        Swal({
+            title: '¿Estas seguro de registrar el curso?',
+            text: 'El curso aparecerá el la página principal del sistema.',
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.value) {
+                const dataRegisterCourse1 = this.horizontalStepperStep1.value;
+                const dataRegisterCourse2 = this.horizontalStepperStep2.value;
+                const dataCourse = this.courseService.getCourseJson(dataRegisterCourse1,
+                    dataRegisterCourse2,
+                    this.user_id);
+                this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;
+                this.courseService.postCourseRegister(dataCourse).subscribe(
+                    success => {
                         // tslint:disable-next-line:triple-equals
-                        if (this.courseFileName != ''){
-                            this.saveImageFile(success.data_result.cor_id);
+                        if (success.res_service == 'ok') {
+                            Swal({
+                                title: 'Actualizar información',
+                                text: 'Se registró correctamente la información.',
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Continuar',
+                            }).then((resultAcept) => {
+                                // tslint:disable-next-line:triple-equals
+                                if (this.courseFileName != '') {
+                                    this.saveImageFile(success.data_result.cor_id);
+                                }
+                                this.router.navigateByUrl('course/list');
+                            });
+                        } else {
+                            Swal({
+                                title: 'Actualizar información',
+                                text: success.res_service,
+                                type: 'info',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Continuar',
+                            }).then((resultAcept) => {
+                            });
                         }
-                        this.router.navigateByUrl('course/list');
-                    });
-                } else {
-                    Swal({
-                        title: 'Actualizar información',
-                        text: success.res_service,
-                        type: 'info',
-                        showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Continuar',
-                    }).then((resultAcept) => {
-                    });
-                }
-            }, err => {
-                console.log('error_courseSaveInfo', err);
+                    }, err => {
+                        console.log('error_courseSaveInfo', err);
+                    }
+                );
             }
-        );
+        });
     }
 
     handleFileInput(event) {

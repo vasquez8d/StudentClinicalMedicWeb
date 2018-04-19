@@ -14,9 +14,11 @@ export class ProjectCoursesIndexService implements Resolve<any>
 {
     onCategoriesChanged: BehaviorSubject<any> = new BehaviorSubject({});
     onCoursesChanged: BehaviorSubject<any> = new BehaviorSubject({});
+    onCourseFreeChanged: BehaviorSubject<any> = new BehaviorSubject({});
 
     private CorCategoryListlUrl = `${this.globalValues.urlCorcategory()}/list`;
-    private CourseListlUrl = `${this.globalValues.urlCourse()}/listxuser/`;
+    private CourseListUrl = `${this.globalValues.urlCourse()}/listdashboard`;
+    private CourseFreeListUrl = `${this.globalValues.urlCourse()}/listdashboardfree`;
 
     constructor(private http: HttpClient,
                 private httpHelper: HttpHelper,
@@ -37,7 +39,8 @@ export class ProjectCoursesIndexService implements Resolve<any>
 
             Promise.all([
                 this.getCategories(),
-                this.getCourses()
+                this.getCourses(),
+                this.getCoursesFree()
             ]).then(
                 () => {
                     resolve();
@@ -60,11 +63,20 @@ export class ProjectCoursesIndexService implements Resolve<any>
 
     getCourses(): Promise<any>
     {   
-        const decode_user_id = 41;
         return new Promise((resolve, reject) => {
-            this.http.get(this.CourseListlUrl + decode_user_id, { headers: this.httpHelper.getHeaderHttpClientAuth() })
+            this.http.get(this.CourseListUrl, { headers: this.httpHelper.getHeaderHttpClientAuth() })
                 .subscribe((response: any) => {
                     this.onCoursesChanged.next(response);
+                    resolve(response);
+                }, reject);
+        });
+    }
+
+    getCoursesFree(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.get(this.CourseFreeListUrl, { headers: this.httpHelper.getHeaderHttpClientAuth() })
+                .subscribe((response: any) => {
+                    this.onCourseFreeChanged.next(response);
                     resolve(response);
                 }, reject);
         });

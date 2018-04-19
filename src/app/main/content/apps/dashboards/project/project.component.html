@@ -24,19 +24,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="widget-group grey-100-bg p-12" *fuseIfOnDom [@animateStagger]="{value:'50'}">                            
+                            <div class="widget-group grey-100-bg p-12" fxLayout="row wrap" *fuseIfOnDom [@animateStagger]="{value:'50'}">                            
                                     <fuse-widget *ngFor="let course of filteredCourses" [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" 
                                     fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="50">
                                         <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
                                 
-                                            <img src="assets/images/cards/card1.jpg">
+                                            <img [src]="serverUrl + course.cor_photo">
                                 
                                             <div class="p-16">
-                                                <div class="h1">{{course.cat_cor_name}}</div>
+                                                <div class="h1">{{course.cor_name}}</div>
                                                 <div class="h4 secondary-text"><mat-icon role="img">account_circle</mat-icon> {{course.user_full_name}}</div>
                                             </div>
                                             <div class="p-16 pt-0 line-height-1.75">
-                                                Corta introducción.
+                                                 {{course.cor_intro}}
                                             </div>
                                 
                                             <div class="p-16 pt-0 line-height-1.75">
@@ -46,7 +46,7 @@
                                                     <mat-chip style="background: #2ABA87" selected="true">
                                                         <mat-icon>access_time</mat-icon>&nbsp; {{formatNumber(course.cor_time)}} min</mat-chip>
                                                     <mat-chip color="accent" selected="true">
-                                                        <mat-icon>attach_money</mat-icon> S/ 100.00</mat-chip>
+                                                        <mat-icon>attach_money</mat-icon>S/.{{course.cor_price}}</mat-chip>
                                                 </mat-chip-list>
                                             </div>
                                  
@@ -56,72 +56,64 @@
                                             </div>
                                         </div>
                                     </fuse-widget>
-                                <!-- <div class="course" *ngFor="let course of filteredCourses" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33" [ngClass]="course.category">
-                                                        
-                                                            <div class="course-content" fxLayout="column">
-                                                        
-                                                                <div class="header" fxLayout="row" fxLayoutAlign="center center" [ngStyle]="{'background' : course.cat_color}">
-                                                        
-                                                                    <div class="category" fxFlex>
-                                                                        {{course.cat_cor_name}}
-                                                                    </div>
-                                                        
-                                                                    <div class="length" fxLayout="row" fxLayoutAlign="center center">
-                                                                        <mat-icon class="length-icon s-20">access_time</mat-icon>
-                                                                        <div class="min">{{course.cor_time}} min</div>
-                                                                    </div>
-                                                        
-                                                                </div>
-                                                        
-                                                                <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
-                                                                    <div class="h1">{{course.cor_name}}</div>
-                                                                    <div class="updated">Publicado el {{course.fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}}</div>
-                                                                    <div class="updated">Docente encargado: {{course.user_full_name}}</div>
-                                                                </div>
-                                                        
-                                                                <div class="footer" fxLayout="row" fxLayoutAlign="center center">
-                                                                    <button mat-button color="accent" [routerLink]="'/course/' + course.cor_id + '/' + course.slug">
-                                                                        Comenzar
-                                                                    </button>
-                                                                </div>                            
-                                                            </div>                            
-                                                        </div> -->
                             </div>
                     </mat-tab>
 
                     <mat-tab label="Cursos Gratuitos">
-
-                        <div class="widget-group grey-100-bg p-12" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom [@animateStagger]="{value:'50'}">
-                            <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="50">
-                                <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
-                        
-                                    <img src="assets/images/cards/card1.jpg">
-                        
-                                    <div class="p-16">
-                                        <div class="h1">Nombre del curso</div>
-                                        <div class="h4 secondary-text">Nombre docente</div>
-                                    </div>
-                        
-                                    <div class="p-16 pt-0 line-height-1.75">
-                                        Corta introducción.
-                                    </div>
-                                    
-                                    <div class="p-16 pt-0 line-height-1.75">
-                                        <mat-chip-list>
-                                            <mat-chip color="accent" selected="true">Categoría</mat-chip>
-                                            <mat-chip color="accent" selected="true">GRATIS</mat-chip>
-                                        </mat-chip-list>
-                                    </div>
-
-                                    <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="start center">
-                                        <button mat-button color="accent">Detalles</button>
-                                        <button mat-button color="accent">Inscribirse</button>
+                            <div id="typography-headings" class="p-12">
+                                <div class="mat-white-bg mat-elevation-z4 p-12" fxLayout="column">
+                                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                                        <mat-form-field fxFlex="50" class="course-search">
+                                            <input matInput placeholder="Buscar un curso" [(ngModel)]="searchTerm" (input)="filterCoursesByTerm()">
+                                        </mat-form-field>
+                            
+                                        <mat-form-field fxFlex="50" class="category-selector">
+                                            <mat-select placeholder="Buscar por catergorías" [(ngModel)]="currentCategory" (change)="filterCoursesByCategory()">
+                                                <mat-option [value]="'all'">
+                                                    Todas
+                                                </mat-option>
+                                                <mat-option *ngFor="let category of categories" [value]="category.cat_cor_id">
+                                                    {{ category.cat_cor_name }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
                                     </div>
                                 </div>
-                            </fuse-widget>
-                        
-                        </div>
-
+                            </div>
+                            <div class="widget-group grey-100-bg p-12" fxLayout="row wrap" *fuseIfOnDom [@animateStagger]="{value:'50'}">
+                                <fuse-widget *ngFor="let course of filteredCoursesFree" [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                    fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="50">
+                                    <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
+                            
+                                        <img src="assets/images/cards/card1.jpg">
+                            
+                                        <div class="p-16">
+                                            <div class="h1">{{course.cor_name}}</div>
+                                            <div class="h4 secondary-text">
+                                                <mat-icon role="img">account_circle</mat-icon> {{course.user_full_name}}</div>
+                                        </div>
+                                        <div class="p-16 pt-0 line-height-1.75">
+                                            {{course.cor_intro}}
+                                        </div>
+                            
+                                        <div class="p-16 pt-0 line-height-1.75">
+                                            <mat-chip-list>
+                                                <mat-chip [ngStyle]="{'background' : course.cat_color}" selected="true">
+                                                    <mat-icon>assignment</mat-icon>&nbsp;{{course.cat_cor_name}}</mat-chip>
+                                                <mat-chip style="background: #2ABA87" selected="true">
+                                                    <mat-icon>access_time</mat-icon>&nbsp; {{formatNumber(course.cor_time)}} min</mat-chip>
+                                                <mat-chip color="accent" selected="true">
+                                                    <mat-icon>attach_money</mat-icon>S/.{{course.cor_price}}</mat-chip>
+                                            </mat-chip-list>
+                                        </div>
+                            
+                                        <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="start center">
+                                            <button mat-button color="accent">Detalles</button>
+                                            <button mat-button color="accent">Comprar</button>
+                                        </div>
+                                    </div>
+                                </fuse-widget>
+                            </div>
                     </mat-tab>
 
                 </mat-tab-group>

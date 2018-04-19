@@ -18,16 +18,8 @@ const APP_ROUTES: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: 'services',
-        loadChildren: './main/content/services/services.module#FuseServicesModule'
-    },
-    {
         path: 'components',
         loadChildren: './main/content/components/components.module#FuseComponentsModule'
-    },
-    {
-        path: 'components-third-party',
-        loadChildren: './main/content/components-third-party/components-third-party.module#FuseComponentsThirdPartyModule'
     },
     {
         path: 'user',

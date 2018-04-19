@@ -6,7 +6,6 @@ import * as shape from 'd3-shape';
 
 import { fuseAnimations } from '@fuse/animations';
 
-import { ProjectDashboardService } from './project.service';
 import { GlobalUser } from '../../../../../global/globaluser';
 import { MomentModule } from 'angular2-moment';
 
@@ -16,6 +15,7 @@ import { WeatherSettings,
          WeatherLayout } from 'angular-weather-widget';
 import { ProjectCoursesIndexService } from './project-courses.service';
 import { Subscription } from 'rxjs/Subscription';
+import { GlobalValues } from '../../../../../global/globalvalues';
 
 @Component({
     selector     : 'fuse-project-dashboard',
@@ -36,20 +36,29 @@ export class FuseProjectDashboardComponent implements OnInit, OnDestroy
     
     categories: any[];
     courses: any[];
+    coursesfree: any[];
+
     coursesFilteredByCategory: any[];
+    coursesFreeFilteredByCategory: any[];
+
     filteredCourses: any[];
+    filteredCoursesFree: any[];
 
     categoriesSubscription: Subscription;
     coursesSubscription: Subscription;
+    coursesFreeSubscription: Subscription;
 
     currentCategory = 'all';
     searchTerm = '';
 
     dateNow = Date.now();
 
+    serverUrl: any;
+
     constructor(private coursesService: ProjectCoursesIndexService,
                 private globalUser: GlobalUser,
-                private momentModule: MomentModule
+                private momentModule: MomentModule,
+                private globalValues: GlobalValues
             )
     {
         // this.widgetsAna = this.analyticsDashboardService.widgets;
@@ -59,24 +68,30 @@ export class FuseProjectDashboardComponent implements OnInit, OnDestroy
         setInterval(() => {
             this.dateNow = Date.now();
         }, 1000);
+        this.serverUrl = this.globalValues.urlServerImages();
     }
 
     ngOnInit()
     {
         this.loadCurrentWeather();
-        // Subscribe to categories
+        
         this.categoriesSubscription =
             this.coursesService.onCategoriesChanged
                 .subscribe(categories => {
                     this.categories = categories.data_result;
                 });
 
-        // Subscribe to courses
         this.coursesSubscription =
             this.coursesService.onCoursesChanged
                 .subscribe(courses => {
                     console.log(courses);
                     this.filteredCourses = this.coursesFilteredByCategory = this.courses = courses.data_result;
+                });
+
+        this.coursesFreeSubscription = 
+            this.coursesService.onCourseFreeChanged
+                .subscribe(courses => {
+                    this.filteredCoursesFree = this.coursesFreeFilteredByCategory = this.coursesfree = courses.data_result;
                 });
     }
     formatNumber(number){

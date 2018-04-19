@@ -151,19 +151,40 @@ export class CourseService {
 
     getCourseJson(datastep1, 
                   datastep2, 
-                //   datastep3, 
                   user_id){
         const dataCourse = {
             cor_name: datastep1.cor_name,
+            cor_slug: this.validateSlugCourse(datastep1.cor_name),
             cor_price: datastep1.cor_price,
             user_doc_id: datastep1.user_doc_id,
             cat_cor_id: datastep1.cat_cor_id,
             cor_des: datastep2.cor_des,
             cor_intro: datastep2.cor_intro,
-            // cor_video: datastep3.cor_video,
             usu_registro: 'web',
             user_reg_id: user_id
         };
         return dataCourse;
+    }
+
+    validateSlugCourse(cor_name){
+        let cor_slug = this.getCleanedString(cor_name);
+        cor_slug = cor_slug.toLowerCase().split(' ').join('-');
+        return cor_slug;
+    }
+
+    getCleanedString(cadena) {
+        const specialChars = '!@#$^&%*()+=-[]\/{}|:<>?,_°`~';
+        for (let i = 0; i < specialChars.length; i++) {
+            cadena = cadena.replace(new RegExp('\\' + specialChars[i], 'gi'), '');
+        }
+        cadena = cadena.replace(/á/g, 'a');
+        cadena = cadena.replace(/é/g, 'e');
+        cadena = cadena.replace(/í/g, 'i');
+        cadena = cadena.replace(/ó/g, 'o');
+        cadena = cadena.replace(/ú/g, 'u');
+        cadena = cadena.replace(/ñ/g, 'n');
+        cadena = cadena.replace(/[0-9]/g, '');
+        cadena = cadena.replace(/\s*$/, '');
+        return cadena;
     }
 }
