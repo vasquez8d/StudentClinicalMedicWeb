@@ -9,6 +9,7 @@ import { HttpHelper } from '../helpers/http.helper';
 export class ClassService {
 
     private ClassListlUrl       = `${this.globalValues.urlClass()}/listxcourse`;
+    private ClassListlEnableUrl = `${this.globalValues.urlClass()}/listxcourseenable`;
     private ClassRegisterUrl    = `${this.globalValues.urlClass()}/create`;
     private ClassDetailsUrl     = `${this.globalValues.urlClass()}/details`;
     private ClassUpdateUrl      = `${this.globalValues.urlClass()}/update`;
@@ -25,6 +26,19 @@ export class ClassService {
         try {
             return this.http.get
                 (this.ClassListlUrl + '/' + cor_id, { headers: this.httpHelper.getHeaderAuth() })
+                .map(res => {
+                    const result = res.json();
+                    return result;
+                });
+        } catch (err) {
+            console.log('error_getUsersList', err);
+        }
+    }
+
+    getClassEnableList(cor_id){
+        try {
+            return this.http.get
+                (this.ClassListlEnableUrl + '/' + cor_id, { headers: this.httpHelper.getHeaderAuth() })
                 .map(res => {
                     const result = res.json();
                     return result;

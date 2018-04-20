@@ -8,8 +8,6 @@ import { HttpHelper } from '../helpers/http.helper';
 @Injectable()
 export class CourseService {
 
-    private headers: Headers;
-
     private CourseListlUrl          = `${this.globalValues.urlCourse()}/list`;
     private CourseEnableUrl         = `${this.globalValues.urlCourse()}/enable`;
     private CourseDisableUrl        = `${this.globalValues.urlCourse()}/delete`;
@@ -19,7 +17,8 @@ export class CourseService {
     private CourseRegisterUrl       = `${this.globalValues.urlCourse()}/create`;
     private CourseUpdateFileNameUrl = `${this.globalValues.urlCourse()}/updatefilename`;
     private CourseDetailsUpdateUrl  = `${this.globalValues.urlCourse()}/detailsupdate`;
-    
+    private CourseUsersListUrl      = `${this.globalValues.urlCourse()}/listuserxcourse`;
+
     constructor(
         private http: Http,
         private globalValues: GlobalValues,
@@ -27,10 +26,9 @@ export class CourseService {
     ) { }
 
     getCourseList() {
-        this.headers = this.httpHelper.getHeaderAuth();
         try {
             return this.http.get
-                (this.CourseListlUrl, { headers: this.headers })
+                (this.CourseListlUrl, { headers: this.httpHelper.getHeaderAuth() })
                 .map(res => {
                     const result = res.json();
                     return result;
@@ -40,12 +38,20 @@ export class CourseService {
         }
     }
 
+    getUsersListCourse(cor_id){
+        return this.http.get
+        (this.CourseUsersListUrl + '/' + cor_id, { headers: this.httpHelper.getHeaderAuth() })
+        .map(res => {
+            const result = res.json();
+            return result;
+        });
+    }
+
     getCourseDetailsUpdate(cor_id){
-        this.headers = this.httpHelper.getHeaderAuth();
         const UrlGetDetails = this.CourseDetailsUpdateUrl + '/' + cor_id;
         try {
             return this.http.get
-                (UrlGetDetails, { headers: this.headers })
+                (UrlGetDetails, { headers: this.httpHelper.getHeaderAuth() })
                 .map(res => {
                     const result = res.json();
                     return result;
@@ -56,9 +62,8 @@ export class CourseService {
     }
 
     postCourseUpdate(course){
-        this.headers = this.httpHelper.getHeaderAuth();
         return this.http
-            .post(this.CourseUpdateUrl, course, { headers: this.headers })
+            .post(this.CourseUpdateUrl, course, { headers: this.httpHelper.getHeaderAuth() })
             .map(res => {
                 const result = res.json();
                 return result;
@@ -66,11 +71,8 @@ export class CourseService {
     }
 
     postCourseRegister(course){
-        console.log('postCourseRegister');
-        console.log(course);
-        this.headers = this.httpHelper.getHeaderAuth();
         return this.http
-            .post(this.CourseRegisterUrl, course, { headers: this.headers })
+            .post(this.CourseRegisterUrl, course, { headers: this.httpHelper.getHeaderAuth() })
             .map(res => {
                 const result = res.json();
                 console.log(result);
@@ -79,11 +81,10 @@ export class CourseService {
     }
 
     getCourseDetails(cor_id){
-        this.headers = this.httpHelper.getHeaderAuth();
         const UrlGetDetails = this.CourseDetailsUrl + '/' + cor_id;
         try {
             return this.http.get
-                (UrlGetDetails, { headers: this.headers })
+                (UrlGetDetails, { headers: this.httpHelper.getHeaderAuth() })
                 .map(res => {
                     const result = res.json();
                     return result;
@@ -94,11 +95,10 @@ export class CourseService {
     }
 
     getEnableCourse(cor_id){
-        this.headers = this.httpHelper.getHeaderAuth();
         const UserEnableUrl = this.CourseEnableUrl + '/' + cor_id;
         try {
             return this.http.get
-                (UserEnableUrl, { headers: this.headers })
+                (UserEnableUrl, { headers: this.httpHelper.getHeaderAuth() })
                 .map(res => {
                     const result = res.json();
                     return result;
@@ -109,11 +109,10 @@ export class CourseService {
     }
 
     getDisableCourse(cor_id){
-        this.headers = this.httpHelper.getHeaderAuth();
         const UserEnableUrl = this.CourseDisableUrl + '/' + cor_id;
         try {
             return this.http.get
-                (UserEnableUrl, { headers: this.headers })
+                (UserEnableUrl, { headers: this.httpHelper.getHeaderAuth() })
                 .map(res => {
                     const result = res.json();
                     return result;
@@ -126,13 +125,12 @@ export class CourseService {
     postUploadCourseImage(file){
         const fd = new FormData();
         try{
-            this.headers = this.httpHelper.getHeaderUploadFileAuth();
             fd.append('image', file, file.name);
         } catch (err){
             console.log(err);
         }
         return this.http
-            .post(this.CourseUploadImageUrl, fd, { headers: this.headers })
+            .post(this.CourseUploadImageUrl, fd, { headers: this.httpHelper.getHeaderUploadFileAuth() })
             .map(res => {
                 const result = res.json();
                 return result;
@@ -140,9 +138,8 @@ export class CourseService {
     }
 
     postUpdateFileName(data){
-        this.headers = this.httpHelper.getHeaderAuth();
         return this.http
-            .post(this.CourseUpdateFileNameUrl, data, { headers: this.headers })
+            .post(this.CourseUpdateFileNameUrl, data, { headers: this.httpHelper.getHeaderAuth() })
             .map(res => {
                 const result = res.json();
                 return result;

@@ -1,12 +1,8 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-
 import { fuseAnimations } from '@fuse/animations';
-import { UserModel } from '../../../../models/user.model';
-import { GlobalUser } from '../../../../global/globaluser';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../../../services/user.service';
-import { AuthloginService } from '../../../../services/authlogin.service';
 import { Base64 } from 'js-base64';
+import { CourseService } from '../../../../services/course.service';
 
 @Component({
     selector: 'fuse-course-details',
@@ -19,50 +15,34 @@ export class CourseDetailsComponent implements OnInit {
 
     bIsUser = false;
     vCurrentUser: '';
+    cor_name: any;
 
-    constructor(private globalUser: GlobalUser,
-        private userModel: UserModel,
-        private router: Router,
-        private userService: UserService,
-        private activatedRoute: ActivatedRoute,
-        private authloginService: AuthloginService) {
+    constructor(private router: Router,
+                private courseService: CourseService,
+                private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.loadGlobalUserDetials();
+        this.loadCourseDetails();
     }
 
-    loadGlobalUserDetials() {
+    loadCourseDetails() {
         this.activatedRoute.params.subscribe(params => {
-            if (params.user_id) {
-                const user_id = Base64.decode(params.user_id);
-                this.userService.getUserDetailsUpdate(user_id).subscribe(
-                    successGlobalDetails => {
-                        this.userModel.user = successGlobalDetails.data_result;
-                        this.validateIsUser();
+            if (params.cor_id) {
+                const cor_id = Base64.decode(params.cor_id);
+                this.courseService.getCourseDetails(cor_id).subscribe(
+                    success => {
+                        this.cor_name = success.data_result[0].cor_name;
                     },
                     error => {
-                        console.log('error_loadGlobalUserDetials', error);
+                        console.log('error_loadCourseDetails', error);
                     }
                 );
             }
         });
     }
 
-    validateIsUser() {
-        this.activatedRoute.params.subscribe(params => {
-            if (params.user_id) {
-                const user_id = Base64.decode(params.user_id);
-                // tslint:disable-next-line:triple-equals
-                if (user_id == this.userModel.user.user_id) {
-                    this.bIsUser = true;
-                }
-            }
-        });
-    }
+    navigatePaymentCourse(){
 
-    routeEditProfile() {
-        const encryptUser = Base64.encode(this.globalUser.user.user_id.toString());
-        this.router.navigate(['user/' + encryptUser + '/update']);
     }
 }

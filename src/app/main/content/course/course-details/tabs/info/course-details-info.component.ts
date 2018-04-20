@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { fuseAnimations } from '@fuse/animations';
-
-import { UserModel } from '../../../../../../models/user.model';
-import { GlobalUser } from '../../../../../../global/globaluser';
-import { UserService } from '../../../../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthloginService } from '../../../../../../services/authlogin.service';
 import { MomentModule } from 'angular2-moment';
 import { Base64 } from 'js-base64';
+import { CourseService } from '../../../../../../services/course.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector   : 'fuse-course-details-info',
@@ -20,45 +16,69 @@ export class CourseDetailsInfoComponent implements OnInit
 {
     about: any;
     user: any;
+    cor_name: any;
+    
+    formPersonal: FormGroup;
+    formErrors: any;
+    fec_registro: any;
+    cor_id: any;
+    course: any;
 
-    constructor(private globalUser: GlobalUser,
-                private userService: UserService,
-                private userModel: UserModel,
-                private router: Router,
-                private activatedRoute: ActivatedRoute,
-                private momentModule: MomentModule,
-                private authloginService: AuthloginService)
+    constructor(private router: Router,
+                private formBuilder: FormBuilder,
+                private courseService: CourseService,
+                private activatedRoute: ActivatedRoute)
     {
     }
 
     ngOnInit() {
-
-        this.loadGlobalUserDetials();
-    }
-
-    navigateMyCourses() {
-        this.activatedRoute.params.subscribe(params => {
-            if (params.user_id) {
-                const user_id = Base64.decode(params.user_id);
-                const encryptUser = Base64.encode(user_id.toString());
-                this.router.navigate(['course/' + encryptUser + '/info']);
-            }
+        this.formPersonal = this.formBuilder.group({
+            cor_id        : [''],
+            cor_name      : [''],
+            cor_price     : [''],
+            cor_des       : [''],
+            cat_cor_name  : [''],
+            num_alumnos   : [''],
+            user_doc_id   : [''],
+            user_doc_name : [''],
+            user_reg_id   : [''],
+            user_reg_name : [''],
+            est_registro  : [''],
+            fec_registro  : ['']
         });
+
+        this.loadCourseDetails();
     }
 
-    loadGlobalUserDetials() {
-        this.activatedRoute.params.subscribe( params => {
-            if ( params.user_id ){
-              const user_id = Base64.decode(params.user_id);
-              this.userService.getUserDetailsUpdate(user_id).subscribe(
-                    successGlobalDetails => {
-                        this.userModel.user = successGlobalDetails.data_result;
+    loadCourseDetails() {
+        this.activatedRoute.params.subscribe(params => {
+            if (params.cor_id) {
+                const cor_id = Base64.decode(params.cor_id);
+                this.courseService.getCourseDetails(cor_id).subscribe(
+                    success => {
+                        this.course = success.data_result[0];                        
+                        const est_registro = this.course.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
+                        this.fec_registro = this.course.fec_registro;                         
+                        this.formPersonal = this.formBuilder.group({
+                            cor_id        : [this.course.cor_id],
+                            cor_name      : [this.course.cor_name],
+                            cor_price     : [this.course.cor_price],
+                            cor_des       : [this.course.cor_des],
+                            cat_cor_name  : [this.course.cat_cor_name],
+                            num_alumnos   : [this.course.num_alumnos],
+                            user_doc_id   : [this.course.user_doc_id],
+                            user_doc_name : [this.course.user_doc_name],
+                            user_reg_id   : [this.course.user_reg_id],
+                            user_reg_name : [this.course.user_reg_name],
+                            est_registro  : [est_registro],
+                            fec_registro  : [this.course.fec_registro]
+                        });
                     },
                     error => {
-                        console.log('error_loadGlobalUserDetials', error);
+                        console.log('error_loadCourseDetails', error);
                     }
                 );
             }
-          });
+        });
     }
 }
