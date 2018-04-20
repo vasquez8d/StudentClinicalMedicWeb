@@ -169,6 +169,7 @@ export class CourseClassCreateComponent implements OnInit {
                                                          dataRegisterCourse2, 
                                                          this.user_id,
                                                          this.cor_id);
+        console.log(dataClass);                                                         
         this.classSerivce.postClassRegister(dataClass).subscribe(
             success => {
                 console.log(success);

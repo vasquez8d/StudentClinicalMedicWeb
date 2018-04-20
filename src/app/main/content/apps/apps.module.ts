@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { FuseAngularMaterialModule } from '../components/angular-material/angular-material.module';
-
 import { FuseSharedModule } from '@fuse/shared.module';
+import { CourseMaterialModule } from '../course/course-material.module';
 
 const routes = [
     {
@@ -28,7 +26,7 @@ const routes = [
     imports     : [
         FuseSharedModule,
         RouterModule.forChild(routes),
-        FuseAngularMaterialModule
+        CourseMaterialModule
     ],
     declarations: []
 })

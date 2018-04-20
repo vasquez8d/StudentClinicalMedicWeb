@@ -13,15 +13,6 @@ const APP_ROUTES: Routes = [
         loadChildren: './main/content/pages/pages.module#FusePagesModule'
     },
     {
-        path: 'ui',
-        loadChildren: './main/content/ui/ui.module#FuseUIModule',
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'components',
-        loadChildren: './main/content/components/components.module#FuseComponentsModule'
-    },
-    {
         path: 'user',
         loadChildren: './main/content/user/user.module#UserModule',
         canActivate: [AuthGuard]

@@ -10,9 +10,9 @@ import { MatButtonModule,
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { MaterialModule } from '../../components/angular-material/material.module';
 import { UserUpdateComponent } from './user-update.component';
 import { UserModel } from '../../../../models/user.model';
+import { CourseMaterialModule } from '../../course/course-material.module';
 
 const routes: Routes = [
     {
@@ -35,7 +35,7 @@ const routes: Routes = [
         MatSelectModule,
         MatStepperModule,
         FuseSharedModule,
-        MaterialModule
+        CourseMaterialModule
     ],
     providers: [
         UserModel

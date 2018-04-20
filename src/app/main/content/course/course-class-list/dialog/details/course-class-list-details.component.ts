@@ -27,6 +27,7 @@ export class CourseClassListDetailsComponent implements OnInit {
         private momentModule: MomentModule
     ) {
         this.class_id = data.class_id;
+        console.log(this.class_id);
     }
 
     ngOnInit() {
@@ -50,6 +51,7 @@ export class CourseClassListDetailsComponent implements OnInit {
     loadCourseDetials() {
         this.classService.getClassDetails(this.class_id).subscribe(
             successGlobalDetails => {
+                console.log(successGlobalDetails);
                 if (successGlobalDetails.data_result.length > 0){
                     this.class = successGlobalDetails.data_result[0];
                     this.est_registro = this.class.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
