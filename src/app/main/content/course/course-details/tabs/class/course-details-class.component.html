@@ -1,0 +1,63 @@
+<div class="content p-24">
+        <div>
+            <div class="example-viewer-wrapper mat-white-bg mat-elevation-z2">
+                <div class="example-viewer-body">
+                    <div class="example-container mat-elevation-z8">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="content p-24">
+                                <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                    <!-- CONTENT -->
+                                    <div class="content p-24">
+                                            <div>
+                                                <div class="example-viewer-wrapper mat-white-bg mat-elevation-z2">
+                                                    <div class="example-viewer-body">                                    
+                                    
+                                                        <div class="example-header">
+                                                            <mat-form-field>
+                                                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar una Clase">
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="example-container mat-elevation-z8">
+                                    
+                                                            <mat-table [dataSource]="dataSource">                                    
+                                    
+                                                                <ng-container matColumnDef="class_tittle">
+                                                                    <mat-header-cell *matHeaderCellDef > Título</mat-header-cell>
+                                                                    <mat-cell *matCellDef="let row"> {{row.class_tittle}}</mat-cell>
+                                                                </ng-container>
+                                    
+                                                                <ng-container matColumnDef="class_time">
+                                                                    <mat-header-cell *matHeaderCellDef > Duración</mat-header-cell>
+                                                                    <mat-cell *matCellDef="let row"> {{row.class_time}} min</mat-cell>
+                                                                </ng-container>
+                                    
+                                                                <ng-container matColumnDef="cor_name">
+                                                                    <mat-header-cell *matHeaderCellDef > Curso</mat-header-cell>
+                                                                    <mat-cell *matCellDef="let row"> {{row.cor_name}}</mat-cell>
+                                                                </ng-container>
+                                    
+                                                                <ng-container matColumnDef="fec_registro">
+                                                                    <mat-header-cell *matHeaderCellDef > Fecha de Registro</mat-header-cell>
+                                                                    <mat-cell *matCellDef="let row"> {{row.fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}}</mat-cell>
+                                                                </ng-container>                                    
+                                    
+                                                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                    
+                                                                <mat-row *matRowDef="let row; columns: displayedColumns;">
+                                                                </mat-row>
+                                                            </mat-table>
+                                                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                          
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

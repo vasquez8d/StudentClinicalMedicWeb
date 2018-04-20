@@ -87,7 +87,6 @@ export class FuseProjectDashboardComponent implements OnInit, OnDestroy
         this.coursesSubscription =
             this.coursesService.onCoursesChanged
                 .subscribe(courses => {
-                    console.log(courses);
                     this.filteredCourses = this.coursesFilteredByCategory = this.courses = courses.data_result;
                 });
 
