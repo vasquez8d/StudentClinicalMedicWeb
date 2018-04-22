@@ -5,6 +5,10 @@ import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scr
 import { fuseAnimations } from '@fuse/animations';
 
 import { CourseIndexService } from '../course.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Base64 } from 'js-base64';
+import { AuthloginService } from '../../../../../services/authlogin.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector     : 'fuse-academy-course',
@@ -20,11 +24,18 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
     currentStep = 0;
     courseStepContent;
     animationDirection: 'left' | 'right' | 'none' = 'none';
+    totalSteps: any;
+    user_id: any;
+    cor_name: any = '';
+
     @ViewChildren(FusePerfectScrollbarDirective) fuseScrollbarDirectives: QueryList<FusePerfectScrollbarDirective>;
 
     constructor(
         private courseService: CourseIndexService,
-        private changeDetectorRef: ChangeDetectorRef
+        private changeDetectorRef: ChangeDetectorRef,
+        private router: Router,
+        private authLoginService: AuthloginService,
+        private domSanitizationService: DomSanitizer
     )
     {
 
@@ -37,7 +48,25 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
             this.courseService.onCourseChanged
                 .subscribe(course => {
                     this.course = course.data_result;
+                    this.totalSteps = course.data_result.length;
+                    console.log(course);
+                    if (course.data_result.length > 0){
+                        this.cor_name = course.data_result[0].cor_name;
+                    }
                 });
+
+        this.authLoginService.getTokenUserLoged().subscribe(
+            success => {
+                this.user_id = success.data_result.user_id;
+            }, err => {
+                console.log(err);
+            }
+        );
+    }
+
+    backToCourses(){
+        const encryptUser = Base64.encode(this.user_id.toString());
+        this.router.navigate(['course/' + encryptUser + '/info']);
     }
 
     ngAfterViewInit()

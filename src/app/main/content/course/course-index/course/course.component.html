@@ -17,7 +17,7 @@
                         <div class="index">
                             <span>{{i + 1}}</span>
                         </div>
-                        <div class="title">{{step.title}}</div>
+                        <div class="title">{{step.class_tittle}}</div>
                     </div>
 
                 </div>
@@ -38,12 +38,12 @@
                     <mat-icon>menu</mat-icon>
                 </button>
 
-                <button mat-button class="mat-icon-button mr-16" [routerLink]="'/course'">
+                <button mat-button class="mat-icon-button mr-16" (click)="backToCourses()">
                     <mat-icon>arrow_back</mat-icon>
                 </button>
 
                 <div>
-                    <h2>{{course.title}}</h2>
+                    <h2>{{cor_name}}</h2>
                 </div>
 
             </div>
@@ -52,23 +52,21 @@
             <!-- CONTENT -->
             <div id="course-content" class="content">
 
-                <ng-container *ngFor="let step of course.steps; let i = index;">
+                <ng-container *ngFor="let step of course; let i = index;">
 
                     <div class="course-step" fusePerfectScrollbar
                          *ngIf="currentStep === i"
                          [@slideIn]="animationDirection">
 
-                        <div id="course-step-content" class="course-step-content" 
-                        [innerHTML]="step.content">
-                        </div>
                         <div id="course-step-content" class="course-step-content">
-                            <iframe src="https://player.vimeo.com/video/263371510" width="640" 
-                            height="360" frameborder="0" webkitallowfullscreen
-                             mozallowfullscreen allowfullscreen></iframe>
+                            <h1>{{step.class_tittle}}</h1>
+                            <p>{{step.class_desc}}</p>
+                        </div>
+                        <div id="course-step-content" [innerHTML]="domSanitizationService.bypassSecurityTrustHtml(step.class_video_embed)" class="course-step-content">                            
                         </div>  
-                        <div id="course-step-content" class="course-step-content">
+                        <!-- <div id="course-step-content" class="course-step-content">
                             <h1>Comentarios</h1>
-                        </div>
+                        </div> -->
                     </div>
 
                 </ng-container>
@@ -87,15 +85,15 @@
 
                 <button mat-fab class="next mat-accent white-fg"
                         (click)="gotoNextStep()"
-                        [disabled]="currentStep === course.totalSteps - 1"
-                        [fxHide]="currentStep === course.totalSteps - 1">
+                        [disabled]="currentStep === totalSteps - 1"
+                        [fxHide]="currentStep === totalSteps - 1">
                     <mat-icon>chevron_right</mat-icon>
                 </button>
 
                 <button mat-fab class="done mat-green-600-bg"
-                        routerLink="/course"
-                        [disabled]="currentStep !== course.totalSteps - 1"
-                        [fxShow]="currentStep === course.totalSteps - 1">
+                        (click)="backToCourses()"
+                        [disabled]="currentStep !== totalSteps - 1"
+                        [fxShow]="currentStep === totalSteps - 1">
                     <mat-icon>check</mat-icon>
                 </button>
 
