@@ -18,6 +18,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { GlobalValues } from '../../../../../global/globalvalues';
 import { Router } from '@angular/router';
 import { Base64 } from 'js-base64';
+import { CoursePaymentDashboardComponent } from './dialog/course-payment/course-payment.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector     : 'fuse-project-dashboard',
@@ -61,6 +63,7 @@ export class FuseProjectDashboardComponent implements OnInit, OnDestroy
                 private globalUser: GlobalUser,
                 private momentModule: MomentModule,
                 private globalValues: GlobalValues,
+                public dialog: MatDialog,
                 private router: Router
             )
     {
@@ -159,5 +162,15 @@ export class FuseProjectDashboardComponent implements OnInit, OnDestroy
             layout: WeatherLayout.WIDE,
             language: 'es'
         };
+    }
+
+    openDialogPaymentCourse(cor_id){
+        const dialogRef = this.dialog.open(CoursePaymentDashboardComponent, {
+            data: {
+                cor_id: cor_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
     }
 }

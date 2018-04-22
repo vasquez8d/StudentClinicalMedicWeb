@@ -1,0 +1,95 @@
+<div class="page-layout simple fullwidth angular-material-element" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header mat-accent-bg p-24 h-160" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div class="black-fg" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-16">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Cursos</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Listado de Compras por aprobar</span>
+            </div>
+            <div class="h2 mt-16">Listado de Compras por aprobar</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <div>
+            <div class="example-viewer-wrapper mat-white-bg mat-elevation-z2">
+                <div class="example-viewer-body">
+
+                    <div class="example-header">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar Información">
+                        </mat-form-field>
+                    </div>
+                    <div class="example-container mat-elevation-z8">
+
+                        <mat-table [dataSource]="dataSource" matSort>
+
+                            <ng-container matColumnDef="mat_id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.mat_id}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="usu_full_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Alumno</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.usu_full_name}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="cor_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del Curso</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.cor_name}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="cor_price">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Precio del curso</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.cor_price}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="cat_cor_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Categoría</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.cat_cor_name}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="fec_registro">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Registro</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.fec_registro | amLocale:'es' | amDateFormat:'DD/MM/YYYY'}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="mat_state">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Aprobación de pago</mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <mat-chip-list>
+                                        <mat-chip *ngIf="row.mat_state == 0" selected="true">Por aprobar</mat-chip>
+                                        <mat-chip *ngIf="row.mat_state == 1" color="accent"  selected="true">Aprobado</mat-chip>
+                                        <mat-chip *ngIf="row.mat_state == 2" color="warn"  selected="true">Desaprobado</mat-chip>
+                                    </mat-chip-list>
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="options">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <button mat-raised-button matTooltip="Detalle del pago" (click)="paymentDetails(row.mat_id)" mat-mini-fab color="accent">
+                                        <mat-icon class="mat-24">zoom_in</mat-icon>
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: displayedColumns;">
+                            </mat-row>
+                        </mat-table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

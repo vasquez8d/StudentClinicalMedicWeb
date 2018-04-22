@@ -1,0 +1,64 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+            <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal" [formGroup]="formPersonal">
+
+                <div class="h2 mb-24">Información del curso</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Nombre del Alumno" formControlName="usu_full_name" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Nombre del Curso" formControlName="cor_name" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Precio" type="number" formControlName="cor_price" readonly>
+                        <span matPrefix>S/.&nbsp;</span>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Categoría del Curso" formControlName="cat_cor_name" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div style="margin-bottom: 2%;" class="fuse-widget-front mat-white-bg mat-elevation-z2">
+                    <img [src]="serverUrl + mat_voucher_img">
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Estado del curso" formControlName="mat_state" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Fecha de registro" value="{{fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}}"
+                            readonly>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%; margin-left: 2%;" type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>close</mat-icon> Cerrar
+                    </button>
+                    <button (click)="aprobePayment()" fxFlex="25" style="margin-top: 2%; margin-left: 2%;" type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>check_circle</mat-icon> Aprobar
+                    </button>
+                    <button (click)="disaprobePayment()" fxFlex="25" style="margin-top: 2%; margin-left: 2%;" type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>highlight_off</mat-icon> Desaprobar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

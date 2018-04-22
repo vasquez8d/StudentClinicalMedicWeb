@@ -23,6 +23,9 @@ import { MomentModule } from 'angular2-moment';
 import { AngularWeatherWidgetModule, WeatherApiName } from 'angular-weather-widget';
 import { CourseMaterialModule } from '../../../course/course-material.module';
 import { ProjectCoursesIndexService } from './project-courses.service';
+import { CoursePaymentDashboardComponent } from './dialog/course-payment/course-payment.component';
+import { CoursePaymentDashboardModule } from './dialog/course-payment/course-payment.module';
+import { CourseService } from '../../../../../services/course.service';
 
 const routes: Routes = [
     {
@@ -59,7 +62,7 @@ const routes: Routes = [
         MomentModule,
 
         CourseMaterialModule,
-
+        CoursePaymentDashboardModule,
         AngularWeatherWidgetModule.forRoot({
             key: 'c22e86af051ce37943c8680a279e789d',
             name: WeatherApiName.OPEN_WEATHER_MAP,
@@ -67,7 +70,11 @@ const routes: Routes = [
         })
     ],
     providers   : [
-        ProjectCoursesIndexService
+        ProjectCoursesIndexService,
+        CourseService
+    ],
+    entryComponents: [
+        CoursePaymentDashboardComponent
     ]
 })
 export class FuseProjectDashboardModule

@@ -75,7 +75,6 @@ export class CourseService {
             .post(this.CourseRegisterUrl, course, { headers: this.httpHelper.getHeaderAuth() })
             .map(res => {
                 const result = res.json();
-                console.log(result);
                 return result;
             });
     }

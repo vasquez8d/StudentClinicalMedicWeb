@@ -9,10 +9,6 @@ const APP_ROUTES: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: 'pages',
-        loadChildren: './main/content/pages/pages.module#FusePagesModule'
-    },
-    {
         path: 'user',
         loadChildren: './main/content/user/user.module#UserModule',
         canActivate: [AuthGuard]
@@ -33,6 +29,10 @@ const APP_ROUTES: Routes = [
     {
         path: 'category',
         loadChildren: './main/content/category/category.module#CategoryModule',
+    },
+    {
+        path: 'payment',
+        loadChildren: './main/content/payment/payment.module#PaymentModule',
     },
     {
         path: '**',

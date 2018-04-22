@@ -72,11 +72,23 @@
                             <div class="updated">Docente encargado: {{course.user_full_name}}</div>
                         </div>
 
-                        <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                        <div *ngIf="course.mat_state==1" class="footer" fxLayout="row" fxLayoutAlign="center center">
                             <button mat-button color="accent"
-                                    [routerLink]="'/course/' + course.cor_id + '/' + course.slug">
+                                    (click)="navigateToClass(course.cor_id, course.cor_slug)">
                                 Comenzar
                             </button>
+                        </div>
+
+                        <div *ngIf="course.mat_state==0" class="footer" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-chip-list>
+                                <mat-chip color="accent" selected="true">Por aprobar</mat-chip>
+                            </mat-chip-list>
+                        </div>
+
+                        <div *ngIf="course.mat_state==2" class="footer" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-chip-list>
+                                <mat-chip color="primary" selected="true">No se aprobó la compra</mat-chip>
+                            </mat-chip-list>
                         </div>
 
                     </div>

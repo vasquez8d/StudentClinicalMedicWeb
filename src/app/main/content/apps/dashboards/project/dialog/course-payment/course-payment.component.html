@@ -1,0 +1,63 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+            <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal" [formGroup]="formPersonal">
+
+                <div class="h2 mb-24">Comprar el curso {{cor_name}}</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Nombre del curso" formControlName="cor_name" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Categoría" formControlName="cat_cor_name" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Precio" type="number" formControlName="cor_price" readonly>
+                        <span matPrefix>S/.&nbsp;</span>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="100">
+                        <input matInput placeholder="Docente asignado" formControlName="user_doc_name" readonly>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="h2 mb-24">Pasos a seguir: </div>
+
+                <div style="margin-top: -3%;" fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                
+                    <mat-list>
+                        <mat-list-item><mat-icon>payment</mat-icon>&nbsp; Realizar el pago en la cuenta BCP N° 123124121231232.</mat-list-item>
+                        <mat-list-item><mat-icon>account_circle</mat-icon>&nbsp; Titular de la cuenta: Nombres y apellidos.</mat-list-item>
+                        <mat-list-item><mat-icon>add_a_photo</mat-icon>&nbsp; Escanear el voucher o tomarle una foto (nitida) y tenerlo listo para completar el siguiente formulario.</mat-list-item>
+                    </mat-list>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%;" type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>close</mat-icon> Cerrar
+                    </button>
+
+                    <button (click)="goToPaymentForm()" fxFlex="40" style="margin-top: 2%; margin-right: 2%; margin-left: 2%;"
+                        type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>check_circle</mat-icon> Ir al formulario de compra
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

@@ -11,7 +11,7 @@
                 <div class="steps">
 
                     <div class="step"
-                         *ngFor="let step of course.steps; let i = index; let last = last; let first = first"
+                         *ngFor="let step of course; let i = index; let last = last; let first = first"
                          (click)="gotoStep(i)"
                          [ngClass]="{'current': currentStep === i, 'completed': currentStep > i, 'last': last, 'first': first}">
                         <div class="index">

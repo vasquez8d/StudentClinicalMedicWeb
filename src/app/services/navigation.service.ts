@@ -112,6 +112,21 @@ export class NavigationService {
                       },
                       {
                           'id': 'category',
+                          'title': 'Compras',
+                          'type': 'collapse',
+                          'icon': 'attach_money',
+                          'children': [
+                              {
+                                  'id': 'list',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/payment/list'
+                              }
+                          ]
+                      },
+                      {
+                          'id': 'category',
                           'title': 'Categorías',
                           'type': 'collapse',
                           'icon': 'layers',

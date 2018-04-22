@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 import { CorcategoryService } from '../../../../../../services/corcategory.service';
 import { CourseService } from '../../../../../../services/course.service';
 import { MomentModule } from 'angular2-moment';
-import { Error404Module } from '../../../../pages/errors/404/error-404.module';
 
 @Component({
     selector: 'fuse-category-list-create',

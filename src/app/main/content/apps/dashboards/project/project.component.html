@@ -52,7 +52,7 @@
                                  
                                             <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="start center">
                                                 <button mat-button (click)="navigateToCourseDetails(course.cor_id, course.cor_slug)" color="accent">Detalles</button>
-                                                <button mat-button color="accent">Comprar</button>                                
+                                                <button mat-button (click)="openDialogPaymentCourse(course.cor_id)" color="accent">Comprar</button>                                
                                             </div>
                                         </div>
                                     </fuse-widget>
@@ -85,7 +85,7 @@
                                     fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="50">
                                     <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
                             
-                                        <img src="assets/images/cards/card1.jpg">
+                                        <img [src]="serverUrl + course.cor_photo">
                             
                                         <div class="p-16">
                                             <div class="h1">{{course.cor_name}}</div>
@@ -176,35 +176,16 @@
                     <!-- / NOW WIDGET -->
 
                     <!-- WEATHER WIDGET -->
-                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="sidenav-widget p-0">
-
-                        <!-- Front -->
+                    <!-- <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="sidenav-widget p-0">
                         <div class="fuse-widget-front">
 
                             <div class="pl-16 pr-8 py-16" fxLayout="row" fxLayoutAlign="space-between center">
-                                 <weather-widget style="margin-top: -25% !important; margin-left: 10% !important;" [settings]="settings"></weather-widget>
+                                 <weather-widget style="margin-top: -25% !important; margin-left: 10% !important;" [settings]="settings">
+                                     
+                                 </weather-widget>
                             </div>
-
-                            <!-- <div class="p-16 pb-32" fxLayout="column" fxLayoutAlign="center center">
-
-                                <div fxLayout="row" fxLayoutAlign="center center">
-                                    <mat-icon fontSet="meteocons"
-                                              [fontIcon]="widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].icon"
-                                              class="icon s-40 mr-16"></mat-icon>
-                                    <span class="mat-display-2 m-0 font-weight-300 secondary-text">
-                                        {{widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].temp[widgets.weatherWidget.tempUnit]}}
-                                    </span>
-                                    <span class="font-size-48 font-weight-300 hint-text text-super ml-8">°</span>
-                                    <span class="mat-display-2 mb-0 font-weight-300 hint-text ng-binding">C</span>
-                                </div>
-                            </div> -->
-
-                            <!-- <mat-divider></mat-divider> -->
-
                         </div>
-                        <!-- / Front -->
-
-                    </fuse-widget>
+                    </fuse-widget> -->
                     <!-- / WEATHER WIDGET -->
 
                 </div>

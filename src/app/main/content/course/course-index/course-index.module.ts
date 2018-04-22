@@ -6,7 +6,8 @@ import { MatButtonModule,
          MatIconModule, 
          MatInputModule, 
          MatSelectModule, 
-         MatSidenavModule } from '@angular/material';
+         MatSidenavModule,
+         MatChipsModule} from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
@@ -26,7 +27,7 @@ const routes = [
         }
     },
     {
-        path     : ':courseId/:courseSlug',
+        path     : ':cor_id/:cor_slug/start',
         component: CourseIndexComponent,
         resolve  : {
             academy: CourseIndexService
@@ -53,7 +54,8 @@ const routes = [
         MatSelectModule,
         MatSidenavModule,
         MomentModule,
-        FuseSharedModule
+        FuseSharedModule,
+        MatChipsModule,
     ],
     providers   : [
         CoursesIndexService,

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class GlobalValues {
 
-    private ServerUrl = 'https://studentav.herokuapp.com';
-    // private ServerUrl = 'http://localhost:1337';
+    // private ServerUrl = 'https://studentav.herokuapp.com';
+    private ServerUrl = 'http://localhost:1337';
 
     urlAuthUser() {
         return this.ServerUrl + '/user';
@@ -28,6 +28,10 @@ export class GlobalValues {
 
     urlClass(){
         return this.ServerUrl + '/class';
+    }
+
+    urlMat(){
+        return this.ServerUrl + '/mat';
     }
 
     urlServerImages(){

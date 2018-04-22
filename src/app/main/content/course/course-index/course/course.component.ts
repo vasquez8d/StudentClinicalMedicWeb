@@ -36,8 +36,7 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.courseSubscription =
             this.courseService.onCourseChanged
                 .subscribe(course => {
-                    this.course = course;
-                    console.log(this.course);
+                    this.course = course.data_result;
                 });
     }
 

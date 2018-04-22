@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { CoursesIndexService } from '../courses.service';
 import { MomentModule } from 'angular2-moment';
-
+import { Base64 } from 'js-base64';
+import { Router } from '@angular/router';
 
 @Component({
     selector   : 'fuse-academy-courses',
@@ -24,7 +25,8 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
 
     constructor(
         private coursesService: CoursesIndexService,
-        private momentModule: MomentModule
+        private momentModule: MomentModule,
+        private router: Router
     )
     {
     }
@@ -89,5 +91,10 @@ export class CoursesIndexComponent implements OnInit, OnDestroy
                 return course.cor_name.toLowerCase().includes(searchTerm);
             });
         }
+    }
+
+    navigateToClass(cor_id, cor_slug){
+        const encryptCourse = Base64.encode(cor_id.toString());
+        this.router.navigate(['course/' + encryptCourse + '/' + cor_slug + '/start']);
     }
 }

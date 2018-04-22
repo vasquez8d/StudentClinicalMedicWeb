@@ -6,11 +6,14 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpHelper } from '../../../../helpers/http.helper';
 import { GlobalValues } from '../../../../global/globalvalues';
+import { Base64 } from 'js-base64';
 
 @Injectable()
 export class CourseIndexService implements Resolve<any>
 {
     onCourseChanged: BehaviorSubject<any> = new BehaviorSubject({});
+
+    private CourseClassListlUrl = `${this.globalValues.urlClass()}/listxcoursestart`;
 
     constructor(private http: HttpClient,
                 private httpHelper: HttpHelper,
@@ -30,7 +33,7 @@ export class CourseIndexService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getCourse(route.params.courseId, route.params.courseSlug)
+                this.getCourse(route.params.cor_id)
             ]).then(
                 () => {
                     resolve();
@@ -40,15 +43,15 @@ export class CourseIndexService implements Resolve<any>
         });
     }
 
-    getCourse(courseId, courseSlug): Promise<any>
+    getCourse(cor_id): Promise<any>
     {
+        const decode_cor_id = Base64.decode(cor_id);
         return new Promise((resolve, reject) => {
-            this.http.get('api/academy-course/' + courseId + '/' + courseSlug)
+            this.http.get(this.CourseClassListlUrl + '/' + decode_cor_id, { headers: this.httpHelper.getHeaderHttpClientAuth() })
                 .subscribe((response: any) => {
                     this.onCourseChanged.next(response);
                     resolve(response);
                 }, reject);
         });
     }
-
 }
