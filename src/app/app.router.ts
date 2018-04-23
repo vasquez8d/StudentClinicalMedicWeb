@@ -35,6 +35,10 @@ const APP_ROUTES: Routes = [
         loadChildren: './main/content/payment/payment.module#PaymentModule',
     },
     {
+        path: 'questions',
+        loadChildren: './main/content/questions/questions.module#QuestionsModule',
+    },
+    {
         path: '**',
         redirectTo: 'app/dashboard'
     }

@@ -34,6 +34,10 @@ export class GlobalValues {
         return this.ServerUrl + '/mat';
     }
 
+    urlQuestions(){
+        return this.ServerUrl + '/questions';
+    }
+
     urlServerImages(){
         return this.ServerUrl;
     }

@@ -39,8 +39,8 @@
                         <mat-table [dataSource]="dataSource" matSort>
 
                             <ng-container matColumnDef="cor_id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.cor_id}}</mat-cell>
+                                <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.cor_id}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="cor_name">
@@ -50,7 +50,7 @@
 
                             <ng-container matColumnDef="num_alumnos">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Alumnos Matriculados</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.num_alumnos}}</mat-cell>
+                                <mat-cell *matCellDef="let row"> <p style="text-align: center;">{{row.num_alumnos}}</p> </mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="cat_cor_name">

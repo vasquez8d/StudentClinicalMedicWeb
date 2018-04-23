@@ -34,8 +34,8 @@
 
                             <!-- ID Column -->
                             <ng-container matColumnDef="user_id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.user_id}}</mat-cell>
+                                <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.user_id}}</mat-cell>
                             </ng-container>
 
                             <!-- Progress Column -->
@@ -52,14 +52,14 @@
 
                             <!-- Color Column -->
                             <ng-container matColumnDef="rol_name">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Rol</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.rol_name}}</mat-cell>
+                                <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Rol</mat-header-cell>
+                                <mat-cell fxFlex="100px" *matCellDef="let row"> {{row.rol_name}}</mat-cell>
                             </ng-container>
 
                             <!-- Color Column row.est_registro -->
                             <ng-container matColumnDef="est_registro">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> 
+                                <mat-header-cell fxFlex="150px"  *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
+                                <mat-cell fxFlex="150px" *matCellDef="let row"> 
                                         <mat-chip-list>
                                                 <mat-chip *ngIf="row.est_registro == 0" color="primary" selected="true">Deshabilitado</mat-chip>
                                                 <mat-chip *ngIf="row.est_registro == 1" color="accent" selected="true">Habilitado</mat-chip>

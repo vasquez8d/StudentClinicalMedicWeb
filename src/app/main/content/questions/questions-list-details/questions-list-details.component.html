@@ -1,0 +1,114 @@
+<div class="page-layout simple fullwidth angular-material-element" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header mat-accent-bg p-24 h-160" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center start">
+            <div class="black-fg" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-16">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Preguntas</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Carga de preguntas</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Preguntas cargadas</span>
+            </div>
+            <div class="h2 mt-16">Listado de preguntas cargadas del archivo {{file_upload_name}}</div>
+
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <div>
+            <div class="example-viewer-wrapper mat-white-bg mat-elevation-z2">
+                <div class="example-viewer-body">
+
+                    <div class="example-header">
+                        <button (click)="backToUpload()" style="margin-top: 1%;" mat-raised-button color="primary">
+                            <mat-icon class="mat-24">reply</mat-icon>&nbsp; Volver a la carga
+                        </button>
+                    </div>
+
+                    <div class="example-header">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar pregunta">
+                        </mat-form-field>
+                    </div>
+                    <div class="example-container mat-elevation-z8">
+
+                        <mat-table [dataSource]="dataSource" matSort>
+
+                            <ng-container matColumnDef="ques_id">
+                                <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.ques_id}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="ques_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.ques_name}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="ques_question">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Número de cursos</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.ques_question}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="cat_cor_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Número de cursos</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.cat_cor_name}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="cab_est_registro">
+                                <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> Estado carga</mat-header-cell>
+                                <mat-cell fxFlex="120px" *matCellDef="let row">
+                                    <mat-chip-list>
+                                        <mat-chip *ngIf="row.cab_est_registro == 0" color="primary" selected="true">Deshabilitado</mat-chip>
+                                        <mat-chip *ngIf="row.cab_est_registro == 1" color="accent" selected="true">Habilitado</mat-chip>
+                                    </mat-chip-list>
+                                </mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="det_est_registro">
+                                <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> Estado pregunta</mat-header-cell>
+                                <mat-cell fxFlex="120px" *matCellDef="let row">
+                                    <mat-chip-list>
+                                        <mat-chip *ngIf="row.det_est_registro == 0" color="primary" selected="true">Deshabilitado</mat-chip>
+                                        <mat-chip *ngIf="row.det_est_registro == 1" color="accent" selected="true">Habilitado</mat-chip>
+                                    </mat-chip-list>
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="options">
+                                <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
+                                <mat-cell fxFlex="150px" *matCellDef="let row">
+                                    <button mat-raised-button matTooltip="Detalle" (click)="uploadDetailsDetails(row.ques_id)" mat-mini-fab color="accent">
+                                        <mat-icon class="mat-24">zoom_in</mat-icon>
+                                    </button>
+                                    <button mat-raised-button matTooltip="Editar" (click)="uploadDetailsEdit(row.ques_id)" mat-mini-fab>
+                                        <mat-icon class="mat-24">edit</mat-icon>
+                                    </button>
+                                    <button mat-raised-button matTooltip="Deshabilitar" *ngIf="row.det_est_registro == 1" (click)="uploadDetailsDisable(row.ques_id)"
+                                        mat-mini-fab color="warn">
+                                        <mat-icon class="mat-24">delete</mat-icon>
+                                    </button>
+                                    <button mat-raised-button matTooltip="Habilitar" *ngIf="row.det_est_registro == 0" (click)="uploadDetailsEnable(row.ques_id)" mat-mini-fab
+                                        color="accent">
+                                        <mat-icon class="mat-24">check</mat-icon>
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: displayedColumns;">
+                            </mat-row>
+                        </mat-table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,8 +32,8 @@
                         <mat-table [dataSource]="dataSource" matSort>
 
                             <ng-container matColumnDef="mat_id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.mat_id}}</mat-cell>
+                                <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.mat_id}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="usu_full_name">

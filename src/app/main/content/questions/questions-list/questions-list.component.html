@@ -7,11 +7,11 @@
             <div class="black-fg" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="secondary-text s-16">home</mat-icon>
                 <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
-                <span class="secondary-text">Categorías</span>
+                <span class="secondary-text">Preguntas</span>
                 <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
-                <span class="secondary-text">Listado de Categorías</span>
+                <span class="secondary-text">Listado de Cargas masivas</span>
             </div>
-            <div class="h2 mt-16">Listado de Categorías </div>
+            <div class="h2 mt-16">Listado de Cargas masivas </div>
 
         </div>
     </div>
@@ -25,42 +25,42 @@
 
                     <div class="example-header">
                         <button (click)="categoryCreate()" style="margin-top: 1%;" mat-raised-button color="accent">
-                            <mat-icon class="mat-24">add_circle</mat-icon> Nuevo
+                            <mat-icon class="mat-24">cloud_upload</mat-icon>&nbsp; Nueva Carga
                         </button>
                     </div>
 
                     <div class="example-header">
                         <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar una categoría">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar información">
                         </mat-form-field>
                     </div>
                     <div class="example-container mat-elevation-z8">
 
                         <mat-table [dataSource]="dataSource" matSort>
 
-                            <ng-container matColumnDef="cat_cor_id">
+                            <ng-container matColumnDef="data_id">
                                 <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
-                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.cat_cor_id}}</mat-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.data_id}}</mat-cell>
                             </ng-container>
 
-                            <ng-container matColumnDef="cat_cor_name">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.cat_cor_name}}</mat-cell>
+                            <ng-container matColumnDef="data_file_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del archivo cargado</mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.data_file_name}}</mat-cell>
                             </ng-container>
 
-                            <ng-container matColumnDef="num_cursos">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Número de cursos</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.num_cursos}}</mat-cell>
+                            <ng-container matColumnDef="data_rows">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Número de preguntas cargadas</mat-header-cell>
+                                <mat-cell *matCellDef="let row"><p style="text-align: center;">{{row.data_rows}}</p></mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="fec_registro">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de registro</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.fec_registro | amLocale:'es' | amDateFormat:'DD/MM/YYYY'}}</mat-cell>
+                                <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header> Fecha de registro</mat-header-cell>
+                                <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.fec_registro | amLocale:'es' | amDateFormat:'DD/MM/YYYY'}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="est_registro">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
-                                <mat-cell *matCellDef="let row">
+                                <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
+                                <mat-cell fxFlex="150px" *matCellDef="let row">
                                     <mat-chip-list>
                                         <mat-chip *ngIf="row.est_registro == 0" color="primary" selected="true">Deshabilitado</mat-chip>
                                         <mat-chip *ngIf="row.est_registro == 1" color="accent" selected="true">Habilitado</mat-chip>
@@ -71,16 +71,15 @@
                             <ng-container matColumnDef="options">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
                                 <mat-cell *matCellDef="let row">
-                                    <button mat-raised-button matTooltip="Detalle" (click)="categoryDetails(row.cat_cor_id)" mat-mini-fab color="accent">
+                                    <button mat-raised-button matTooltip="Detalle de la carga" (click)="uploadDetails(row.data_id)" mat-mini-fab color="accent">
                                         <mat-icon class="mat-24">zoom_in</mat-icon>
                                     </button>
-                                    <button mat-raised-button matTooltip="Editar" (click)="categoryEdit(row.cat_cor_id)" mat-mini-fab>
-                                        <mat-icon class="mat-24">edit</mat-icon>
-                                    </button>
-                                    <button mat-raised-button matTooltip="Deshabilitar" *ngIf="row.est_registro == 1" (click)="categoryDelete(row.cat_cor_id)" mat-mini-fab color="warn">
+                                    <button mat-raised-button matTooltip="Deshabilitar carga" *ngIf="row.est_registro == 1" (click)="uploadDisabled(row.data_id)"
+                                        mat-mini-fab color="warn">
                                         <mat-icon class="mat-24">delete</mat-icon>
                                     </button>
-                                    <button mat-raised-button matTooltip="Habilitar" *ngIf="row.est_registro == 0" (click)="categoryEnable(row.cat_cor_id)" mat-mini-fab color="accent">
+                                    <button mat-raised-button matTooltip="Habilitar carga" *ngIf="row.est_registro == 0" (click)="uploadEnable(row.data_id)" mat-mini-fab
+                                        color="accent">
                                         <mat-icon class="mat-24">check</mat-icon>
                                     </button>
                                 </mat-cell>

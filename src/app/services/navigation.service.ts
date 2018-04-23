@@ -154,6 +154,13 @@ export class NavigationService {
                                   'url': '/user/list'
                               }
                           ]
+                      },
+                      {
+                          'id': 'questions',
+                          'title': 'Preguntas',
+                          'type': 'item',
+                          'icon': 'storage',
+                          'url': '/questions/list'
                       }
                   ]
               });

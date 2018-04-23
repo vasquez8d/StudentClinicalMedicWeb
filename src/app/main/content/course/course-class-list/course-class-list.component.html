@@ -44,8 +44,8 @@
                         <mat-table [dataSource]="dataSource" matSort>
 
                             <ng-container matColumnDef="class_id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.class_id}}</mat-cell>
+                                <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.class_id}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="class_tittle">
@@ -54,8 +54,8 @@
                             </ng-container>
 
                             <ng-container matColumnDef="class_time">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Duración</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.class_time}} min</mat-cell>
+                                <mat-header-cell  fxFlex="100px" *matHeaderCellDef mat-sort-header> Duración</mat-header-cell>
+                                <mat-cell  fxFlex="100px" *matCellDef="let row"> {{row.class_time}} min</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="cor_name">
@@ -69,8 +69,8 @@
                             </ng-container>
 
                             <ng-container matColumnDef="est_registro">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
-                                <mat-cell *matCellDef="let row">
+                                <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
+                                <mat-cell fxFlex="150px" *matCellDef="let row">
                                     <mat-chip-list>
                                         <mat-chip *ngIf="row.est_registro == 0" color="primary" selected="true">Deshabilitado</mat-chip>
                                         <mat-chip *ngIf="row.est_registro == 1" color="accent" selected="true">Habilitado</mat-chip>
