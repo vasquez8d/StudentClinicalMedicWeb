@@ -8,17 +8,15 @@ import { HttpHelper } from '../helpers/http.helper';
 @Injectable()
 export class QuesService {
 
-    private QuesListlUrl = `${this.globalValues.urlQuestions()}/listuploads`;
-    private QuesListDetailsUrl = `${this.globalValues.urlQuestions()}/listuploadsdetails`;
-
-    private QuesUploadDisableUrl = `${this.globalValues.urlQuestions()}/disableupload`;
-    private QuesUploadEnableUrl = `${this.globalValues.urlQuestions()}/enableupload`;
+    private QuesListlUrl            = `${this.globalValues.urlQuestions()}/listuploads`;
+    private QuesListDetailsUrl      = `${this.globalValues.urlQuestions()}/listuploadsdetails`;
+    private QuesUploadDisableUrl    = `${this.globalValues.urlQuestions()}/disableupload`;
+    private QuesUploadEnableUrl     = `${this.globalValues.urlQuestions()}/enableupload`;
     private QuesUploadDetDisableUrl = `${this.globalValues.urlQuestions()}/disableuploaddet`;
-    private QuesUploadDetEnableUrl = `${this.globalValues.urlQuestions()}/enableuploaddet`;
-
-    private QuesDetailsDetUrl = `${this.globalValues.urlQuestions()}/uploaddetails`;
-
-    private MatUploadExcelUrl = `${this.globalValues.urlQuestions()}/upload`;
+    private QuesUploadDetEnableUrl  = `${this.globalValues.urlQuestions()}/enableuploaddet`;
+    private QuesDetailsDetUrl       = `${this.globalValues.urlQuestions()}/uploaddetails`;
+    private QuesUpdateInfoUrl       = `${this.globalValues.urlQuestions()}/update`;
+    private QuesUploadExcelUrl       = `${this.globalValues.urlQuestions()}/upload`;
 
     constructor(
         private http: Http,
@@ -38,7 +36,16 @@ export class QuesService {
             console.log('error_getQuesUploadsList', err);
         }
     }
-    
+
+    postUpdateQuestion(data){
+        return this.http
+            .post(this.QuesUpdateInfoUrl, data, { headers: this.httpHelper.getHeaderAuth() })
+            .map(res => {
+                const result = res.json();
+                return result;
+            });
+    }
+
     getQuesUploadsDetailsList(data_id) {
         try {
             return this.http.get
@@ -125,7 +132,7 @@ export class QuesService {
             console.log('error_postUploadExcelFile', err);
         }
         return this.http
-            .post(this.MatUploadExcelUrl, fd, { headers: this.httpHelper.getHeaderUploadFileAuth() })
+            .post(this.QuesUploadExcelUrl, fd, { headers: this.httpHelper.getHeaderUploadFileAuth() })
             .map(res => {
                 const result = res.json();
                 return result;

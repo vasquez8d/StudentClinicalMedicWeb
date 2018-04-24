@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CourseMaterialModule } from '../../../../course/course-material.module';
 import { RouterModule, Routes } from '@angular/router';
 
 import {
@@ -12,15 +11,28 @@ import {
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
+
+import { HttpClientModule } from '@angular/common/http';
 import { MomentModule } from 'angular2-moment';
-import { CourseListDetailsUpdComponent } from './questions-list-details-upd.component';
+import { MatService } from '../../../../services/mat.service';
+import { CourseMaterialModule } from '../../course/course-material.module';
+import { QuestionsUploadComponent } from './questions-upload.component';
+
+
+const routes: Routes = [
+    {
+        path: 'upload',
+        component: QuestionsUploadComponent
+    }
+];
 
 @NgModule({
     declarations: [
-        CourseListDetailsUpdComponent
+        QuestionsUploadComponent
     ],
     imports: [
-        RouterModule,
+        RouterModule.forChild(routes),
+
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
@@ -29,8 +41,13 @@ import { CourseListDetailsUpdComponent } from './questions-list-details-upd.comp
         MatStepperModule,
         FuseSharedModule,
         CourseMaterialModule,
-        MomentModule
+        MomentModule,
+        HttpClientModule
+    ],
+    providers: [
+        MatService
     ]
 })
-export class QuestionsListDetailsUpdModule {
+
+export class QuestionsUploadModule {
 }

@@ -98,6 +98,10 @@ export class QuestionsListComponent implements OnInit {
             }
         });
     }
+    
+    questionsUpload(){
+        this.router.navigateByUrl('questions/upload');
+    }
 
     uploadDisabled(data_id) {
         Swal({

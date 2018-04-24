@@ -7,6 +7,7 @@ import { MomentModule } from 'angular2-moment';
 import { QuesService } from '../../../../services/questions.service';
 import { Base64 } from 'js-base64';
 import { QuestionsListDetailsDetComponent } from './dialog/details/questions-list-details-det.component';
+import { CourseListDetailsUpdComponent } from './dialog/update/questions-list-details-upd.component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -158,7 +159,15 @@ export class QuestionsListDetailsComponent implements OnInit {
     }
     
     uploadDetailsEdit(ques_id){
-
+        const dialogRef = this.dialog.open(CourseListDetailsUpdComponent, {
+            data: {
+                data_id: this.data_id,
+                ques_id: ques_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.loadUploadDetailsList();
+        });
     }
 }
 

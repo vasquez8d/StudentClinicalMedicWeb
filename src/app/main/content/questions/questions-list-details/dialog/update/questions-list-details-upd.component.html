@@ -1,0 +1,111 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+            
+            <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal"
+                [formGroup]="formPersonal">
+
+                <div class="h2 mb-24">Modificar la información del curso</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Nombre de la pregunta" formControlName="ques_name" required>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <mat-select placeholder="Categoría" [(value)]="cat_cor_id" formControlName="cat_cor_id" required>
+                            <mat-option *ngFor="let categ of ListCourseCategory" [value]="categ.cat_cor_id">
+                                {{categ.cat_cor_name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <textarea matInput placeholder="Pregunta" formControlName="ques_question" required></textarea>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <input matInput placeholder="Primera alternativa" formControlName="ques_res1" required />
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <input matInput placeholder="Segunda alternativa" formControlName="ques_res2" required />
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <input matInput placeholder="Tercera alternativa" formControlName="ques_res3" required />
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <input matInput placeholder="Cuarta alternativa" formControlName="ques_res4" required />
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <input matInput placeholder="Quinta anternativa" formControlName="ques_res5" required />
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field fxFlex="100">
+                        <mat-select placeholder="Respuesta correcta" [(value)]="ques_ok" formControlName="ques_ok" required>
+                            <mat-option *ngFor="let categ of ListQuestions" [value]="categ.ques_num">
+                                {{categ.ques_name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Plataforma de registro" value="{{usu_registro}}" readonly>
+                    </mat-form-field>
+                
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Fecha de registro" value="{{fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}}" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Estado de la pregunta" value="{{det_est_registro}}" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Estado de la carga" value="{{cab_est_registro}}" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%;"
+                    type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>close</mat-icon> Cerrar
+                    </button>
+
+                    <button [disabled]="formPersonal.invalid" (click)="saveUserInformation()" fxFlex="25" 
+                            style="margin-top: 2%; margin-right: 2%; margin-left: 2%;"
+                        type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>save</mat-icon> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

@@ -12,6 +12,8 @@ import { CourseMaterialModule } from '../../course/course-material.module';
 import { QuestionsListDetailsComponent } from './questions-list-details.component';
 import { QuestionsListDetailsDetComponent } from './dialog/details/questions-list-details-det.component';
 import { QuestionsListDetailsDetModule } from './dialog/details/questions-list-details-det.module';
+import { CourseListDetailsUpdComponent } from './dialog/update/questions-list-details-upd.component';
+import { QuestionsListDetailsUpdModule } from './dialog/update/questions-list-details-upd.module';
 
 const routes: Routes = [
     {
@@ -35,10 +37,12 @@ const routes: Routes = [
         FuseMaterialColorPickerModule,
 
         MatChipsModule,
-        QuestionsListDetailsDetModule
+        QuestionsListDetailsDetModule,
+        QuestionsListDetailsUpdModule
     ],
     entryComponents: [
-        QuestionsListDetailsDetComponent
+        QuestionsListDetailsDetComponent,
+        CourseListDetailsUpdComponent
     ]
 })
 export class QuestionsListDetailsModule {

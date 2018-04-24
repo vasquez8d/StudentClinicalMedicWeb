@@ -24,6 +24,7 @@ import { CourseService } from '../../../services/course.service';
 import { QuestionsListModule } from './questions-list/questions-list.module';
 import { QuestionsListDetailsModule } from './questions-list-details/questions-list-details.module';
 import { QuesService } from '../../../services/questions.service';
+import { QuestionsUploadModule } from './questions-upload/questions-upload.module';
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import { QuesService } from '../../../services/questions.service';
         MomentModule,
 
         QuestionsListModule,
-        QuestionsListDetailsModule
+        QuestionsListDetailsModule,
+        QuestionsUploadModule
     ],
     providers: [
         CorcategoryService,
