@@ -62,13 +62,13 @@
                             <h1>{{step.class_tittle}}</h1>
                             <p>{{step.class_desc}}</p>
                         </div>
-                        <div id="course-step-content" [innerHTML]="domSanitizationService.bypassSecurityTrustHtml(step.class_video_embed)" class="course-step-content">                            
-                        </div>  
+                        <div id="course-step-content" class="course-step-content">    
+                            <div [innerHTML]="domSanitizationService.bypassSecurityTrustHtml(step.class_video_embed)"></div>
+                        </div>
                         <!-- <div id="course-step-content" class="course-step-content">
                             <h1>Comentarios</h1>
                         </div> -->
                     </div>
-
                 </ng-container>
 
             </div>
