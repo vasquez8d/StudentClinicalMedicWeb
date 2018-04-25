@@ -10,6 +10,7 @@ import { UserService } from '../../../../services/user.service';
 import { AuthloginService } from '../../../../services/authlogin.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { DropBoxService } from '../../../../services/dropbox.service';
 
 @Component({
     selector: 'fuse-course-create',
@@ -35,6 +36,7 @@ export class CourseCreateComponent implements OnInit {
     ListTeachers: any;
 
     user_id: any;
+    file_course_url: any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -42,6 +44,7 @@ export class CourseCreateComponent implements OnInit {
         private corCategoryService: CorcategoryService,
         private userService: UserService,
         private router: Router,
+        private dropboxService: DropBoxService,
         private authLoginService: AuthloginService) {
         // Reactive form errors
         this.formErrors = {
@@ -227,25 +230,44 @@ export class CourseCreateComponent implements OnInit {
     }
 
     saveImageFile(cor_id){
-        this.courseService.postUploadCourseImage(this.fileToUpload).subscribe(
-            sucess => {
-                // tslint:disable-next-line:triple-equals
-                if (sucess.res_service == 'ok'){
-                    const dataUpdate = {
-                        cor_id: cor_id,
-                        cor_photo: sucess.data_result
-                    };
-                    this.courseService.postUpdateFileName(dataUpdate).subscribe(
-                        sucessUpdate => {
-                            console.log(sucessUpdate);
-                        }, err => {
-                            console.log('errr_postUpdateFileName', err);
-                        }
-                    );
-                }
+        this.dropboxService.postUploadCorFile(this.fileToUpload).subscribe(
+            success => {
+                const dataShared = {
+                    'path': success.path_lower,
+                    'settings': {
+                        'requested_visibility': 'public'
+                    }
+                };
+                this.dropboxService.postSharedLink(dataShared).subscribe(
+                    successShared => {
+                        this.file_course_url = 'https://dl.dropboxusercontent.com/s/' + successShared.url.substring(26, successShared.url.length);
+                        const dataUpdate = {
+                            cor_id: cor_id,
+                            cor_photo: this.file_course_url
+                        };
+                        this.courseService.postUpdateFileName(dataUpdate).subscribe(
+                            sucessUpdate => {
+                                console.log(sucessUpdate);
+                            }, err => {
+                                console.log('errr_postUpdateFileName', err);
+                            }
+                        );
+                    }, err => {
+                        console.log(err);
+                    }
+                );
             }, err => {
-                console.log('error_saveImageFile', err);
+                console.log(err);
             }
         );
+        // this.courseService.postUploadCourseImage(this.fileToUpload).subscribe(
+        //     sucess => {
+        //         // tslint:disable-next-line:triple-equals
+        //         if (sucess.res_service == 'ok'){
+        //         }
+        //     }, err => {
+        //         console.log('error_saveImageFile', err);
+        //     }
+        // );
     }
 }

@@ -29,6 +29,7 @@ import { CourseClassCreateModule } from './course-class-create/course-class-crea
 import { ClassService } from '../../../services/class.service';
 import { CourseDetailsModule } from './course-details/course-details.module';
 import { CoursePaymentModule } from './course-payment/course-payment.module';
+import { DropBoxService } from '../../../services/dropbox.service';
 
 @NgModule({
     imports: [
@@ -65,7 +66,8 @@ import { CoursePaymentModule } from './course-payment/course-payment.module';
     providers: [
         CourseService,
         CorcategoryService,
-        ClassService
+        ClassService,
+        DropBoxService
     ]
 })
 export class CourseModule {

@@ -27,6 +27,26 @@ export class HttpHelper {
         return this.headers;
     }
 
+    getDropBoxUploadCorHeader(file_name){
+        this.headers = new Headers({ 'Content-Type': 'application/octet-stream' });
+        this.headers.append('Authorization', 'Bearer lGTusouv4ZAAAAAAAAAABTw4WXribOk3Gd8wq4Gbb4CgWfPPrqcdXyfILl1mojFc');
+        this.headers.append('Dropbox-API-Arg', '{"path": "/Courses/' + file_name + '","mode": "add"}');
+        return this.headers;
+    }
+
+    getDropBoxUploadVoucherHeader(file_name){
+        this.headers = new Headers({ 'Content-Type': 'application/octet-stream' });
+        this.headers.append('Authorization', 'Bearer lGTusouv4ZAAAAAAAAAABTw4WXribOk3Gd8wq4Gbb4CgWfPPrqcdXyfILl1mojFc');
+        this.headers.append('Dropbox-API-Arg', '{"path": "/Vouchers/' + file_name + '","mode": "add"}');
+        return this.headers;
+    }
+
+    getDropBoxSharedHeader(){
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        this.headers.append('Authorization', 'Bearer lGTusouv4ZAAAAAAAAAAEVKyy6USKzuaVw8nUlL-WcZmNS0ZyJTr4Fz3EpjI2w_v');
+        return this.headers;
+    }
+
     getHeaderHttpClientAuth(){
 
         let credentials = '';

@@ -56,10 +56,14 @@ export class QuestionsListDetailsComponent implements OnInit {
                 this.data_id = decode_data_id;
                 this.quesService.getQuesUploadsDetailsList(decode_data_id).subscribe(
                     success => {
-                        this.file_upload_name = success.data_result[0].data_file_name;
-                        this.dataSource = new MatTableDataSource(success.data_result);
-                        this.dataSource.paginator = this.paginator;
-                        this.dataSource.sort = this.sort;
+                        console.log(success);
+                        // tslint:disable-next-line:triple-equals
+                        if (success.res_service == 'ok'){
+                            this.file_upload_name = success.data_result[0].data_file_name;
+                            this.dataSource = new MatTableDataSource(success.data_result);
+                            this.dataSource.paginator = this.paginator;
+                            this.dataSource.sort = this.sort;
+                        }
                     }, err => {
                         console.log('loadUploadDetailsList', err);
                     }

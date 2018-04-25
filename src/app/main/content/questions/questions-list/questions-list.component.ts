@@ -42,9 +42,14 @@ export class QuestionsListComponent implements OnInit {
     loadQuesUploadsList(){
         this.quesService.getQuesUploadsList().subscribe(
             success => {
-                this.dataSource = new MatTableDataSource(success.data_result);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
+                // tslint:disable-next-line:triple-equals
+                if (success.res_service == 'ok')
+                {
+                    this.dataSource = new MatTableDataSource(success.data_result);
+                    this.dataSource.paginator = this.paginator;
+                    this.dataSource.sort = this.sort;
+                }
+
             }, err => {
                 console.log('loadQuesUploadsList', err);
             }
@@ -58,6 +63,7 @@ export class QuestionsListComponent implements OnInit {
     }
 
     uploadDetails(data_id){
+        console.log(data_id);
         const encryptData = Base64.encode(data_id.toString());
         this.router.navigate(['questions/' + encryptData + '/' + '/details']);
     }

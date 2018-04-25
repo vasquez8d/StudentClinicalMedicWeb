@@ -49,7 +49,6 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
                 .subscribe(course => {
                     this.course = course.data_result;
                     this.totalSteps = course.data_result.length;
-                    console.log(course);
                     if (course.data_result.length > 0){
                         this.cor_name = course.data_result[0].cor_name;
                     }

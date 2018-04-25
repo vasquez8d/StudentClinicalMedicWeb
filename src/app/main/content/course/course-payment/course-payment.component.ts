@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { Base64 } from 'js-base64';
 import { MomentModule } from 'angular2-moment';
 import { MatService } from '../../../../services/mat.service';
+import { DropBoxService } from '../../../../services/dropbox.service';
 
 @Component({
     selector: 'fuse-course-payment',
@@ -32,6 +33,7 @@ export class CoursePaymentComponent implements OnInit {
     fec_registro: any = '';
     course: any;
     form_valid = true;
+    file_course_url: any; 
 
     constructor(
         private formBuilder: FormBuilder,
@@ -40,6 +42,7 @@ export class CoursePaymentComponent implements OnInit {
         private matService: MatService,
         private router: Router,
         private momentModule: MomentModule,
+        private dropboxService: DropBoxService,
         private authLoginService: AuthloginService) {
     }
     ngOnInit() {
@@ -114,63 +117,84 @@ export class CoursePaymentComponent implements OnInit {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) {
-
-                this.matService.postUploadVoucherImage(this.fileToUpload).subscribe(
-                    sucess => {
-                        // tslint:disable-next-line:triple-equals
-                        if (sucess.res_service == 'ok') {
-                            const dataCourse = {
-                                cor_id: this.cor_id,
-                                user_alu_id: this.user_id,
-                                user_reg_id: this.user_id,
-                                usu_registro : 'web',
-                                mat_voucher_img: sucess.data_result
-                            };
-                            this.matService.postMatRegister(dataCourse).subscribe(
-                                success => {
-                                    // tslint:disable-next-line:triple-equals
-                                    if (success.res_service == 'ok') {
-                                        Swal({
-                                            title: 'Compra de un curso',
-                                            text: 'Se registró correctamente la información, pronto un administrador aprobará la compra y podrás disfrutar del curso.',
-                                            type: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#3085d6',
-                                            confirmButtonText: 'Continuar',
-                                        }).then((resultAcept) => {
-                                            const encryptCourse = Base64.encode(this.user_id.toString());
-                                            this.router.navigate(['course/' + encryptCourse + '/' + '/info']);
-                                        });
-                                    } else {
-                                        Swal({
-                                            title: 'Actualizar información',
-                                            text: success.res_service,
-                                            type: 'info',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#3085d6',
-                                            confirmButtonText: 'Continuar',
-                                        }).then((resultAcept) => {
-                                        });
+                this.dropboxService.postUploadVoucherFile(this.fileToUpload).subscribe(
+                    success => {
+                        const dataShared = {
+                            'path': success.path_lower,
+                            'settings': {
+                                'requested_visibility': 'public'
+                            }
+                        };
+                        this.dropboxService.postSharedLink(dataShared).subscribe(
+                            successShared => {
+                                this.file_course_url = 'https://dl.dropboxusercontent.com/s/' + successShared.url.substring(26, successShared.url.length);
+                                
+                                const dataCourse = {
+                                    cor_id: this.cor_id,
+                                    user_alu_id: this.user_id,
+                                    user_reg_id: this.user_id,
+                                    usu_registro: 'web',
+                                    mat_voucher_img: this.file_course_url
+                                };
+                                this.matService.postMatRegister(dataCourse).subscribe(
+                                    successInsert => {
+                                        // tslint:disable-next-line:triple-equals
+                                        if (successInsert.res_service == 'ok') {
+                                            Swal({
+                                                title: 'Compra de un curso',
+                                                text: 'Se registró correctamente la información, pronto un administrador aprobará la compra y podrás disfrutar del curso.',
+                                                type: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#3085d6',
+                                                confirmButtonText: 'Continuar',
+                                            }).then((resultAcept) => {
+                                                const encryptCourse = Base64.encode(this.user_id.toString());
+                                                this.router.navigate(['course/' + encryptCourse + '/' + '/info']);
+                                            });
+                                        } else {
+                                            Swal({
+                                                title: 'Actualizar información',
+                                                text: successInsert.res_service,
+                                                type: 'info',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#3085d6',
+                                                confirmButtonText: 'Continuar',
+                                            }).then((resultAcept) => {
+                                            });
+                                        }
+                                    }, err => {
+                                        console.log('error_courseSaveInfo', err);
                                     }
-                                }, err => {
-                                    console.log('error_courseSaveInfo', err);
-                                }
-                            );
-                        }else{
-                            Swal({
-                                title: 'Compra de un curso',
-                                text: sucess.res_service,
-                                type: 'info',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'Continuar',
-                            }).then((resultAcept) => {
-                            });
-                        }
+                                );
+                                
+                            }, err => {
+                                console.log(err);
+                            }
+                        );
                     }, err => {
-                        console.log('error_saveImageFile', err);
+                        console.log(err);
                     }
                 );
+
+                // this.matService.postUploadVoucherImage(this.fileToUpload).subscribe(
+                //     sucess => {
+                //         // tslint:disable-next-line:triple-equals
+                //         if (sucess.res_service == 'ok') {
+                //         }else{
+                //             Swal({
+                //                 title: 'Compra de un curso',
+                //                 text: sucess.res_service,
+                //                 type: 'info',
+                //                 showCancelButton: false,
+                //                 confirmButtonColor: '#3085d6',
+                //                 confirmButtonText: 'Continuar',
+                //             }).then((resultAcept) => {
+                //             });
+                //         }
+                //     }, err => {
+                //         console.log('error_saveImageFile', err);
+                //     }
+                // );
             }
         });
     }
