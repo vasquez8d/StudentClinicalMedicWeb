@@ -18,6 +18,7 @@ import { CoursesIndexService } from './courses.service';
 import { CourseIndexService } from './course.service';
 import { MomentModule } from 'angular2-moment';
 import { SafeHtmlPipe } from '../../../pipes/secure-url.pipe';
+import { CommentsService } from '../../../../services/comments.service';
 
 const routes = [
     {
@@ -61,7 +62,8 @@ const routes = [
     ],
     providers   : [
         CoursesIndexService,
-        CourseIndexService
+        CourseIndexService,
+        CommentsService
     ]
 })
 export class CourseIndexModule

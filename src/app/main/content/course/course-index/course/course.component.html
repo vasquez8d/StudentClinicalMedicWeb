@@ -68,20 +68,21 @@
                         <div id="course-step-content" class="course-step-content">
                             <h1>Comentarios</h1>
                             <!-- MESSAGE -->
-                            <div style="margin-bottom: 3%;" fxLayout="row" class="message-row">
-                                <img class="avatar" src="http://fuse-angular-material.withinpixels.com/assets/images/avatars/alice.jpg">
+                            <div *ngFor="let comment of step.coments" style="margin-bottom: 3%;" fxLayout="row" class="message-row">
+                                <img class="avatar" src="{{comment.user_reg_provider_photo}}">
                                 <div class="bubble">
-                                    <div class="message">Primer comentario</div>
-                                    <div class="time secondary-text">Ayer</div>
+                                    <div class="message">{{comment.user_full_name}}</div>
+                                    <div class="message">{{comment.com_text}}</div>
+                                    <div class="time secondary-text">{{comment.fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}} </div>
                                 </div>
-                            </div>                                                       
+                            </div>
                             <!-- / MESSAGE -->    
                             <!-- MESSAGE -->
                             <div fxLayout="row" class="message-row">
-                                <img class="avatar" src="http://fuse-angular-material.withinpixels.com/assets/images/avatars/alice.jpg">
+                                <img class="avatar" src="{{user_photo}}">
                                 <form #replyForm="ngForm"
-                                    (ngSubmit)="addComent($event)"
-                                    (keyup.enter)="addComent($event)"
+                                    (ngSubmit)="addComent($event, step.class_id)"
+                                    (keyup.enter)="addComent($event, step.class_id)"
                                     fxFlex class="reply-form"
                                     fxLayout="row"                                 
                                     fxLayoutAlign="start center">

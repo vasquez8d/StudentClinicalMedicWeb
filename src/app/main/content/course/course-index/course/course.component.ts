@@ -9,6 +9,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Base64 } from 'js-base64';
 import { AuthloginService } from '../../../../../services/authlogin.service';
 import { NgForm } from '@angular/forms';
+import { MomentModule } from 'angular2-moment';
+import { CommentsService } from '../../../../../services/comments.service';
 
 @Component({
     selector     : 'fuse-academy-course',
@@ -27,6 +29,10 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
     totalSteps: any;
     user_id: any;
     cor_name: any = '';
+
+    user: any;
+    user_photo: any = '';
+
     @ViewChild('replyForm') replyForm: NgForm;
     
     @ViewChildren(FusePerfectScrollbarDirective) fuseScrollbarDirectives: QueryList<FusePerfectScrollbarDirective>;
@@ -35,7 +41,8 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
         private courseService: CourseIndexService,
         private changeDetectorRef: ChangeDetectorRef,
         private router: Router,
-        private authLoginService: AuthloginService
+        private authLoginService: AuthloginService,
+        private commentService: CommentsService
     )
     {
 
@@ -56,7 +63,9 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
 
         this.authLoginService.getTokenUserLoged().subscribe(
             success => {
+                this.user = success.data_result;
                 this.user_id = success.data_result.user_id;
+                this.user_photo = success.data_result.user_reg_provider_photo;
             }, err => {
                 console.log(err);
             }
@@ -111,19 +120,43 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.currentStep++;
     }
 
-    // getSecureUrl(url){
-    //     console.log(this.domSanitizationService.bypassSecurityTrustResourceUrl('https://player.vimeo.com/video/' + url));
-    //     return this.domSanitizationService.bypassSecurityTrustResourceUrl('https://player.vimeo.com/video/' + url);        
-    // }
-    
-    addComent($event){
-        // Message
+    addComent($event, class_id){
         const message = {
-            who    : 1,
-            message: this.replyForm.form.value.message,
-            time   : new Date().toISOString()
+            user_full_name          : this.user.user_pri_nom + ' ' + this.user.user_ape_pat,            
+            com_text                : this.replyForm.form.value.message,
+            fec_registro            : new Date().toISOString(),
+            user_reg_provider_photo : this.user.user_reg_provider_photo
         };
-        console.log(message);
+
+        if (message.com_text.trim() !== ''){
+            for (let i = 0; i < this.course.length; i++) {
+                if (this.course[i].class_id === class_id) {
+                    if (this.course[i].coments == null) {
+                        this.course[i]['coments'] = [
+                            message
+                        ];
+                    } else {
+                        this.course[i].coments.push(message);
+                    }
+                }
+            }
+            this.replyForm.reset();
+            
+            const comRegister = {
+                com_text: message.com_text,
+                com_user_id: this.user.user_id,
+                class_id : class_id,
+                usu_registro : 'web'
+            };
+
+            this.commentService.postCategoryRegister(comRegister).subscribe(
+                success => {
+                    console.log(success);
+                }, err => {
+                    console.log(err);
+                }
+            );
+        }
     }
     gotoPreviousStep()
     {
