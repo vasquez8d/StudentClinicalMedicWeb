@@ -17,6 +17,7 @@ import { CourseIndexComponent } from './course/course.component';
 import { CoursesIndexService } from './courses.service';
 import { CourseIndexService } from './course.service';
 import { MomentModule } from 'angular2-moment';
+import { SafeHtmlPipe } from '../../../pipes/secure-url.pipe';
 
 const routes = [
     {
@@ -42,7 +43,8 @@ const routes = [
 @NgModule({
     declarations: [
         CoursesIndexComponent,
-        CourseIndexComponent
+        CourseIndexComponent,
+        SafeHtmlPipe
     ],
     imports     : [
         RouterModule.forChild(routes),

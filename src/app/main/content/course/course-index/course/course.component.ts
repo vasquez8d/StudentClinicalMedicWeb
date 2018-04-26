@@ -8,7 +8,6 @@ import { CourseIndexService } from '../course.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Base64 } from 'js-base64';
 import { AuthloginService } from '../../../../../services/authlogin.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector     : 'fuse-academy-course',
@@ -34,8 +33,7 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
         private courseService: CourseIndexService,
         private changeDetectorRef: ChangeDetectorRef,
         private router: Router,
-        private authLoginService: AuthloginService,
-        private domSanitizationService: DomSanitizer
+        private authLoginService: AuthloginService
     )
     {
 
@@ -110,6 +108,11 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
         // Increase the current step
         this.currentStep++;
     }
+
+    // getSecureUrl(url){
+    //     console.log(this.domSanitizationService.bypassSecurityTrustResourceUrl('https://player.vimeo.com/video/' + url));
+    //     return this.domSanitizationService.bypassSecurityTrustResourceUrl('https://player.vimeo.com/video/' + url);        
+    // }
 
     gotoPreviousStep()
     {

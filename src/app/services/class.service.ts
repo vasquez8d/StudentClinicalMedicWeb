@@ -94,10 +94,15 @@ export class ClassService {
     }
 
     getClassJson(dataRegisterCourse1: any, dataRegisterCourse2: any, user_id: any, cor_id: any) {
+
+        const video_embed = dataRegisterCourse2.class_video_embed.split('/video/');
+        const video_sub = video_embed[1].split('"');
+        const video_id = video_sub[0];
+
         const dataClass = {
             class_tittle: dataRegisterCourse1.class_tittle,
             class_desc: dataRegisterCourse1.class_desc,
-            class_video_embed: dataRegisterCourse2.class_video_embed,
+            class_video_embed: 'https://player.vimeo.com/video/' + video_id,
             cor_id: cor_id,
             usu_registro: 'web',
             usu_reg_id: user_id,

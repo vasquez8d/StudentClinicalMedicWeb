@@ -61,9 +61,10 @@
                         <div id="course-step-content" class="course-step-content">
                             <h1>{{step.class_tittle}}</h1>
                             <p>{{step.class_desc}}</p>
+                            {{step.class_video_embed}}
                         </div>
-                        <div id="course-step-content" class="course-step-content">    
-                            <div [innerHTML]="domSanitizationService.bypassSecurityTrustHtml(step.class_video_embed)"></div>
+                        <div class="course-step-content">    
+                            <iframe [src]="step.class_video_embed | safe_html" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                         </div>
                         <div id="course-step-content" class="course-step-content">
                             <h1>Comentarios</h1>
