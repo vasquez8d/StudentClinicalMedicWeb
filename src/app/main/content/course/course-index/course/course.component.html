@@ -61,27 +61,43 @@
                         <div id="course-step-content" class="course-step-content">
                             <h1>{{step.class_tittle}}</h1>
                             <p>{{step.class_desc}}</p>
-                            {{step.class_video_embed}}
                         </div>
                         <div class="course-step-content">    
                             <iframe [src]="step.class_video_embed | safe_html" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                         </div>
                         <div id="course-step-content" class="course-step-content">
                             <h1>Comentarios</h1>
-                            <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator"></div>
-                            
-                            <div id="fb-root"></div>
-                            <script>
-                            (function (d, s, id) {
-                                    var js, fjs = d.getElementsByTagName(s)[0];
-                                    if (d.getElementById(id)) return;
-                                    js = d.createElement(s); 
-                                    js.id = id;
-                                    js.src = 'https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.12&appId=203124637131720&autoLogAppEvents=1';
-                                    fjs.parentNode.insertBefore(js, fjs);
-                                }(document, 'script', 'facebook-jssdk'));
-                            </script>
+                            <!-- MESSAGE -->
+                            <div style="margin-bottom: 3%;" fxLayout="row" class="message-row">
+                                <img class="avatar" src="http://fuse-angular-material.withinpixels.com/assets/images/avatars/alice.jpg">
+                                <div class="bubble">
+                                    <div class="message">Primer comentario</div>
+                                    <div class="time secondary-text">Ayer</div>
+                                </div>
+                            </div>                                                       
+                            <!-- / MESSAGE -->    
+                            <!-- MESSAGE -->
+                            <div fxLayout="row" class="message-row">
+                                <img class="avatar" src="http://fuse-angular-material.withinpixels.com/assets/images/avatars/alice.jpg">
+                                <form #replyForm="ngForm"
+                                    (ngSubmit)="addComent($event)"
+                                    (keyup.enter)="addComent($event)"
+                                    fxFlex class="reply-form"
+                                    fxLayout="row"                                 
+                                    fxLayoutAlign="start center">
 
+                                    <mat-form-field class="" fxFlex floatPlaceholder="never">
+                                        <textarea matInput #replyInput placeholder="Escribe tu comentario"
+                                                ngModel name="message"></textarea>
+                                    </mat-form-field>
+
+                                    <button mat-fab class="" type="submit" aria-label="Send message">
+                                        <mat-icon>send</mat-icon>
+                                    </button>
+
+                                </form>                                
+                            </div>                                                       
+                            <!-- / MESSAGE -->                                                                            
                         </div>
                     </div>
                 </ng-container>

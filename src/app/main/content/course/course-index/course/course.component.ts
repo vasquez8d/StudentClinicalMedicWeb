@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
@@ -8,6 +8,7 @@ import { CourseIndexService } from '../course.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Base64 } from 'js-base64';
 import { AuthloginService } from '../../../../../services/authlogin.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector     : 'fuse-academy-course',
@@ -26,7 +27,8 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
     totalSteps: any;
     user_id: any;
     cor_name: any = '';
-
+    @ViewChild('replyForm') replyForm: NgForm;
+    
     @ViewChildren(FusePerfectScrollbarDirective) fuseScrollbarDirectives: QueryList<FusePerfectScrollbarDirective>;
 
     constructor(
@@ -113,7 +115,16 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
     //     console.log(this.domSanitizationService.bypassSecurityTrustResourceUrl('https://player.vimeo.com/video/' + url));
     //     return this.domSanitizationService.bypassSecurityTrustResourceUrl('https://player.vimeo.com/video/' + url);        
     // }
-
+    
+    addComent($event){
+        // Message
+        const message = {
+            who    : 1,
+            message: this.replyForm.form.value.message,
+            time   : new Date().toISOString()
+        };
+        console.log(message);
+    }
     gotoPreviousStep()
     {
         if ( this.currentStep === 0 )
