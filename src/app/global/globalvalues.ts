@@ -42,6 +42,10 @@ export class GlobalValues {
         return this.ServerUrl + '/comment';
     }
 
+    urlTest(){
+        return this.ServerUrl + '/test';
+    }
+
     urlServerImages(){
         return this.ServerUrl;
     }

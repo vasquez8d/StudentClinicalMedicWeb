@@ -1,0 +1,82 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+            
+            <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal"
+                [formGroup]="formPersonal">
+
+                <div class="h2 mb-24">Completa la información para comenzar el examen.</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Nombre" [value]="user_pri_nom" readonly>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Apellido Paterno" [value]="user_ape_pat" readonly>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Correo electrónico" [value]="user_mail" readonly>
+                    </mat-form-field>
+                    
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field fxFlex="50">
+                        <mat-select (change)="changeTypeExam($event.value)" placeholder="Tipo de examen" 
+                        [(value)]="type_id" formControlName="type_id" required>
+                            <mat-option *ngFor="let type of ListExamType" [value]="type.code">
+                                {{type.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="numberQuestions1" fxFlex="50">
+                        <mat-select (change)="changeNumQuestions($event.value)" placeholder="Número de preguntas" 
+                        [(value)]="ques_num" formControlName="ques_num" required>
+                            <mat-option *ngFor="let questions of ListExamQuestions1" [value]="questions.number">
+                                {{questions.number}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="numberQuestions2" fxFlex="50">
+                        <mat-select (change)="changeNumQuestions($event.value)" placeholder="Número de preguntas" 
+                        [(value)]="ques_num" formControlName="ques_num" required>
+                            <mat-option *ngFor="let questions of ListExamQuestions2" [value]="questions.number">
+                                {{questions.number}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>                    
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                        <mat-form-field fxFlex="50">
+                            <input matInput placeholder="Tiempo para el examen" [value]="examTimeText" readonly>
+                        </mat-form-field>
+                        
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%;"
+                    type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>close</mat-icon> Cancelar
+                    </button>
+
+                    <button [disabled]="formPersonal.invalid" (click)="startExam()" fxFlex="25" 
+                            style="margin-top: 2%; margin-right: 2%; margin-left: 2%;"
+                        type="button" mat-raised-button color="accent" class="submit-button">
+                        <mat-icon>check_circle</mat-icon> Comenzar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

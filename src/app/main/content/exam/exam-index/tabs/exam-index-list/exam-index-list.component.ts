@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-
+import { ExamIndexTypeComponent } from '../../dialog/exam-index-type/exam-index-type.component';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -19,7 +19,8 @@ export class ExamIndexListComponent {
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(
-        private router: Router
+        private router: Router,
+        private dialog: MatDialog,
     ) {
         // Create 100 users
         const users: UserData[] = [];
@@ -46,6 +47,16 @@ export class ExamIndexListComponent {
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
         this.dataSource.filter = filterValue;
+    }
+
+    selectExamType(){
+        const dialogRef = this.dialog.open(ExamIndexTypeComponent, {
+            data: {
+                cor_id: 16
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
     }
 
     navigateStartExam() {

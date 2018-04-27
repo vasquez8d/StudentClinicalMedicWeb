@@ -7,6 +7,7 @@ import { MomentModule } from 'angular2-moment';
 import { CourseService } from '../../../../../../../services/course.service';
 import { Router } from '@angular/router';
 import { Base64 } from 'js-base64';
+import { AuthloginService } from '../../../../../../../services/authlogin.service';
 
 @Component({
     selector: 'fuse-course-payment-dashboard',
@@ -22,12 +23,15 @@ export class CoursePaymentDashboardComponent implements OnInit {
     course: any;
     cor_name: any = '';
 
+    user: any;
+
     constructor(
         public dialogRef: MatDialogRef<CoursePaymentDashboardComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
         private courseService: CourseService,
         private momentModule: MomentModule,
+        private authLoginService: AuthloginService,
         private router: Router
     ) {
         this.cor_id = data.cor_id;
@@ -51,14 +55,43 @@ export class CoursePaymentDashboardComponent implements OnInit {
 
         this.loadCourseDetials();
 
+        this.authLoginService.getTokenUserLoged().subscribe(
+            success => {
+                this.user = success.data_result;
+                this.courseService.getCourseListxUser(this.user.user_id).subscribe(
+                    successCourse => {
+                        if(successCourse.res_service == 'ok'){
+                            successCourse.data_result.forEach(element => {
+                                if(element.cor_id == this.cor_id){
+                                    Swal({
+                                        title: element.cor_name,
+                                        text: 'Usted ya compró este curso, puedes verlo en la seccion "Mis Cursos"',
+                                        type: 'info',
+                                        showCancelButton: false,
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'Continuar',
+                                    }).then((resultAcept) => {
+                                        this.dialogRef.close();
+                                        this.dialogRef.close();
+                                    });
+                                }
+                            });
+                        }
+                    }, err => {
+                        console.log(err);
+                    }
+                );
+            }, err => {
+                console.log(err);
+            }
+        );
+
     }
 
     loadCourseDetials() {
         this.courseService.getCourseDetails(this.cor_id).subscribe(
             successGlobalDetails => {
-
                 this.course = successGlobalDetails.data_result[0];
-
                 const est_registro = this.course.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
                 this.fec_registro = this.course.fec_registro;
                 this.cor_name     = this.course.cor_name;
@@ -76,7 +109,6 @@ export class CoursePaymentDashboardComponent implements OnInit {
                     est_registro: [est_registro],
                     fec_registro: [this.course.fec_registro]
                 });
-
             },
             error => {
                 console.log('error_loadGlobalUserDetials', error);
