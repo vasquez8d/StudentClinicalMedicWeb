@@ -17,6 +17,8 @@ import { AgmCoreModule } from '@agm/core';
 import { ChartsModule } from 'ng2-charts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ExamIndexKpiService } from './tabs/exam-index-kpi/exam-index-kpi.service';
+import { ExamIndexTypeComponent } from './dialog/exam-index-type/exam-index-type.component';
+import { ExamIndexTypeModule } from './dialog/exam-index-type/exam-index-type.module';
 
 
 const routes: Routes = [
@@ -52,9 +54,13 @@ const routes: Routes = [
         }),
         ChartsModule,
         NgxChartsModule,
+        ExamIndexTypeModule
     ],
     providers: [
         ExamIndexKpiService
+    ],
+    entryComponents: [
+        ExamIndexTypeComponent
     ]
 })
 export class ExamIndexModule {
