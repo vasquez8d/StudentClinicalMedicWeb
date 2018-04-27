@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 import { Base64 } from 'js-base64';
 import { CoursePaymentDashboardComponent } from './dialog/course-payment/course-payment.component';
 import { MatDialog } from '@angular/material';
+import { CoursePaymentFreeDashboardComponent } from './dialog/course-payment-free/course-payment-free.component';
 
 @Component({
     selector     : 'fuse-project-dashboard',
@@ -166,6 +167,16 @@ export class FuseProjectDashboardComponent implements OnInit, OnDestroy
 
     openDialogPaymentCourse(cor_id){
         const dialogRef = this.dialog.open(CoursePaymentDashboardComponent, {
+            data: {
+                cor_id: cor_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    }
+
+    openDialogPaymentCourseFree(cor_id){
+        const dialogRef = this.dialog.open(CoursePaymentFreeDashboardComponent, {
             data: {
                 cor_id: cor_id
             }

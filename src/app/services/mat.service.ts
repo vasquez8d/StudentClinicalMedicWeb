@@ -11,6 +11,7 @@ export class MatService {
     private MatListlUrl         = `${this.globalValues.urlMat()}/list`;
     private MatDetailsUrl       = `${this.globalValues.urlMat()}/details`;
     private MatCreateUrl        = `${this.globalValues.urlMat()}/create`;
+    private MatCreateFreeUrl    = `${this.globalValues.urlMat()}/createfree`;
     private MatApprobeUrl       = `${this.globalValues.urlMat()}/approve`;
     private MatDisaapprobeUrl   = `${this.globalValues.urlMat()}/disapprove`;
     private MatUploadImageUrl   = `${this.globalValues.urlMat()}/uploadimage`;
@@ -35,6 +36,15 @@ export class MatService {
     }
 
     postMatRegister(mat) {
+        return this.http
+            .post(this.MatCreateUrl, mat, { headers: this.httpHelper.getHeaderAuth() })
+            .map(res => {
+                const result = res.json();
+                return result;
+            });
+    }
+
+    postMatRegisterFree(mat){
         return this.http
             .post(this.MatCreateUrl, mat, { headers: this.httpHelper.getHeaderAuth() })
             .map(res => {

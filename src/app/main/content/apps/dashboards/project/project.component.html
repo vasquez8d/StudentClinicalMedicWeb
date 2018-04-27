@@ -83,35 +83,35 @@
                             <div class="widget-group grey-100-bg p-12" fxLayout="row wrap" *fuseIfOnDom [@animateStagger]="{value:'50'}">
                                 <fuse-widget *ngFor="let course of filteredCoursesFree" [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
                                     fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="50">
-                                    <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
-                            
-                                        <img [src]="serverUrl + course.cor_photo">
-                            
-                                        <div class="p-16">
-                                            <div class="h1">{{course.cor_name}}</div>
-                                            <div class="h4 secondary-text">
-                                                <mat-icon role="img">account_circle</mat-icon> {{course.user_full_name}}</div>
+                                        <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
+                                        
+                                            <img [src]="course.cor_photo">
+                                        
+                                            <div class="p-16">
+                                                <div class="h1">{{course.cor_name}}</div>
+                                                <div class="h4 secondary-text">
+                                                    <mat-icon role="img">account_circle</mat-icon> {{course.user_full_name}}</div>
+                                            </div>
+                                            <div class="p-16 pt-0 line-height-1.75">
+                                                {{course.cor_intro}}
+                                            </div>
+                                        
+                                            <div class="p-16 pt-0 line-height-1.75">
+                                                <mat-chip-list>
+                                                    <mat-chip [ngStyle]="{'background' : course.cat_color}" selected="true">
+                                                        <mat-icon>assignment</mat-icon>&nbsp;{{course.cat_cor_name}}</mat-chip>
+                                                    <mat-chip style="background: #2ABA87" selected="true">
+                                                        <mat-icon>access_time</mat-icon>&nbsp; {{formatNumber(course.cor_time)}} min</mat-chip>
+                                                    <mat-chip color="accent" selected="true">
+                                                        <mat-icon>attach_money</mat-icon>Gratis</mat-chip>
+                                                </mat-chip-list>
+                                            </div>
+                                        
+                                            <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="start center">
+                                                <button mat-button (click)="navigateToCourseDetails(course.cor_id, course.cor_slug)" color="accent">Detalles</button>
+                                                <button mat-button (click)="openDialogPaymentCourseFree(course.cor_id)" color="accent">Comprar</button>
+                                            </div>
                                         </div>
-                                        <div class="p-16 pt-0 line-height-1.75">
-                                            {{course.cor_intro}}
-                                        </div>
-                            
-                                        <div class="p-16 pt-0 line-height-1.75">
-                                            <mat-chip-list>
-                                                <mat-chip [ngStyle]="{'background' : course.cat_color}" selected="true">
-                                                    <mat-icon>assignment</mat-icon>&nbsp;{{course.cat_cor_name}}</mat-chip>
-                                                <mat-chip style="background: #2ABA87" selected="true">
-                                                    <mat-icon>access_time</mat-icon>&nbsp; {{formatNumber(course.cor_time)}} min</mat-chip>
-                                                <mat-chip color="accent" selected="true">
-                                                    <mat-icon>attach_money</mat-icon>S/.{{course.cor_price}}</mat-chip>
-                                            </mat-chip-list>
-                                        </div>
-                            
-                                        <div class="p-8 pt-0" fxLayout="row" fxLayoutAlign="start center">
-                                            <button mat-button color="accent">Detalles</button>
-                                            <button mat-button color="accent">Comprar</button>
-                                        </div>
-                                    </div>
                                 </fuse-widget>
                             </div>
                     </mat-tab>
