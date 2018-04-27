@@ -20,6 +20,7 @@ import { FuseCountdownModule, FuseHighlightModule,
     
 import { ExamIndexModule } from './exam-index/exam-index.module';
 import { ExamStartModule } from './exam-start/exam-start.module';
+import { TestService } from '../../../services/test.service';
 
 @NgModule({
     imports: [
@@ -45,7 +46,7 @@ import { ExamStartModule } from './exam-start/exam-start.module';
         ExamStartModule
     ],
     providers: [
-        // UserModel
+        TestService
     ]
 })
 

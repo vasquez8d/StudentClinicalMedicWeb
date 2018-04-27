@@ -9,6 +9,7 @@ import { CorcategoryService } from '../../../../../../services/corcategory.servi
 import { CourseService } from '../../../../../../services/course.service';
 import { MomentModule } from 'angular2-moment';
 import { AuthloginService } from '../../../../../../services/authlogin.service';
+import { TestService } from '../../../../../../services/test.service';
 @Component({
     selector: 'fuse-exam-index-type',
     templateUrl: 'exam-index-type.component.html',
@@ -104,14 +105,12 @@ export class ExamIndexTypeComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
         private momentModule: MomentModule,
-        private authLoingService: AuthloginService
+        private authLoingService: AuthloginService,
+        private testService: TestService
     ) {
         this.formErrors = {
-            cor_name: {},
-            cor_des: {},
-            cor_price: {},
-            cat_cor_id: {},
-            user_doc_id: {},
+            type_id: {},
+            ques_num: {}
         };
     }
 
@@ -176,7 +175,35 @@ export class ExamIndexTypeComponent implements OnInit {
     }
 
     startExam(){
-        
+        const dataForm = this.formPersonal.value;
+        const dataCreate = {
+            test_type_id: dataForm.type_id,
+            test_num_ques: dataForm.ques_num,
+            test_time: this.examTimeMinutes,
+            user_id: this.user_id,
+            usu_registro: 'web'
+        }
+        this.testService.postCreateTest(dataCreate).subscribe(
+            success => {
+                if(success.data_result == 'ok'){
+                    
+                }else{
+                            Swal({
+                                title: 'Comenzar un examen',
+                                text: success.res_service,
+                                type: 'info',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Continuar',
+                            }).then((resultAcept) => {
+                                this.dialogRef.close();
+                                this.dialogRef.close();
+                            });                    
+                }
+            }, err => {
+                console.log(err);
+            }
+        );
     }
 
     onFormValuesChanged() {
