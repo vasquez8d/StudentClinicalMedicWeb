@@ -9,6 +9,7 @@ import { HttpHelper } from '../helpers/http.helper';
 export class TestService {
 
     private TestCreateUrl = `${this.globalValues.urlTest()}/create`;
+    private TestQuestions = `${this.globalValues.urlTest()}/test`;
 
     constructor(
         private http: Http,
@@ -20,8 +21,15 @@ export class TestService {
         return this.http
             .post(this.TestCreateUrl, data, { headers: this.httpHelper.getHeaderAuth() })
             .map(res => {
-                const result = res.json();
-                return result;
+                return res.json();
+            });
+    }
+
+    postTestQuestions(data){
+        return this.http
+            .post(this.TestQuestions, data, { headers: this.httpHelper.getHeaderAuth() })
+            .map(res => {
+                return res.json();
             });
     }
 }

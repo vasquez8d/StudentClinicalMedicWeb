@@ -10,6 +10,9 @@ import { CourseService } from '../../../../../../services/course.service';
 import { MomentModule } from 'angular2-moment';
 import { AuthloginService } from '../../../../../../services/authlogin.service';
 import { TestService } from '../../../../../../services/test.service';
+import { Base64 } from 'js-base64';
+import { Router } from '@angular/router';
+
 @Component({
     selector: 'fuse-exam-index-type',
     templateUrl: 'exam-index-type.component.html',
@@ -30,7 +33,7 @@ export class ExamIndexTypeComponent implements OnInit {
     user_id: any = '';
 
     examTimeText: any = '';
-    examTimeMinutes: any= 0;
+    examTimeMinutes: any = 0;
 
     ListExamType = [
         {
@@ -83,7 +86,7 @@ export class ExamIndexTypeComponent implements OnInit {
         {
             number: 10
         }
-    ]
+    ];
 
     ListExamQuestions2 = [
         {
@@ -98,7 +101,7 @@ export class ExamIndexTypeComponent implements OnInit {
         {
             number: 10
         }
-    ]
+    ];
 
     constructor(
         public dialogRef: MatDialogRef<ExamIndexTypeComponent>,
@@ -106,7 +109,8 @@ export class ExamIndexTypeComponent implements OnInit {
         private formBuilder: FormBuilder,
         private momentModule: MomentModule,
         private authLoingService: AuthloginService,
-        private testService: TestService
+        private testService: TestService,
+        private router: Router
     ) {
         this.formErrors = {
             type_id: {},
@@ -140,7 +144,8 @@ export class ExamIndexTypeComponent implements OnInit {
     }
 
     changeTypeExam(type_id){
-        if(type_id == 1){
+        // tslint:disable-next-line:triple-equals
+        if (type_id == 1){
             this.numberQuestions1 = true;
             this.numberQuestions2 = false;
         }else{
@@ -150,7 +155,7 @@ export class ExamIndexTypeComponent implements OnInit {
     }
 
     changeNumQuestions(value){
-        switch(value){
+        switch (value){
             case 200:
                 this.examTimeText = '4 Horas';
                 this.examTimeMinutes = 240;
@@ -182,11 +187,18 @@ export class ExamIndexTypeComponent implements OnInit {
             test_time: this.examTimeMinutes,
             user_id: this.user_id,
             usu_registro: 'web'
-        }
+        };
         this.testService.postCreateTest(dataCreate).subscribe(
             success => {
-                if(success.data_result == 'ok'){
-                    
+                // tslint:disable-next-line:triple-equals
+                if (success.res_service == 'ok'){
+                    const encryptTest_num_ques = Base64.encode(success.data_result.test_num_ques.toString());                    
+                    const encrypTest_type_id = Base64.encode(success.data_result.test_type_id.toString());                
+                    const encryptTest_id = Base64.encode(success.data_result.test_id.toString());
+                    const typeSlug = this.ListExamType[success.data_result.test_type_id - 1].text.toLocaleLowerCase().replace(' ', '-');
+                    this.dialogRef.close();
+                    this.dialogRef.close();
+                    this.router.navigate(['exam/' + encryptTest_num_ques + '/' + encrypTest_type_id + '/' + encryptTest_id + '/' + typeSlug + '/start']);
                 }else{
                             Swal({
                                 title: 'Comenzar un examen',
@@ -222,38 +234,6 @@ export class ExamIndexTypeComponent implements OnInit {
                 this.formErrors[field] = control.errors;
             }
         }
-    }
-
-    saveUserInformation() {
-                const dataRegisterCourse = this.formPersonal.value;
-                // this.courseService.postCourseUpdate(dataRegisterCourse).subscribe(
-                //     success => {
-                //         // tslint:disable-next-line:triple-equals
-                //         if (success.res_service == 'ok') {
-                //             Swal({
-                //                 title: 'Actualizar información',
-                //                 text: 'Se registró correctamente la información.',
-                //                 type: 'success',
-                //                 showCancelButton: false,
-                //                 confirmButtonColor: '#3085d6',
-                //                 confirmButtonText: 'Continuar',
-                //             }).then((resultAcept) => {
-                //             });
-                //         } else {
-                //             Swal({
-                //                 title: 'Actualizar información',
-                //                 text: success.res_service,
-                //                 type: 'info',
-                //                 showCancelButton: false,
-                //                 confirmButtonColor: '#3085d6',
-                //                 confirmButtonText: 'Continuar',
-                //             }).then((resultAcept) => {
-                //             });
-                //         }
-                //     }, err => {
-                //         console.log(err);
-                //     }
-                // );
     }
 
     onNoClick(): void {

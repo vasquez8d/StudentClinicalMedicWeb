@@ -1,13 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { fuseAnimations } from '@fuse/animations';
-
-import { ExamStartService } from './exam-start.service';
-
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Base64 } from 'js-base64';
+import { QuesService } from '../../../../services/questions.service';
+import { TestService } from '../../../../services/test.service';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 
 @Component({
     selector: 'fuse-exam-start',
@@ -16,39 +16,134 @@ import { Router } from '@angular/router';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class ExamStartComponent implements OnInit, OnDestroy, AfterViewInit {
-    course: any;
-    courseSubscription: Subscription;
+export class ExamStartComponent implements OnInit, AfterViewInit {
+    
+    questions: any = [];
     currentStep = 0;
     courseStepContent;
+    totalSteps: any = 0;
     animationDirection: 'left' | 'right' | 'none' = 'none';
+    timer: any;
+
+    questionFormArray: FormArray;
+    questionForm: FormGroup;
+
+    cityArray: FormArray;
+    myGroup: FormGroup;
+
     @ViewChildren(FusePerfectScrollbarDirective) fuseScrollbarDirectives: QueryList<FusePerfectScrollbarDirective>;
 
     constructor(
-        private courseService: ExamStartService,
         private changeDetectorRef: ChangeDetectorRef,
-        private router: Router
+        private router: Router,
+        private activatedRouter: ActivatedRoute,
+        private testService: TestService,
+        private formBuilder: FormBuilder,
     ) {
     }
 
     ngOnInit() {
-        // Subscribe to courses
-        this.courseSubscription =
-            this.courseService.onCourseChanged
-                .subscribe(course => {
-                    this.course = course;
-                    console.log(this.course);
-                });
+        this.activatedRouter.params.subscribe(params => {
+            
+
+            this.cityArray = new FormArray([new FormControl(
+                [
+                    new FormControl({ value : 'a'}),
+                    new FormControl({ value : 'b'}),
+                    new FormControl({ value : 'c'})
+                ]
+            )]);
+            this.myGroup = new FormGroup({
+                cities: this.cityArray
+            });
+
+            this.questionFormArray = new FormArray(
+                [
+                ]
+            );
+            this.questionForm = new FormGroup(
+                {
+                    questions: this.questionFormArray
+                }
+            );
+
+            if (params.test_num_ques && params.test_type_id && params.test_id && params.test_categ_slug) {
+                const test_num_ques = Base64.decode(params.test_num_ques);
+                const test_type_id = Base64.decode(params.test_type_id);
+                const test_id = Base64.decode(params.test_id);                    
+                const data = {
+                    test_type_id: test_type_id,
+                    test_num_ques: test_num_ques
+                };
+                this.testService.postTestQuestions(data).subscribe(
+                    success => {
+                        // tslint:disable-next-line:triple-equals
+                        if (success.res_service == 'ok'){
+                            this.questions = success.data_result;
+                            this.totalSteps = success.data_result.length;
+
+                            this.questions.forEach(element => {
+                                const formGroup = this.formBuilder.group(
+                                    {
+                                        ques_question: element.ques_question,
+                                        ques_id: element.ques_id,
+                                        ques_res1: element.ques_res1,
+                                        ques_res2: element.ques_res2,
+                                        ques_res3: element.ques_res3,
+                                        ques_res4: element.ques_res4,
+                                        ques_res5: element.ques_res5,
+                                        ques_ok: element.ques_ok,
+                                        ques_select: ''
+                                    }
+                                );
+                                this.questionFormArray.push(formGroup);
+
+                                this.questionForm = new FormGroup(
+                                    {
+                                        'questions' : this.questionFormArray
+                                    }
+                                );
+                            });
+                        }
+                    }, err => {
+                        console.log(err);
+                    }
+                );
+            }            
+        });
     }
 
+    getArrayQuestions(data){
+        const dataForm = data.value;
+        const arrayQuestions = [
+            {
+                text: dataForm.ques_res1,
+                value: 1
+            },
+            {
+                text: dataForm.ques_res2,
+                value: 2
+            },
+            {
+                text: dataForm.ques_res3,
+                value: 3
+            },
+            {
+                text: dataForm.ques_res4,
+                value: 4
+            },
+            {
+                text: dataForm.ques_res5,
+                value: 5
+            }
+        ];
+        return arrayQuestions;
+    }
+    
     ngAfterViewInit() {
         this.courseStepContent = this.fuseScrollbarDirectives.find((fuseScrollbarDirective) => {
             return fuseScrollbarDirective.element.nativeElement.id === 'course-step-content';
         });
-    }
-
-    ngOnDestroy() {
-        this.courseSubscription.unsubscribe();
     }
 
     gotoStep(step) {
@@ -64,7 +159,7 @@ export class ExamStartComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     gotoNextStep() {
-        if (this.currentStep === this.course.totalSteps - 1) {
+        if (this.currentStep === this.questions.totalSteps - 1) {
             return;
         }
 

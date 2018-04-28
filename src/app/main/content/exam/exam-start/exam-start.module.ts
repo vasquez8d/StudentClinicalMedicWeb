@@ -13,15 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { ExamStartComponent } from './exam-start.component';
-import { ExamStartService } from './exam-start.service';
+import { CourseMaterialModule } from '../../course/course-material.module';
 
 const routes = [
     {
-        path: 'start/:courseId',
+        path: ':test_num_ques/:test_type_id/:test_id/:test_categ_slug/start',
         component: ExamStartComponent,
-        resolve: {
-            academy: ExamStartService
-        }
     },
 ];
 
@@ -39,10 +36,12 @@ const routes = [
         MatSelectModule,
         MatSidenavModule,
 
+        CourseMaterialModule,
+
         FuseSharedModule
     ],
     providers: [
-        ExamStartService
+
     ]
 })
 export class ExamStartModule {

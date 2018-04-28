@@ -9,12 +9,12 @@
 
                 <div class="steps">
 
-                    <div class="step" *ngFor="let step of course.steps; let i = index; let last = last; let first = first" (click)="gotoStep(i)"
+                    <div class="step" *ngFor="let step of questions; let i = index; let last = last; let first = first" (click)="gotoStep(i)"
                         [ngClass]="{'current': currentStep === i, 'completed': currentStep > i, 'last': last, 'first': first}">
                         <div class="index">
                             <span>{{i + 1}}</span>
                         </div>
-                        <div class="title">{{step.title}}</div>
+                        <div class="title">{{step.ques_name}}</div>
                     </div>
 
                 </div>
@@ -39,7 +39,7 @@
                 </button>
 
                 <div>
-                    <h2>{{course.title}}</h2>
+                    <h2>Examen Studen Clinical Medic, tiempo restante: {{timer}}</h2>
                 </div>
 
             </div>
@@ -48,17 +48,43 @@
             <!-- CONTENT -->
             <div id="course-content" class="content">
 
-                <ng-container *ngFor="let step of course.steps; let i = index;">
-
-                    <div class="course-step" fusePerfectScrollbar *ngIf="currentStep === i" [@slideIn]="animationDirection">
-
-                        <div id="course-step-content" class="course-step-content" [innerHTML]="step.content">
+                    <div [formGroup]="questionForm">
+                        <div formArrayName="questions">
+                            <div *ngFor="let question of questionForm.controls.questions.controls; index as i">
+                                <div class="course-step" fusePerfectScrollbar *ngIf="currentStep === i" [@slideIn]="animationDirection">
+                                    <div id="course-step-content" class="course-step-content">
+                                        <div [formGroup]="question">
+                                            <div>
+                                                <mat-form-field fxFlex="200">
+                                                    <textarea matInput placeholder="Pregunta" formControlName="ques_question" readonly></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                            <div>
+                                                <mat-radio-group fxFlex="200" [(value)]="ques_select" 
+                                                                 formControlName="ques_select" class="example-radio-group">
+                                                    <mat-radio-button style="margin-bottom: 2% !important;" class="example-radio-button" [value]="1">
+                                                        <input type="text" formControlName="ques_res1" readonly style="border:0">
+                                                    </mat-radio-button>
+                                                    <mat-radio-button style="margin-bottom: 2% !important;" class="example-radio-button" [value]="2">
+                                                        <input type="text" formControlName="ques_res2" readonly style="border:0">
+                                                    </mat-radio-button>
+                                                    <mat-radio-button style="margin-bottom: 2% !important;" class="example-radio-button" [value]="3">
+                                                        <input type="text" formControlName="ques_res3" readonly style="border:0">
+                                                    </mat-radio-button>
+                                                    <mat-radio-button style="margin-bottom: 2% !important;" class="example-radio-button" [value]="4">
+                                                        <input type="text" formControlName="ques_res4" readonly style="border:0">
+                                                    </mat-radio-button>
+                                                    <mat-radio-button style="margin-bottom: 2% !important;" class="example-radio-button" [value]="5">
+                                                        <input type="text" formControlName="ques_res5" readonly style="border:0">
+                                                    </mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                        </div>                                                                                
+                                    </div>
+                                </div>                                
+                            </div>
                         </div>
-
                     </div>
-
-                </ng-container>
-
             </div>
             <!-- / CONTENT -->
 
@@ -68,15 +94,15 @@
                     <mat-icon>chevron_left</mat-icon>
                 </button>
 
-                <button mat-fab class="next mat-accent white-fg" (click)="gotoNextStep()" [disabled]="currentStep === course.totalSteps - 1"
-                    [fxHide]="currentStep === course.totalSteps - 1">
+                <button mat-fab class="next mat-accent white-fg" (click)="gotoNextStep()" [disabled]="currentStep === totalSteps - 1"
+                    [fxHide]="currentStep === totalSteps - 1">
                     <mat-icon>chevron_right</mat-icon>
                 </button>
 
                 <button mat-fab class="done mat-green-600-bg" 
                 (click)="finalizeExam()"
-                [disabled]="currentStep !== course.totalSteps - 1" 
-                [fxShow]="currentStep === course.totalSteps - 1">
+                [disabled]="currentStep !== totalSteps - 1" 
+                [fxShow]="currentStep === totalSteps - 1">
                     <mat-icon>check</mat-icon>
                 </button>
 
