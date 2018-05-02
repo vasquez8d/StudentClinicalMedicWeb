@@ -9,6 +9,10 @@ import { QuesService } from '../../../../services/questions.service';
 import { TestService } from '../../../../services/test.service';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import * as moment from 'moment';
+
 @Component({
     selector: 'fuse-exam-start',
     templateUrl: './exam-start.component.html',
@@ -23,13 +27,15 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
     courseStepContent;
     totalSteps: any = 0;
     animationDirection: 'left' | 'right' | 'none' = 'none';
-    timer: any;
 
     questionFormArray: FormArray;
     questionForm: FormGroup;
 
-    cityArray: FormArray;
-    myGroup: FormGroup;
+    subTimer: Subscription;
+    countdown: any;
+
+    test_num_ques: any;
+    test_id: any;
 
     @ViewChildren(FusePerfectScrollbarDirective) fuseScrollbarDirectives: QueryList<FusePerfectScrollbarDirective>;
 
@@ -40,22 +46,45 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
         private testService: TestService,
         private formBuilder: FormBuilder,
     ) {
+        this.countdown = {
+            days: '',
+            hours: '',
+            minutes: '',
+            seconds: ''
+        };
     }
 
     ngOnInit() {
-        this.activatedRouter.params.subscribe(params => {
-            
+        if (this.checkTestStatus){
+            this.loadQuestions();
+        }else{
+            this.router.navigateByUrl('/exam');
+        }
+    }
 
-            this.cityArray = new FormArray([new FormControl(
-                [
-                    new FormControl({ value : 'a'}),
-                    new FormControl({ value : 'b'}),
-                    new FormControl({ value : 'c'})
-                ]
-            )]);
-            this.myGroup = new FormGroup({
-                cities: this.cityArray
-            });
+    checkTestStatus(){
+        this.activatedRouter.params.subscribe(params => {
+            if (params.test_id) {
+                this.test_id = Base64.decode(params.test_id);
+                this.testService.getTestStatus(this.test_id).subscribe(
+                    success => {
+                        // tslint:disable-next-line:triple-equals
+                        if (success.data_result == 'ok'){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }, err => {
+                        console.log(err);
+                        return false;
+                    }
+                );
+            }
+        });
+    }
+
+    loadQuestions() {
+        this.activatedRouter.params.subscribe(params => {
 
             this.questionFormArray = new FormArray(
                 [
@@ -68,17 +97,17 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
             );
 
             if (params.test_num_ques && params.test_type_id && params.test_id && params.test_categ_slug) {
-                const test_num_ques = Base64.decode(params.test_num_ques);
+                this.test_num_ques = Base64.decode(params.test_num_ques);
                 const test_type_id = Base64.decode(params.test_type_id);
-                const test_id = Base64.decode(params.test_id);                    
+                this.test_id = Base64.decode(params.test_id);
                 const data = {
                     test_type_id: test_type_id,
-                    test_num_ques: test_num_ques
+                    test_num_ques: this.test_num_ques
                 };
                 this.testService.postTestQuestions(data).subscribe(
                     success => {
                         // tslint:disable-next-line:triple-equals
-                        if (success.res_service == 'ok'){
+                        if (success.res_service == 'ok') {
                             this.questions = success.data_result;
                             this.totalSteps = success.data_result.length;
 
@@ -100,16 +129,58 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
 
                                 this.questionForm = new FormGroup(
                                     {
-                                        'questions' : this.questionFormArray
+                                        'questions': this.questionFormArray
                                     }
                                 );
                             });
+                            this.startCountDown(Base64.decode(params.ques_time));
                         }
                     }, err => {
                         console.log(err);
                     }
                 );
-            }            
+            }
+        });
+    }
+
+    startCountDown(time){
+        const currDate = moment();
+        const eventDate = moment().add(time, 'minutes');
+
+        let diff = eventDate.diff(currDate, 'seconds');
+
+        const countDown =
+            Observable
+                .interval(1000)
+                .map(value => {
+                    return diff = diff - 1;
+                })
+                .map(value => {
+                    const timeLeft = moment.duration(value, 'seconds');
+
+                    return {
+                        days: timeLeft.asDays().toFixed(0),
+                        hours: timeLeft.hours(),
+                        minutes: timeLeft.minutes(),
+                        seconds: timeLeft.seconds()
+                    };
+                });
+
+        this.subTimer = countDown.subscribe(value => {
+            this.countdown = value;
+            if (this.countdown.hours === 0 && this.countdown.minutes === 0 && this.countdown.seconds === 0){                
+                this.subTimer.unsubscribe();
+                Swal({
+                    title: '¡El tiempo finalizó!',
+                    text: 'El tiempo estimado para finalizar el examen finalizó.',
+                    type: 'info',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Finalizar examen',
+                }).then((resultAcept) => {                    
+                    this.calificateTest();
+                });                
+            }
         });
     }
 
@@ -190,6 +261,63 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
         this.currentStep--;
     }
 
+    calificateTest(){
+        const finalCalification = 0;
+        let goodAnswer = 0;
+        let badAnswer = 0;
+        let noAnswer = 0;
+        // tslint:disable-next-line:radix
+        const pointXquestion = (20 / parseInt(this.test_num_ques));
+
+        this.questionFormArray.value.forEach(element => {
+            // tslint:disable-next-line:triple-equals
+            if (element.ques_select != ''){
+                if (element.ques_ok === element.ques_select) {
+                    goodAnswer = goodAnswer + 1;
+                } else {
+                    badAnswer = badAnswer + 1;
+                }
+            }else{
+                noAnswer = noAnswer + 1;
+            }
+        });
+
+        const htmlText = '<h3>Felicidades, terminaste el examen.</h3>' +            
+            '<h2>Calificación obtenida: ' + (pointXquestion * goodAnswer) + '</h2>' +
+            '<ul style="float:left; margin-left:10%;">' +
+            '<li style="text-align:left;">Correctas: ' + goodAnswer + '</li>' +
+            '<li style="text-align:left;">Incorrectas: ' + badAnswer + '</li>' +
+            '<li style="text-align:left;">Sin respuesta: ' + noAnswer + '</li></ul>';
+        
+        const dataFinalize = {
+            test_id: 1,
+            test_result: 1,
+            test_time_to_end: 1,
+            test_ques_ok: 1,
+            test_ques_bad: 1,
+            test_ques_blank: 1
+        };
+
+        this.testService.postFinalizeTest(dataFinalize).subscribe(
+            success => {
+                console.log(success);
+            }, err => {
+                console.log(err);
+            }
+        );
+        
+        Swal({
+            title: '¡Examen terminado!',
+            html: htmlText,
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Continuar',
+        }).then((resultAcept) => {
+            this.router.navigateByUrl('/exam');
+        });
+    }
+
     finalizeExam(){
         Swal({
             title: '¿Estas seguro de terminar el examen?',
@@ -202,16 +330,7 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
             cancelButtonText: 'No, aún no termino.'
         }).then((result) => {
             if (result.value) {
-                Swal({
-                    title: '¡Examen terminado!',
-                    text: 'Felicidades, terminaste el examen.',
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Continuar',
-                }).then((resultAcept) => {
-                    this.router.navigateByUrl('/exam');
-                });
+                this.calificateTest();
             }
         });
     }

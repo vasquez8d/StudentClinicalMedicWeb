@@ -17,7 +17,7 @@ import { CourseMaterialModule } from '../../course/course-material.module';
 
 const routes = [
     {
-        path: ':test_num_ques/:test_type_id/:test_id/:test_categ_slug/start',
+        path: ':test_num_ques/:test_type_id/:test_id/:test_categ_slug/:ques_time/start',
         component: ExamStartComponent,
     },
 ];
