@@ -4,7 +4,6 @@ import { ProjectDashboardDb } from './dashboard-project';
 import { AnalyticsDashboardDb } from './dashboard-analytics';
 import { CalendarFakeDb } from './calendar';
 import { ECommerceFakeDb } from './e-commerce';
-import { AcademyFakeDb } from './academy';
 import { MailFakeDb } from './mail';
 import { ChatFakeDb } from './chat';
 import { FileManagerFakeDb } from './file-manager';
@@ -36,11 +35,6 @@ export class FuseFakeDbService implements InMemoryDbService
             'e-commerce-dashboard': ECommerceFakeDb.dashboard,
             'e-commerce-products' : ECommerceFakeDb.products,
             'e-commerce-orders'   : ECommerceFakeDb.orders,
-
-            // Academy
-            'academy-categories': AcademyFakeDb.categories,
-            'academy-courses'   : AcademyFakeDb.courses,
-            'academy-course'    : AcademyFakeDb.course,
 
             // Mail
             'mail-mails'  : MailFakeDb.mails,

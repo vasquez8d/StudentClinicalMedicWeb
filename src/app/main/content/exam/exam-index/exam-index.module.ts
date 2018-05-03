@@ -19,6 +19,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ExamIndexKpiService } from './tabs/exam-index-kpi/exam-index-kpi.service';
 import { ExamIndexTypeComponent } from './dialog/exam-index-type/exam-index-type.component';
 import { ExamIndexTypeModule } from './dialog/exam-index-type/exam-index-type.module';
+import { ExamIndexListDetailsComponent } from './tabs/exam-index-list/dialog/exam-index-list-details.component';
+import { ExamIndesListDetailsModule } from './tabs/exam-index-list/dialog/exam-index-list-details.module';
+import { MomentModule } from 'angular2-moment';
+import { CorcategoryService } from '../../../../services/corcategory.service';
 
 
 const routes: Routes = [
@@ -54,13 +58,17 @@ const routes: Routes = [
         }),
         ChartsModule,
         NgxChartsModule,
-        ExamIndexTypeModule
+        ExamIndexTypeModule,
+        ExamIndesListDetailsModule,
+        MomentModule
     ],
     providers: [
-        ExamIndexKpiService
+        ExamIndexKpiService,
+        CorcategoryService
     ],
     entryComponents: [
-        ExamIndexTypeComponent
+        ExamIndexTypeComponent,
+        ExamIndexListDetailsComponent
     ]
 })
 export class ExamIndexModule {

@@ -1,6 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
+import { Component, ViewChild, OnInit, Inject } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { MomentModule } from 'angular2-moment';
+
+import { CorcategoryService } from '../../../../../../services/corcategory.service';
+import { ExamIndexListDetailsComponent } from './dialog/exam-index-list-details.component';
 import { ExamIndexTypeComponent } from '../../dialog/exam-index-type/exam-index-type.component';
 
 /**
@@ -11,36 +17,29 @@ import { ExamIndexTypeComponent } from '../../dialog/exam-index-type/exam-index-
     styleUrls: ['./exam-index-list.component.scss'],
     templateUrl: './exam-index-list.component.html'
 })
-export class ExamIndexListComponent {
-    displayedColumns = ['id', 'name', 'progress', 'color', 'status', 'options'];
-    dataSource: MatTableDataSource<UserData>;
+
+export class ExamIndexListComponent implements OnInit {
+    animal: string;
+    name: string;
+    displayedColumns = ['cat_cor_id', 'cat_cor_name', 'num_cursos',
+        'fec_registro', 'est_registro', 'options'];
+    dataSource: MatTableDataSource<CourseData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
+    userData: any;
+
     constructor(
         private router: Router,
-        private dialog: MatDialog,
+        private categoryService: CorcategoryService,
+        public dialog: MatDialog,
+        private momentModule: MomentModule
     ) {
-        // Create 100 users
-        const users: UserData[] = [];
-        for (let i = 1; i <= 100; i++) {
-            users.push(createNewUser(i));
-        }
-
-        // Assign the data to the data source for the table to render
-        this.dataSource = new MatTableDataSource(users);
-        console.log(this.dataSource);
     }
 
-    /**
-     * Set the paginator and sort after the view init since this component will
-     * be able to query its view for the initialized paginator and sort.
-     */
-    // tslint:disable-next-line:use-life-cycle-interface
-    ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+    ngOnInit() {
+        this.loadCategoryList();
     }
 
     applyFilter(filterValue: string) {
@@ -49,7 +48,7 @@ export class ExamIndexListComponent {
         this.dataSource.filter = filterValue;
     }
 
-    selectExamType(){
+    selectExamType() {
         const dialogRef = this.dialog.open(ExamIndexTypeComponent, {
             data: {
                 cor_id: 16
@@ -59,43 +58,113 @@ export class ExamIndexListComponent {
         });
     }
 
-    navigateStartExam() {
-        this.router.navigate(['exam/start/15459251a6d6b397522']);
+    loadCategoryList() {
+        this.categoryService.getCategoryList().subscribe(
+            (res) => {
+                this.dataSource = new MatTableDataSource(res.data_result);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
+
+    categoryDetails(cat_cor_id) {
+        const dialogRef = this.dialog.open(ExamIndexListDetailsComponent, {
+            data: {
+                cat_cor_id: cat_cor_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    }
+
+    categoryEnable(cat_cor_id) {
+        Swal({
+            title: '¿Estas seguro de habilitar la categoría?',
+            text: 'La categoría volverá a ver vista en el registro de cursos.',
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.value) {
+                this.categoryService.getEnableCategory(cat_cor_id).subscribe(
+                    success => {
+                        Swal({
+                            title: 'Categoría habilitado',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar',
+                        });
+                        this.loadCategoryList();
+                    }, err => {
+                        Swal({
+                            title: 'Error Categoría habilitado',
+                            type: 'info',
+                            text: err,
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar',
+                        });
+                    }
+                );
+            }
+        });
+    }
+
+    categoryDelete(cat_cor_id) {
+        Swal({
+            title: '¿Estas seguro de deshabilitar la categoría?',
+            text: 'La categoría no podrá ser vista en el registro de cursos.',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.value) {
+                this.categoryService.getDisableCategory(cat_cor_id).subscribe(
+                    success => {
+                        Swal({
+                            title: 'Categoría deshabilitada',
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar',
+                        });
+                        this.loadCategoryList();
+                    }, err => {
+                        Swal({
+                            title: 'Error Categoría deshabilitada',
+                            type: 'info',
+                            text: err,
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Continuar',
+                        });
+                    }
+                );
+            }
+        });
+    }
+
+    navigateNewCourse() {
+        this.router.navigateByUrl('course/create');
     }
 }
 
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-    const name =
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-    return {
-        id: id.toString(),
-        name: name,
-        progress: Math.round(Math.random() * 100).toString(),
-        color: COLORS[Math.round(Math.random() * (COLORS.length - 1))],
-        status: id.toString(),
-        options: id.toString()
-    };
-}
-
-/** Constants used to fill up our data base. */
-const COLORS = [
-    'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-    'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES = [
-    'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-    'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-    'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
-
-export interface UserData {
-    id: string;
-    name: string;
-    progress: string;
-    color: string;
-    status: string;
+export interface CourseData {
+    cat_cor_id: string;
+    cat_cor_name: string;
+    num_cursos: string;
+    fec_registro: string;
+    est_registro: string;
     options: string;
 }

@@ -14,13 +14,48 @@ export class ExamIndexKpiComponent {
     widgets: any;
     widget1SelectedYear = '2016';
     widget5SelectedDay = 'today';
+    categoryKpi: any = 1;
+    categoryExam: any = [
+        {
+            text: 'ENAM',
+            value: 1
+        },
+        {
+            text: 'EsSalud',
+            value: 2
+        },
+        {
+            text: 'Salud pública',
+            value: 13            
+        },
+        {
+            text: 'Ciencias básicas',
+            value: 10
+        },
+        {
+            text: 'Ginecología',
+            value: 15
+        },
+        {
+            text: 'Pediatría',
+            value: 16
+        },
+        {
+            text: 'Cirugía',
+            value: 17
+        },
+        {
+            text: 'Medicina general',
+            value: 18
+        }
+    ];
 
     constructor(
         private analyticsDashboardService: ExamIndexKpiService
     ) {
         // Get the widgets from the service
         this.widgets = this.analyticsDashboardService.widgets;
-
+        console.log(this.widgets);
         // Register the custom chart.js plugin
         this.registerCustomChartJSPlugin();
     }
@@ -28,6 +63,11 @@ export class ExamIndexKpiComponent {
     /**
      * Register a custom plugin
      */
+
+    changeCategoryKpi(value){
+        console.log(value);
+    }
+
     registerCustomChartJSPlugin() {
         (<any>window).Chart.plugins.register({
             afterDatasetsDraw: function (chart, easing) {

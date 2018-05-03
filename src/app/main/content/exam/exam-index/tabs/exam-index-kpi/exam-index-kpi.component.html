@@ -6,16 +6,22 @@
                 <div class="fuse-card auto-width">
                     <div class="position-relative p-24" fxLayout="row" fxLayoutAlign="space-between center">
                         <div fxLayout="column" fxLayoutAlign="start start">
-                            <span class="h2">Estadísticas de los últimos 10 exámenes realizados: </span>
+                            <span class="h2">Estadísticas de los examenes realizados</span>
                         </div>
-                        <!-- <div fxLayout="row" fxLayoutAlign="start center">
-                            <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer" (click)="widget5SelectedDay = 'yesterday'" [ngClass]="{'grey-300-bg': widget5SelectedDay === 'yesterday'}">
-                                Yesterday
-                            </div>
-                            <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer" (click)="widget5SelectedDay = 'today'" [ngClass]="{'grey-300-bg': widget5SelectedDay === 'today'}">
-                                Today
-                            </div>
-                        </div> -->
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <!-- <div  
+                            (click)="widget5SelectedDay = 'yesterday'" 
+                            [ngClass]="{'grey-300-bg': widget5SelectedDay === 'yesterday'}">
+                                Desde mi primer examen
+                            </div> -->
+                                <mat-form-field fxFlex="250">
+                                    <mat-select (change)="changeCategoryKpi($event.value)" placeholder="Categoría de examen" [value]="categoryKpi">
+                                        <mat-option *ngFor="let option of categoryExam" 
+                                                    [value]="option.value">{{ option.text }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                        </div>
                     </div>
 
                     <div class="position-relative h-368 pb-16">
