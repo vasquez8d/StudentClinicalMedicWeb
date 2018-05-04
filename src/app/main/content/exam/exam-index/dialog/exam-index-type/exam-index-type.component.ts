@@ -196,12 +196,20 @@ export class ExamIndexTypeComponent implements OnInit {
                     const encryptTest_num_ques = Base64.encode(success.data_result.test_num_ques.toString());                    
                     const encrypTest_type_id = Base64.encode(success.data_result.test_type_id.toString());                
                     const encryptTest_id = Base64.encode(success.data_result.test_id.toString());
-                    const typeSlug = this.ListExamType[success.data_result.test_type_id - 1].text.toLocaleLowerCase().replace(' ', '-');
+                    let typeSlug = '';
+                    this.ListExamType.forEach(element => {
+                        // tslint:disable-next-line:triple-equals
+                        if (element.code == success.data_result.test_type_id){
+                            typeSlug = element.text.toLocaleLowerCase().replace(' ', '-');
+                        }
+                    });
                     const encryptTime = Base64.encode(this.examTimeMinutes.toString());
                     this.dialogRef.close();
                     this.dialogRef.close();
+
                     this.router.navigate(['exam/' + encryptTest_num_ques + '/' + encrypTest_type_id + '/' 
                         + encryptTest_id + '/' + typeSlug + '/' + encryptTime + '/start']);
+
                 }else{
                             Swal({
                                 title: 'Comenzar un examen',

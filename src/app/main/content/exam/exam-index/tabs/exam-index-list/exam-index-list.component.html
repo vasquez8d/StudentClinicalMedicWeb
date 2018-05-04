@@ -18,45 +18,60 @@
 
                         <mat-table [dataSource]="dataSource" matSort>
                         
-                            <ng-container matColumnDef="cat_cor_id">
+                            <ng-container matColumnDef="test_id">
                                 <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Código</mat-header-cell>
-                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.cat_cor_id}}</mat-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.test_id}}</mat-cell>
                             </ng-container>
                         
                             <ng-container matColumnDef="cat_cor_name">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</mat-header-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Categoría</mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.cat_cor_name}}</mat-cell>
                             </ng-container>
                         
-                            <ng-container matColumnDef="num_cursos">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Número de cursos</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.num_cursos}}</mat-cell>
+                            <ng-container matColumnDef="test_num_ques">
+                                <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> N° Preguntas</mat-header-cell>
+                                <mat-cell fxFlex="100px" *matCellDef="let row"> {{row.test_num_ques}}</mat-cell>
                             </ng-container>
-                        
+                            
+                            <ng-container matColumnDef="test_time">
+                                <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Tiempo</mat-header-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.test_time}} min</mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="test_result">
+                                <mat-header-cell fxFlex="64px" *matHeaderCellDef mat-sort-header> Resultado</mat-header-cell>
+                                <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.test_result}}</mat-cell>
+                            </ng-container>
+
                             <ng-container matColumnDef="fec_registro">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de registro</mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.fec_registro | amLocale:'es' | amDateFormat:'DD/MM/YYYY'}}</mat-cell>
+                                <mat-header-cell style="color: darkcyan" *matHeaderCellDef mat-sort-header> Fecha de inicio</mat-header-cell>
+                                <mat-cell style="color: darkcyan" *matCellDef="let row"> {{row.fec_registro | amLocale:'es' | amDateFormat:'DD/MM/YYYY hh:mm:ss A'}}</mat-cell>
                             </ng-container>
-                        
-                            <ng-container matColumnDef="est_registro">
+
+                            <ng-container matColumnDef="test_fec_finaliza">
+                                <mat-header-cell style="color: darkblue;" *matHeaderCellDef mat-sort-header> Fecha de termino</mat-header-cell>
+                                <mat-cell style="color: darkblue;" *matCellDef="let row"> {{row.test_fec_finaliza | amLocale:'es' | amDateFormat:'DD/MM/YYYY hh:mm:ss A'}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="test_status">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> Estado</mat-header-cell>
                                 <mat-cell *matCellDef="let row">
                                     <mat-chip-list>
-                                        <mat-chip *ngIf="row.est_registro == 0" color="primary" selected="true">Deshabilitado</mat-chip>
-                                        <mat-chip *ngIf="row.est_registro == 1" color="accent" selected="true">Habilitado</mat-chip>
+                                        <mat-chip *ngIf="row.test_status == 1" color="primary" selected="true">Iniciado</mat-chip>
+                                        <mat-chip *ngIf="row.test_status == 2" color="accent" selected="true">Finalizado</mat-chip>
                                     </mat-chip-list>
                                 </mat-cell>
-                            </ng-container>
-                        
+                            </ng-container>   
+
                             <ng-container matColumnDef="options">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header> Opciones</mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                    <button mat-raised-button matTooltip="Detalle" (click)="categoryDetails(row.cat_cor_id)" mat-mini-fab color="accent">
+                                <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header></mat-header-cell>
+                                <mat-cell fxFlex="50px" *matCellDef="let row">
+                                    <button mat-raised-button matTooltip="Detalle" (click)="testDetails(row.test_id)" mat-mini-fab color="accent">
                                         <mat-icon class="mat-24">zoom_in</mat-icon>
                                     </button>
                                 </mat-cell>
                             </ng-container>
-                        
+
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         
                             <mat-row *matRowDef="let row; columns: displayedColumns;">

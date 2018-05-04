@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import Swal from 'sweetalert2';
 import { MomentModule } from 'angular2-moment';
 import { CorcategoryService } from '../../../../../../../services/corcategory.service';
+import { TestService } from '../../../../../../../services/test.service';
 
 @Component({
     selector: 'fuse-exam-index-list-details',
@@ -14,61 +15,61 @@ import { CorcategoryService } from '../../../../../../../services/corcategory.se
 export class ExamIndexListDetailsComponent implements OnInit {
 
     formPersonal: FormGroup;
+    
     fec_registro: any;
-    cat_color_html: any;
-    cat_cor_id: any;
-    category: any;
+    fec_finaliza: any;
+    test_status: any;
+
+    test_id: any;
+    test: any;
 
     constructor(
         public dialogRef: MatDialogRef<ExamIndexListDetailsComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
-        private corCategoryService: CorcategoryService,
-        private momentModule: MomentModule
+        private momentModule: MomentModule,
+        private testService: TestService
     ) {
-        this.cat_cor_id = data.cat_cor_id;
+        this.test_id = data.test_id;
     }
 
     ngOnInit() {
-
         this.formPersonal = this.formBuilder.group({
-            cat_cor_id: [''],
             cat_cor_name: [''],
-            cat_cor_desc: [''],
-            usu_registro: [''],
-            num_cursos: [''],
-            fec_registro: [''],
-            est_registro: ['']
+            test_num_ques: [''],
+            test_time: [''],
+            test_ques_ok: [''],
+            test_ques_bad: [''],
+            test_ques_blank: [''],
+            test_result: [''],            
         });
-
-        this.loadCourseDetials();
-
+        this.loadTestDetails();
     }
 
-    loadCourseDetials() {
-        this.corCategoryService.getCategoryDetails(this.cat_cor_id).subscribe(
-            successGlobalDetails => {
-                this.category = successGlobalDetails.data_result;
-                this.cat_color_html = successGlobalDetails.data_result.cat_color;
-                const est_registro = this.category.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
-                this.fec_registro = this.category.fec_registro;
+    loadTestDetails(){
+        this.testService.getTestDetails(this.test_id).subscribe(
+            success => {
+                this.test = success.data_result[0];
+                
+                this.test_status = this.test.test_status === 1 ? 'Iniciado' : 'Finalizado';
+                this.fec_registro = this.test.fec_registro;
+                this.fec_finaliza = this.test.test_fec_finaliza;
+
                 this.formPersonal = this.formBuilder.group({
-                    cat_cor_id: [this.category.cat_cor_id],
-                    cat_cor_name: [this.category.cat_cor_name],
-                    cat_cor_desc: [this.category.cat_cor_desc],
-                    usu_registro: [this.category.usu_registro],
-                    num_cursos: [this.category.num_cursos],
-                    fec_registro: [this.category.fec_registro],
-                    est_registro: [est_registro]
+                    cat_cor_name    : [this.test.cat_cor_name],
+                    test_num_ques   : [this.test.test_num_ques],
+                    test_time       : [this.test.test_time],
+                    test_ques_ok    : [this.test.test_ques_ok],
+                    test_ques_bad   : [this.test.test_ques_bad],
+                    test_ques_blank : [this.test.test_ques_blank],
+                    test_result     : [this.test.test_result],
                 });
 
-            },
-            error => {
-                console.log('error_loadGlobalUserDetials', error);
+            }, err => {
+                console.log(err);
             }
         );
     }
-
     onNoClick(): void {
         this.dialogRef.close();
     }

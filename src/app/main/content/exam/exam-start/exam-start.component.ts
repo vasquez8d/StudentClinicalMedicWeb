@@ -182,33 +182,6 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
             }
         });
     }
-
-    getArrayQuestions(data){
-        const dataForm = data.value;
-        const arrayQuestions = [
-            {
-                text: dataForm.ques_res1,
-                value: 1
-            },
-            {
-                text: dataForm.ques_res2,
-                value: 2
-            },
-            {
-                text: dataForm.ques_res3,
-                value: 3
-            },
-            {
-                text: dataForm.ques_res4,
-                value: 4
-            },
-            {
-                text: dataForm.ques_res5,
-                value: 5
-            }
-        ];
-        return arrayQuestions;
-    }
     
     ngAfterViewInit() {
         this.courseStepContent = this.fuseScrollbarDirectives.find((fuseScrollbarDirective) => {
@@ -294,7 +267,9 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
             test_time_to_end: 1,
             test_ques_ok: goodAnswer,
             test_ques_bad: badAnswer,
-            test_ques_blank: noAnswer
+            test_ques_blank: noAnswer,
+            test_status: '2',
+            test_fec_finaliza: new Date()
         };
 
         this.testService.postFinalizeTest(dataFinalize).subscribe(

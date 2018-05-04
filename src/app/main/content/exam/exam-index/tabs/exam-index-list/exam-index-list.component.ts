@@ -8,6 +8,8 @@ import { MomentModule } from 'angular2-moment';
 import { CorcategoryService } from '../../../../../../services/corcategory.service';
 import { ExamIndexListDetailsComponent } from './dialog/exam-index-list-details.component';
 import { ExamIndexTypeComponent } from '../../dialog/exam-index-type/exam-index-type.component';
+import { TestService } from '../../../../../../services/test.service';
+import { AuthloginService } from '../../../../../../services/authlogin.service';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -19,27 +21,48 @@ import { ExamIndexTypeComponent } from '../../dialog/exam-index-type/exam-index-
 })
 
 export class ExamIndexListComponent implements OnInit {
-    animal: string;
-    name: string;
-    displayedColumns = ['cat_cor_id', 'cat_cor_name', 'num_cursos',
-        'fec_registro', 'est_registro', 'options'];
+
+    displayedColumns = ['test_id', 'cat_cor_name', 'test_num_ques',
+        'test_time', 'test_result', 'fec_registro', 'test_fec_finaliza', 'test_status', 'options'];
     dataSource: MatTableDataSource<CourseData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    userData: any;
-
     constructor(
         private router: Router,
-        private categoryService: CorcategoryService,
         public dialog: MatDialog,
-        private momentModule: MomentModule
+        private momentModule: MomentModule,
+        private testService: TestService,
+        private authloginService: AuthloginService
     ) {
     }
 
     ngOnInit() {
-        this.loadCategoryList();
+        this.loadTetstList();
+    }
+
+    loadTetstList(){
+        this.authloginService.getTokenUserLoged().subscribe(
+            success => {
+                // tslint:disable-next-line:triple-equals
+                if (success.res_service == 'ok'){
+                    this.testService.getTestListxUser(success.data_result.user_id).subscribe(
+                        successTest => {
+                            this.dataSource = new MatTableDataSource(successTest.data_result);
+                            this.dataSource.paginator = this.paginator;
+                            this.dataSource.sort = this.sort;
+                        }, err => {
+                            console.log(err);
+                        }
+                    );
+                }else{
+                    this.router.navigateByUrl('auth/login');
+                }
+            }, err => {
+                console.log(err);
+            }
+        );
     }
 
     applyFilter(filterValue: string) {
@@ -48,6 +71,15 @@ export class ExamIndexListComponent implements OnInit {
         this.dataSource.filter = filterValue;
     }
 
+    testDetails(test_id){
+        const dialogRef = this.dialog.open(ExamIndexListDetailsComponent, {
+            data: {
+                test_id: test_id
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    }
     selectExamType() {
         const dialogRef = this.dialog.open(ExamIndexTypeComponent, {
             data: {
@@ -57,114 +89,16 @@ export class ExamIndexListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
         });
     }
-
-    loadCategoryList() {
-        this.categoryService.getCategoryList().subscribe(
-            (res) => {
-                this.dataSource = new MatTableDataSource(res.data_result);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
-    }
-
-    categoryDetails(cat_cor_id) {
-        const dialogRef = this.dialog.open(ExamIndexListDetailsComponent, {
-            data: {
-                cat_cor_id: cat_cor_id
-            }
-        });
-        dialogRef.afterClosed().subscribe(result => {
-        });
-    }
-
-    categoryEnable(cat_cor_id) {
-        Swal({
-            title: '¿Estas seguro de habilitar la categoría?',
-            text: 'La categoría volverá a ver vista en el registro de cursos.',
-            type: 'info',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.value) {
-                this.categoryService.getEnableCategory(cat_cor_id).subscribe(
-                    success => {
-                        Swal({
-                            title: 'Categoría habilitado',
-                            type: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Continuar',
-                        });
-                        this.loadCategoryList();
-                    }, err => {
-                        Swal({
-                            title: 'Error Categoría habilitado',
-                            type: 'info',
-                            text: err,
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Continuar',
-                        });
-                    }
-                );
-            }
-        });
-    }
-
-    categoryDelete(cat_cor_id) {
-        Swal({
-            title: '¿Estas seguro de deshabilitar la categoría?',
-            text: 'La categoría no podrá ser vista en el registro de cursos.',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.value) {
-                this.categoryService.getDisableCategory(cat_cor_id).subscribe(
-                    success => {
-                        Swal({
-                            title: 'Categoría deshabilitada',
-                            type: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Continuar',
-                        });
-                        this.loadCategoryList();
-                    }, err => {
-                        Swal({
-                            title: 'Error Categoría deshabilitada',
-                            type: 'info',
-                            text: err,
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Continuar',
-                        });
-                    }
-                );
-            }
-        });
-    }
-
-    navigateNewCourse() {
-        this.router.navigateByUrl('course/create');
-    }
 }
 
 export interface CourseData {
-    cat_cor_id: string;
+    test_id: string;
     cat_cor_name: string;
-    num_cursos: string;
+    test_num_ques: string;
+    test_time: string;
+    test_result: string;
     fec_registro: string;
-    est_registro: string;
+    test_fec_finaliza: string;
+    test_status: string;
     options: string;
 }

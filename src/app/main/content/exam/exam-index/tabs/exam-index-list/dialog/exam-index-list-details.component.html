@@ -7,48 +7,68 @@
 
             <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="formPersonal" [formGroup]="formPersonal">
 
-                <div class="h2 mb-24">Información de la categoría</div>
+                <div class="h2 mb-24">Información del examen</div>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field fxFlex="50">
-                        <input matInput placeholder="Nombre" formControlName="cat_cor_name" readonly>
+                        <input matInput placeholder="Categoría" formControlName="cat_cor_name" readonly>
                     </mat-form-field>
 
                     <mat-form-field fxFlex="50">
-                        <input matInput placeholder="Número de cursos" formControlName="num_cursos" readonly>
+                        <input matInput placeholder="Número de preguntas" formControlName="test_num_ques" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Tiempo del examen" formControlName="test_time" readonly>
                     </mat-form-field>
 
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-                    <mat-form-field fxFlex="100">
-                        <textarea matInput placeholder="Descripción" formControlName="cat_cor_desc" readonly></textarea>
+                
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Respuestas buenas" formControlName="test_ques_ok" readonly>
                     </mat-form-field>
-                </div>
+                
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Respuetas malas" formControlName="test_ques_bad" readonly>
+                    </mat-form-field>
+                
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Respuestas en blanco" formControlName="test_ques_blank" readonly>
+                    </mat-form-field>
+                
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Resultado" formControlName="test_result" readonly>
+                    </mat-form-field>
 
+                </div>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field fxFlex="50">
-                        <input [ngStyle]="{'color': cat_color_html}" matInput placeholder="Color de la categoría" value="COLOR" readonly>
+                        <input matInput placeholder="Estado del examen" [value]="test_status" readonly>
                     </mat-form-field>
 
-                    <mat-form-field fxFlex="50">
-                        <input matInput placeholder="Estado de la categoría" formControlName="est_registro" readonly>
-                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field fxFlex="50">
-                        <input matInput placeholder="Fecha de registro" value="{{fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}}"
+                        <input matInput placeholder="Fecha de inicio" value="{{fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY hh:mm:ss A'}}"
                             readonly>
                     </mat-form-field>
+                
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field fxFlex="50">
-                        <input matInput placeholder="Plataforma de registro" formControlName="usu_registro" readonly>
+                        <input matInput placeholder="Fecha de termino" value="{{fec_finaliza | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY hh:mm:ss A'}}"
+                            readonly>
                     </mat-form-field>
-
+                
                 </div>
-
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                     <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%;" type="button" mat-raised-button color="accent" class="submit-button">
                         <mat-icon>close</mat-icon> Cerrar
