@@ -55,11 +55,16 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        if (this.checkTestStatus){
-            this.loadQuestions();
-        }else{
-            this.router.navigateByUrl('/exam');
-        }
+        this.questionFormArray = new FormArray(
+            [
+            ]
+        );
+        this.questionForm = new FormGroup(
+            {
+                questions: this.questionFormArray
+            }
+        );
+        this.checkTestStatus();
     }
 
     checkTestStatus(){
@@ -69,14 +74,19 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
                 this.testService.getTestStatus(this.test_id).subscribe(
                     success => {
                         // tslint:disable-next-line:triple-equals
-                        if (success.data_result == 'ok'){
-                            return true;
+                        if (success.res_service == 'ok'){
+                            // tslint:disable-next-line:triple-equals
+                            if (success.data_result.test_status == '1'){
+                                this.loadQuestions();
+                            }else{
+                                this.router.navigateByUrl('/exam');
+                            }
                         }else{
-                            return false;
+                            this.router.navigateByUrl('/exam');
                         }
                     }, err => {
                         console.log(err);
-                        return false;
+                        this.router.navigateByUrl('/exam');
                     }
                 );
             }
@@ -85,17 +95,6 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
 
     loadQuestions() {
         this.activatedRouter.params.subscribe(params => {
-
-            this.questionFormArray = new FormArray(
-                [
-                ]
-            );
-            this.questionForm = new FormGroup(
-                {
-                    questions: this.questionFormArray
-                }
-            );
-
             if (params.test_num_ques && params.test_type_id && params.test_id && params.test_categ_slug) {
                 this.test_num_ques = Base64.decode(params.test_num_ques);
                 const test_type_id = Base64.decode(params.test_type_id);
@@ -290,19 +289,19 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
             '<li style="text-align:left;">Sin respuesta: ' + noAnswer + '</li></ul>';
         
         const dataFinalize = {
-            test_id: 1,
-            test_result: 1,
+            test_id: this.test_id,
+            test_result: (pointXquestion * goodAnswer),
             test_time_to_end: 1,
-            test_ques_ok: 1,
-            test_ques_bad: 1,
-            test_ques_blank: 1
+            test_ques_ok: goodAnswer,
+            test_ques_bad: badAnswer,
+            test_ques_blank: noAnswer
         };
 
         this.testService.postFinalizeTest(dataFinalize).subscribe(
             success => {
-                console.log(success);
+                // console.log(success);
             }, err => {
-                console.log(err);
+                // console.log(err);
             }
         );
         

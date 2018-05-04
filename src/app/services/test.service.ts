@@ -26,6 +26,7 @@ export class TestService {
     }
 
     getTestStatus(test_id) {
+        console.log(test_id);
         return this.http.get
             (this.TestStatusUrl + '/' + test_id, { headers: this.httpHelper.getHeaderAuth() })
             .map(res => {

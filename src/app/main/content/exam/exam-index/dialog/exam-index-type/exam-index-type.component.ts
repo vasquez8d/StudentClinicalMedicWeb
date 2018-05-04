@@ -38,35 +38,35 @@ export class ExamIndexTypeComponent implements OnInit {
     ListExamType = [
         {
             text: 'ENAM',
-            code: 1
+            code: 11
         },
         {
             text: 'EsSalud',
-            code: 2
+            code: 19
         },
         {
             text: 'Salud Pública',
-            code: 3
+            code: 13
         },
         {
             text: 'Ciencias Básicas',
-            code: 4
+            code: 10
         },
         {
             text: 'Ginecología',
-            code: 5
+            code: 15
         },
         {
             text: 'Pediatría',
-            code: 6
+            code: 16
         },
         {
             text: 'Cirugía',
-            code: 7
+            code: 17
         },
         {
             text: 'Medicina Interna',
-            code: 8
+            code: 18
         },
     ];
 
@@ -145,7 +145,7 @@ export class ExamIndexTypeComponent implements OnInit {
 
     changeTypeExam(type_id){
         // tslint:disable-next-line:triple-equals
-        if (type_id == 1){
+        if (type_id == 11){
             this.numberQuestions1 = true;
             this.numberQuestions2 = false;
         }else{
@@ -186,7 +186,8 @@ export class ExamIndexTypeComponent implements OnInit {
             test_num_ques: dataForm.ques_num,
             test_time: this.examTimeMinutes,
             user_id: this.user_id,
-            usu_registro: 'web'
+            usu_registro: 'web',
+            test_status: '1'
         };
         this.testService.postCreateTest(dataCreate).subscribe(
             success => {
