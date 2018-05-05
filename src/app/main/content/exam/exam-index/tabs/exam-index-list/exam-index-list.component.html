@@ -43,9 +43,9 @@
                                 <mat-cell fxFlex="64px" *matCellDef="let row"> {{row.test_result}}</mat-cell>
                             </ng-container>
 
-                            <ng-container matColumnDef="fec_registro">
+                            <ng-container matColumnDef="test_fec_start">
                                 <mat-header-cell style="color: darkcyan" *matHeaderCellDef mat-sort-header> Fecha de inicio</mat-header-cell>
-                                <mat-cell style="color: darkcyan" *matCellDef="let row"> {{row.fec_registro | amLocale:'es' | amDateFormat:'DD/MM/YYYY hh:mm:ss A'}}</mat-cell>
+                                <mat-cell style="color: darkcyan" *matCellDef="let row"> {{row.test_fec_start | amLocale:'es' | amDateFormat:'DD/MM/YYYY hh:mm:ss A'}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="test_fec_finaliza">

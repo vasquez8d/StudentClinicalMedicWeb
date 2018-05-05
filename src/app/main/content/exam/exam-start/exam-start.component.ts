@@ -260,7 +260,7 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
             '<li style="text-align:left;">Correctas: ' + goodAnswer + '</li>' +
             '<li style="text-align:left;">Incorrectas: ' + badAnswer + '</li>' +
             '<li style="text-align:left;">Sin respuesta: ' + noAnswer + '</li></ul>';
-        
+
         const dataFinalize = {
             test_id: this.test_id,
             test_result: (pointXquestion * goodAnswer),
@@ -269,8 +269,10 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
             test_ques_bad: badAnswer,
             test_ques_blank: noAnswer,
             test_status: '2',
-            test_fec_finaliza: new Date()
+            test_fec_finaliza: this.testService.getDate()
         };
+
+        console.log(dataFinalize);
 
         this.testService.postFinalizeTest(dataFinalize).subscribe(
             success => {

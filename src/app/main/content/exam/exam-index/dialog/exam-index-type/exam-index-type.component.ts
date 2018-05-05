@@ -187,7 +187,8 @@ export class ExamIndexTypeComponent implements OnInit {
             test_time: this.examTimeMinutes,
             user_id: this.user_id,
             usu_registro: 'web',
-            test_status: '1'
+            test_status: '1',
+            test_fec_start: this.testService.getDate()
         };
         this.testService.postCreateTest(dataCreate).subscribe(
             success => {
@@ -210,7 +211,7 @@ export class ExamIndexTypeComponent implements OnInit {
                     this.router.navigate(['exam/' + encryptTest_num_ques + '/' + encrypTest_type_id + '/' 
                         + encryptTest_id + '/' + typeSlug + '/' + encryptTime + '/start']);
 
-                }else{
+                }else{ 
                             Swal({
                                 title: 'Comenzar un examen',
                                 text: success.res_service,

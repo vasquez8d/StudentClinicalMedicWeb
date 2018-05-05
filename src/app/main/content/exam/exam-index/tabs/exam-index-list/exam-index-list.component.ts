@@ -23,7 +23,7 @@ import { AuthloginService } from '../../../../../../services/authlogin.service';
 export class ExamIndexListComponent implements OnInit {
 
     displayedColumns = ['test_id', 'cat_cor_name', 'test_num_ques',
-        'test_time', 'test_result', 'fec_registro', 'test_fec_finaliza', 'test_status', 'options'];
+        'test_time', 'test_result', 'test_fec_start', 'test_fec_finaliza', 'test_status', 'options'];
     dataSource: MatTableDataSource<CourseData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -49,9 +49,19 @@ export class ExamIndexListComponent implements OnInit {
                 if (success.res_service == 'ok'){
                     this.testService.getTestListxUser(success.data_result.user_id).subscribe(
                         successTest => {
-                            this.dataSource = new MatTableDataSource(successTest.data_result);
-                            this.dataSource.paginator = this.paginator;
-                            this.dataSource.sort = this.sort;
+                            // tslint:disable-next-line:triple-equals
+                            if (successTest.res_service == 'ok'){
+
+                                successTest.data_result.forEach(element => {
+                                    element.test_fec_start = new Date(element.test_fec_start);
+                                    element.test_fec_finaliza = new Date(element.test_fec_finaliza);
+                                });
+
+                                this.dataSource = new MatTableDataSource(successTest.data_result);
+                                this.dataSource.paginator = this.paginator;
+                                this.dataSource.sort = this.sort;
+                            }
+
                         }, err => {
                             console.log(err);
                         }
@@ -97,7 +107,7 @@ export interface CourseData {
     test_num_ques: string;
     test_time: string;
     test_result: string;
-    fec_registro: string;
+    test_fec_start: string;
     test_fec_finaliza: string;
     test_status: string;
     options: string;
