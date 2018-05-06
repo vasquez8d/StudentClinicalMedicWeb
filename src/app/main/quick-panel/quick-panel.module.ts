@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatDividerModule, MatListModule, MatSlideToggleModule } from '@angular/material';
+import { MatDividerModule, MatListModule, MatSlideToggleModule, MatIconModule } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
@@ -18,6 +18,7 @@ import { FuseQuickPanelComponent } from 'app/main/quick-panel/quick-panel.compon
         MatSlideToggleModule,
 
         FuseSharedModule,
+        MatIconModule
     ],
     exports: [
         FuseQuickPanelComponent

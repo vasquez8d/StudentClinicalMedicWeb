@@ -1,17 +1,15 @@
 <mat-list class="date" cdkFocusRegionStart>
 
     <h3 matSubheader cdkFocusInit>
-        <span>Hoy</span>
+        <span>Información del sistema</span>
     </h3>
 
     <div class="secondary-text mat-display-1 mb-0 p-16">
         <div class="mb-12">
-            {{date | date:'EEEE'}}
+            Aula Virtual
         </div>
-        <div fxLayout="row" fxLayoutAlign="start start">
-            <span> {{date | date:'d'}}</span>
-            <span class="mat-subheading-1">th</span>
-            <span> {{date | date:'MMMM'}}</span>
+        <div class="mb-10">
+            Student Clinical Medic
         </div>
     </div>
 </mat-list>
@@ -20,18 +18,21 @@
 
 <mat-list>
     <h3 matSubheader>
-        <span>Cursos</span>
+        <mat-icon>timeline</mat-icon>&nbsp;
+            <span>Versión: 1.0.0</span>
     </h3>
-
-    <mat-list-item *ngFor="let event of events">
-        <h3 matLine>{{event.title}}</h3>
-        <p matLine class="secondary-text">{{event.detail}}</p>
-    </mat-list-item>
 </mat-list>
 
 <mat-divider></mat-divider>
 
 <mat-list>
+    <h3 matSubheader>
+        <mat-icon>mail</mat-icon>&nbsp;
+        <span>Contácto: <a href="mailto:vasquez8d@gmail.com?Subject=Contacto-Student-Clinical-Medic">vasquez8d@gmail.com</a></span>
+    </h3>
+</mat-list>
+
+<!-- <mat-list>
     <h3 matSubheader>
         <span>Prácticas</span>
     </h3>
@@ -40,7 +41,16 @@
         <h3 matLine>{{note.title}}</h3>
         <p matLine class="secondary-text">{{note.detail}}</p>
     </mat-list-item>
-</mat-list>
+</mat-list> -->
+
+<mat-divider></mat-divider>
+
+<mat-list>
+    <h3 matSubheader>
+        <mat-icon>person_pin</mat-icon>&nbsp;
+        <span>Desarrollado por: <a href="https://vasquez8d.github.io/4lxDev/" target="_blank">4lexDev</a></span>
+    </h3>
+</mat-list> 
 
 <mat-divider></mat-divider>
 

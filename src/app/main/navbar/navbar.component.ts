@@ -51,42 +51,20 @@ export class FuseNavbarComponent implements OnDestroy
         private router: Router
     )
     {
-        const localsUserToken = localStorage.getItem('tokenStudentClinicalAccessWS');
-        const sessionUserTooen = sessionStorage.getItem('tokenStudentClinicalAccessWS');
-
-        if (localsUserToken != null) {
-            if (this.globalUser.user == null) {
-                this.authloginService.getTokenUser(localsUserToken).subscribe(
-                    success => {
-                        if (success.res_service === 'ok') {
-                            this.globalUser.user = success.data_result;
-                            this.navigation = navigationData.getNavigation(this.globalUser.user);
-                        } else {
-                            this.router.navigateByUrl('/auth/login');
-                        }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
+        this.authloginService.getTokenUserLoged().subscribe(
+            success => {
+                // tslint:disable-next-line:triple-equals
+                if (success.res_service == 'ok'){
+                    this.globalUser.user = success.data_result;
+                    this.navigation = navigationData.getNavigation(this.globalUser.user);
+                }else{
+                    this.router.navigateByUrl('/auth/login');
+                }
+            }, err => {
+                console.log(err);
+                this.router.navigateByUrl('/auth/login');
             }
-        } else if (sessionUserTooen != null) {
-            if (this.globalUser.user == null) {
-                this.authloginService.getTokenUser(sessionUserTooen).subscribe(
-                    success => {
-                        if (success.res_service === 'ok') {
-                            this.globalUser.user = success.data_result;
-                            this.navigation = navigationData.getNavigation(this.globalUser.user);
-                        } else {
-                            this.router.navigateByUrl('/auth/login');
-                        }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
-            }
-        }
+        );        
         this.layout = 'vertical';
     }
 

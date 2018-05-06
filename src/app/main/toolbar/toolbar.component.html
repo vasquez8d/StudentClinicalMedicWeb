@@ -56,9 +56,16 @@
                     <span>Notificaciones</span>
                 </button> -->
 
-                <button mat-menu-item class="" (click)="navigateToConfig()">
-                    <mat-icon>settings</mat-icon>
-                    <span>Configurar</span>
+                <button mat-menu-item class="" (click)="navigateExams()">
+                    <mat-icon>playlist_add_check</mat-icon>
+                    <span>Mis examenes</span>
+                </button>
+
+                <button mat-menu-item class="" 
+                fuseMatSidenavToggler="quick-panel" 
+                aria-label="Toggle quick panel">
+                    <mat-icon>info</mat-icon>
+                    <span>Información</span>
                 </button>
 
                 <button (click)="logout()" mat-menu-item class="">

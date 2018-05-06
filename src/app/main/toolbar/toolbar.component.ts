@@ -40,43 +40,21 @@ export class FuseToolbarComponent
         private globalValues: GlobalValues
     )
     {
-        const localsUserToken = localStorage.getItem('tokenStudentClinicalAccessWS');
-        const sessionUserTooen = sessionStorage.getItem('tokenStudentClinicalAccessWS');
-
-        if (localsUserToken != null) {
-            if (this.globalUser.user == null) {
-                this.authloginService.getTokenUser(localsUserToken).subscribe(
-                    success => {
-                        if (success.res_service === 'ok') {
-                            this.globalUser.user = success.data_result;
-                            this.user = this.globalUser.user;
-                        } else {
-                            this.router.navigateByUrl('/auth/login');
-                        }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
+        this.authloginService.getTokenUserLoged().subscribe(
+            success => {
+                // tslint:disable-next-line:triple-equals
+                if (success.res_service == 'ok'){
+                    this.globalUser.user = success.data_result;
+                    this.user = this.globalUser.user;
+                }else{
+                    this.router.navigateByUrl('/auth/login');
+                }
+            }, err => {
+                this.router.navigateByUrl('/auth/login');
+                console.log(err);
             }
-        } else if (sessionUserTooen != null) {
-            if (this.globalUser.user == null) {
-                this.authloginService.getTokenUser(sessionUserTooen).subscribe(
-                    success => {
-                        if (success.res_service === 'ok') {
-                            this.globalUser.user = success.data_result;
-                            this.user = this.globalUser.user;
-                        } else {
-                            this.router.navigateByUrl('/auth/login');
-                        }
-                    },
-                    error => {
-                        console.log(error);
-                    }
-                );
-            }
-        }
-        
+        );
+                
         this.userStatusOptions = [
             {
                 'title': 'Online',
@@ -150,6 +128,10 @@ export class FuseToolbarComponent
         console.log(value);
     }
 
+    navigateExams(){
+        this.router.navigateByUrl('/exam');
+    }
+
     setLanguage(lang)
     {
         // Set the selected language for toolbar
@@ -173,7 +155,8 @@ export class FuseToolbarComponent
     }
 
     navigateToCourses(){
-        this.router.navigate(['course']);
+        const encryptUser = Base64.encode(this.globalUser.user.user_id.toString());
+        this.router.navigate(['course/' + encryptUser + '/info']);
     }
 
     navigateToNotifications(){
