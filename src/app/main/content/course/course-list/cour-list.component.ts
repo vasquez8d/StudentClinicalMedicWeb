@@ -8,6 +8,7 @@ import { CourseListUpdateComponent } from './dialog/update/course-list.update.co
 import { CourseService } from '../../../../services/course.service';
 import { MomentModule } from 'angular2-moment';
 import { Base64 } from 'js-base64';
+import { AuthloginService } from '../../../../services/authlogin.service';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -37,13 +38,31 @@ export class CourListComponent implements OnInit {
         private router: Router,
         private courseService: CourseService,
         public dialog: MatDialog,
-        private momentModule: MomentModule
+        private momentModule: MomentModule,
+        private authLoginService: AuthloginService
     ) {
     }
 
     ngOnInit() {
-        this.loadCourseList();
-        // this.loadGlobalUserDetials();
+        this.authLoginService.getTokenUserLoged().subscribe(
+            success => {
+                // tslint:disable-next-line:triple-equals
+                if (success.res_service == 'ok'){
+                    console.log(success.data_result);
+                    if (success.data_result.rol_id === 1 || success.data_result.rol_id === 2){
+                        this.loadCourseList();
+                    } else if (success.data_result.rol_id === 4 ){
+                        this.loadCourseListTeacher(success.data_result.user_id);
+                    } else {
+                        this.router.navigateByUrl('/app/dashboard');   
+                    }
+                }else{
+                    this.router.navigateByUrl('/auth/login');   
+                }
+            }, err => {
+                this.router.navigateByUrl('/auth/login');
+            }
+        );
     }
 
     applyFilter(filterValue: string) {
@@ -62,6 +81,20 @@ export class CourListComponent implements OnInit {
                 this.dataSource = new MatTableDataSource(res.data_result);
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
+
+    loadCourseListTeacher(user_id){
+        this.courseService.getCourseListxTeacher(user_id).subscribe(
+            (res) => {
+                console.log(res);
+                // this.dataSource = new MatTableDataSource(res.data_result);
+                // this.dataSource.paginator = this.paginator;
+                // this.dataSource.sort = this.sort;
             },
             (err) => {
                 console.log(err);

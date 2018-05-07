@@ -16,7 +16,8 @@ export const locale = {
             'DASHBOARD' : 'Página Principal',
             'CONVERSATIONS': 'Conversaciones',
             'EXAM': 'Exámenes',
-            'USER': 'Usuario'
+            'USER': 'Usuario',
+            'GESTOR': 'Gestor'
         }
     }
 };

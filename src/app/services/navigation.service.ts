@@ -16,8 +16,6 @@ export class NavigationService {
    ) { }
 
   getNavigation(user){     
-    //   const pwEncrypt = crypto.AES.encrypt(, this.globalValues.cryptoKey());
-    //   const encryptUser = pwEncrypt.toString().replace('/', '_');
 
       const encryptUser = Base64.encode(user.user_id.toString());
       let DefaultNavigation: any;
@@ -88,7 +86,7 @@ export class NavigationService {
       ];
       
       switch (user.rol_id){
-        case 1: // ADMIN
+        case 1:
               DefaultNavigation.push({
                   'id': 'admin',
                   'title': 'Administrador',
@@ -172,19 +170,140 @@ export class NavigationService {
                   ]
               });
               break;
+        case 2: // GESTOR
+              DefaultNavigation.push({
+                  'id': 'admin',
+                  'title': 'Gestor',
+                  'translate': 'NAV.GESTOR',
+                  'type': 'group',
+                  'children': [
+                      {
+                          'id': 'courses',
+                          'title': 'Cursos',
+                          'type': 'collapse',
+                          'icon': 'school',
+                          'children': [
+                              {
+                                  'id': 'list_course',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/course/list'
+                              },
+                              {
+                                  'id': 'new_course',
+                                  'title': 'Nuevo',
+                                  'type': 'item',
+                                  'icon': 'control_point',
+                                  'url': '/course/create'
+                              },
+                          ]
+                      },
+                      {
+                          'id': 'category',
+                          'title': 'Compras',
+                          'type': 'collapse',
+                          'icon': 'attach_money',
+                          'children': [
+                              {
+                                  'id': 'list',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/payment/list'
+                              }
+                          ]
+                      },
+                      {
+                          'id': 'category',
+                          'title': 'Categorías',
+                          'type': 'collapse',
+                          'icon': 'layers',
+                          'children': [
+                              {
+                                  'id': 'list',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/category/list'
+                              }
+                          ]
+                      },
+                      {
+                          'id': 'Usuarios',
+                          'title': 'Usuarios',
+                          'type': 'collapse',
+                          'icon': 'people',
+                          'children': [
+                              {
+                                  'id': 'list',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/user/list'
+                              }
+                          ]
+                      },
+                      {
+                          'id': 'questions',
+                          'title': 'Preguntas',
+                          'type': 'item',
+                          'icon': 'storage',
+                          'url': '/questions/list'
+                      }
+                  ]
+              });
+              break;       
         case 4: // DOCENTE
               DefaultNavigation.push({
-                  'id': 'profesor',
-                  'title': 'Profesor',
+                  'id': 'admin',
+                  'title': 'Docente',
                   'translate': 'NAV.TEACHER',
                   'type': 'group',
                   'children': [
                       {
-                          'id': 'listar',
+                          'id': 'courses',
                           'title': 'Cursos',
-                          'type': 'item',
+                          'type': 'collapse',
                           'icon': 'school',
-                          'url': '/course/list'
+                          'children': [
+                              {
+                                  'id': 'list_course',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/course/list'
+                              },
+                              {
+                                  'id': 'new_course',
+                                  'title': 'Nuevo',
+                                  'type': 'item',
+                                  'icon': 'control_point',
+                                  'url': '/course/create'
+                              },
+                          ]
+                      },
+                      {
+                          'id': 'category',
+                          'title': 'Categorías',
+                          'type': 'collapse',
+                          'icon': 'layers',
+                          'children': [
+                              {
+                                  'id': 'list',
+                                  'title': 'Listado',
+                                  'type': 'item',
+                                  'icon': 'view_headline',
+                                  'url': '/category/list'
+                              }
+                          ]
+                      },
+                      {
+                          'id': 'questions',
+                          'title': 'Preguntas',
+                          'type': 'item',
+                          'icon': 'storage',
+                          'url': '/questions/list'
                       }
                   ]
               });

@@ -19,6 +19,7 @@ export class CourseService {
     private CourseDetailsUpdateUrl  = `${this.globalValues.urlCourse()}/detailsupdate`;
     private CourseUsersListUrl      = `${this.globalValues.urlCourse()}/listuserxcourse`;
     private CourseListxUserUrl      = `${this.globalValues.urlCourse()}/listxuser`;
+    private CourseListxTeacherUrl   = `${this.globalValues.urlCourse()}/listxteacher`;
 
     constructor(
         private http: Http,
@@ -46,6 +47,15 @@ export class CourseService {
             const result = res.json();
             return result;
         });
+    }
+
+    getCourseListxTeacher(user_id) {
+        return this.http.get
+            (this.CourseListxTeacherUrl + '/' + user_id, { headers: this.httpHelper.getHeaderAuth() })
+            .map(res => {
+                const result = res.json();
+                return result;
+            });
     }
 
     getUsersListCourse(cor_id){
