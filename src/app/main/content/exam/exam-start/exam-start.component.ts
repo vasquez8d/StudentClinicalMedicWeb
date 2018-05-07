@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Base64 } from 'js-base64';
 import { QuesService } from '../../../../services/questions.service';
 import { TestService } from '../../../../services/test.service';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { AbstractControl, FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
@@ -65,6 +65,10 @@ export class ExamStartComponent implements OnInit, AfterViewInit {
             }
         );
         this.checkTestStatus();
+    }
+
+    get formData() { 
+        return <FormArray>this.questionFormArray.get('questions'); 
     }
 
     checkTestStatus(){

@@ -5,6 +5,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import Swal from 'sweetalert2';
 import { CourseService } from '../../../../../../services/course.service';
 import { MomentModule } from 'angular2-moment';
+import { Router } from '@angular/router';
+import { Base64 } from 'js-base64';
 
 @Component({
     selector: 'fuse-course-list-details',
@@ -24,7 +26,8 @@ export class CourseListDetailsComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
         private courseService: CourseService,
-        private momentModule: MomentModule
+        private momentModule: MomentModule,
+        private router: Router
     ) {
         this.cor_id = data.cor_id;
     }
@@ -82,5 +85,10 @@ export class CourseListDetailsComponent implements OnInit {
 
     onNoClick(): void {
         this.dialogRef.close();
+    }
+
+    viewClassxCourse(){
+        const encryptCourse = Base64.encode(this.cor_id.toString());
+        this.router.navigate(['course/class/' + encryptCourse + '/list']);
     }
 }

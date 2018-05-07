@@ -17,7 +17,7 @@
                     </mat-form-field>
 
                     <mat-form-field fxFlex="50">
-                        <mat-select placeholder="Categoría" [(value)]="cat_cor_id" formControlName="cat_cor_id" required>
+                        <mat-select placeholder="Categoría" formControlName="cat_cor_id" required>
                             <mat-option *ngFor="let categ of ListCourseCategory" [value]="categ.cat_cor_id">
                                 {{categ.cat_cor_name}}
                             </mat-option>
@@ -33,7 +33,7 @@
                     </mat-form-field>
                 
                     <mat-form-field fxFlex="50">
-                        <mat-select placeholder="Docente encargado" [(value)]="user_doc_id" formControlName="user_doc_id"
+                        <mat-select placeholder="Docente encargado" formControlName="user_doc_id"
                             required>
                             <mat-option *ngFor="let teacher of ListTeachers" [value]="teacher.user_id">
                                 {{teacher.doc_full_name}}

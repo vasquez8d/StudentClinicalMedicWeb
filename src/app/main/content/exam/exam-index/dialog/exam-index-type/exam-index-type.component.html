@@ -28,7 +28,7 @@
 
                     <mat-form-field fxFlex="50">
                         <mat-select (change)="changeTypeExam($event.value)" placeholder="Tipo de examen" 
-                        [(value)]="type_id" formControlName="type_id" required>
+                        formControlName="type_id" required>
                             <mat-option *ngFor="let type of ListExamType" [value]="type.code">
                                 {{type.text}}
                             </mat-option>

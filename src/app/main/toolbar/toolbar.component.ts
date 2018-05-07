@@ -27,7 +27,8 @@ export class FuseToolbarComponent
 
     user = {
         user_seg_nom : '',
-        user_pri_nom : ''
+        user_pri_nom : '',
+        user_reg_provider_photo : ''
     };
 
     constructor(

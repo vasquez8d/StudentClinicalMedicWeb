@@ -23,7 +23,7 @@ export class FuseProfileAboutComponent implements OnInit
 
     constructor(private globalUser: GlobalUser,
                 private userService: UserService,
-                private userModel: UserModel,
+                public userModel: UserModel,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
                 private momentModule: MomentModule,

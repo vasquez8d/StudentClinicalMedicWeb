@@ -45,12 +45,12 @@
 
                             <ng-container matColumnDef="test_fec_start">
                                 <mat-header-cell style="color: darkcyan" *matHeaderCellDef mat-sort-header> Fecha de inicio</mat-header-cell>
-                                <mat-cell style="color: darkcyan" *matCellDef="let row"> {{row.test_fec_start | amLocale:'es' | amDateFormat:'DD/MM/YYYY hh:mm:ss A'}}</mat-cell>
+                                <mat-cell style="color: darkcyan" *matCellDef="let row"> {{row.test_fec_start}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="test_fec_finaliza">
                                 <mat-header-cell style="color: darkblue;" *matHeaderCellDef mat-sort-header> Fecha de termino</mat-header-cell>
-                                <mat-cell style="color: darkblue;" *matCellDef="let row"> {{row.test_fec_finaliza | amLocale:'es' | amDateFormat:'DD/MM/YYYY hh:mm:ss A'}}</mat-cell>
+                                <mat-cell style="color: darkblue;" *matCellDef="let row"> {{row.test_fec_finaliza}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="test_status">

@@ -88,7 +88,7 @@ export class CategoryListComponent implements OnInit {
         });
     }
 
-    categoryCreate(cat_cor_id) {
+    categoryCreate() {
         const dialogRef = this.dialog.open(CategoryListCreateComponent);
         dialogRef.afterClosed().subscribe(result => {
             this.loadCategoryList();

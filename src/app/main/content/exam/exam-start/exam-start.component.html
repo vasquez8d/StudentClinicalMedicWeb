@@ -51,6 +51,7 @@
                     <div [formGroup]="questionForm">
                         <div formArrayName="questions">
                             <div *ngFor="let question of questionForm.controls.questions.controls; index as i">
+                            <!-- <div *ngFor="let question of questionForm.controls; index as i"> -->
                                 <div class="course-step" fusePerfectScrollbar *ngIf="currentStep === i" [@slideIn]="animationDirection">
                                     <div id="course-step-content" class="course-step-content">
                                         <div [formGroup]="question">

@@ -10,6 +10,7 @@ import { ExamIndexListDetailsComponent } from './dialog/exam-index-list-details.
 import { ExamIndexTypeComponent } from '../../dialog/exam-index-type/exam-index-type.component';
 import { TestService } from '../../../../../../services/test.service';
 import { AuthloginService } from '../../../../../../services/authlogin.service';
+import * as moment from 'moment';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -51,11 +52,12 @@ export class ExamIndexListComponent implements OnInit {
                         successTest => {
                             // tslint:disable-next-line:triple-equals
                             if (successTest.res_service == 'ok'){
-
-                                successTest.data_result.forEach(element => {
-                                    element.test_fec_start = new Date(element.test_fec_start);
-                                    element.test_fec_finaliza = new Date(element.test_fec_finaliza);
-                                });
+                                // console.log(successTest);
+                                // successTest.data_result.forEach(element => {
+                                //     element.test_fec_start = new Date(Date.parse(element.test_fec_start));
+                                //     // element.test_fec_start = moment(element.test_fec_start).format('DD-MMM-YYYY');
+                                //     element.test_fec_finaliza = new Date(element.test_fec_finaliza);
+                                // });
 
                                 this.dataSource = new MatTableDataSource(successTest.data_result);
                                 this.dataSource.paginator = this.paginator;

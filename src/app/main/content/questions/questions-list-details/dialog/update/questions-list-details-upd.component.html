@@ -17,7 +17,7 @@
                     </mat-form-field>
 
                     <mat-form-field fxFlex="50">
-                        <mat-select placeholder="Categoría" [(value)]="cat_cor_id" formControlName="cat_cor_id" required>
+                        <mat-select placeholder="Categoría" formControlName="cat_cor_id" required>
                             <mat-option *ngFor="let categ of ListCourseCategory" [value]="categ.cat_cor_id">
                                 {{categ.cat_cor_name}}
                             </mat-option>
@@ -64,7 +64,7 @@
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                     <mat-form-field fxFlex="100">
-                        <mat-select placeholder="Respuesta correcta" [(value)]="ques_ok" formControlName="ques_ok" required>
+                        <mat-select placeholder="Respuesta correcta" formControlName="ques_ok" required>
                             <mat-option *ngFor="let categ of ListQuestions" [value]="categ.ques_num">
                                 {{categ.ques_name}}
                             </mat-option>
