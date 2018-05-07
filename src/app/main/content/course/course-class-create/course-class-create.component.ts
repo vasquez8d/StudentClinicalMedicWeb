@@ -45,6 +45,8 @@ export class CourseClassCreateComponent implements OnInit {
     user_id: any;
     cor_id: any;
 
+    public loading = false;
+
     constructor(
         private formBuilder: FormBuilder,
         private courseService: CourseService,
@@ -162,6 +164,7 @@ export class CourseClassCreateComponent implements OnInit {
     }
 
     classSaveInfo() {
+        this.loading = true;
         const dataRegisterCourse1 = this.horizontalStepperStep1.value;
         const dataRegisterCourse2 = this.horizontalStepperStep2.value;
 
@@ -172,7 +175,7 @@ export class CourseClassCreateComponent implements OnInit {
         console.log(dataClass);                                                         
         this.classSerivce.postClassRegister(dataClass).subscribe(
             success => {
-                console.log(success);
+                this.loading = false;
                 // tslint:disable-next-line:triple-equals
                 if (success.res_service == 'ok') {
                     Swal({
@@ -198,6 +201,7 @@ export class CourseClassCreateComponent implements OnInit {
                     });
                 }
             }, err => {
+                this.loading = false;
                 console.log('error_courseSaveInfo', err);
             }
         );

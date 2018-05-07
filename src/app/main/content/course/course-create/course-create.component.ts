@@ -11,6 +11,7 @@ import { AuthloginService } from '../../../../services/authlogin.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { DropBoxService } from '../../../../services/dropbox.service';
+import { GlobalHelper } from '../../../../helpers/global.helper';
 
 @Component({
     selector: 'fuse-course-create',
@@ -38,12 +39,15 @@ export class CourseCreateComponent implements OnInit {
     user_id: any;
     file_course_url: any;
 
+    public loading = false;
+    
     constructor(
         private formBuilder: FormBuilder,
         private courseService: CourseService,
         private corCategoryService: CorcategoryService,
         private userService: UserService,
         private router: Router,
+        private globalHelper: GlobalHelper,
         private dropboxService: DropBoxService,
         private authLoginService: AuthloginService) {
         // Reactive form errors
@@ -76,7 +80,6 @@ export class CourseCreateComponent implements OnInit {
         this.loadUserLoged();
         this.loadCourseCategory();
         this.loadListTeacher();
-
         // Reactive Form
         this.form = this.formBuilder.group({
             cor_name: ['', Validators.required],
@@ -180,6 +183,7 @@ export class CourseCreateComponent implements OnInit {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) {
+                this.loading = true;
                 const dataRegisterCourse1 = this.horizontalStepperStep1.value;
                 const dataRegisterCourse2 = this.horizontalStepperStep2.value;
                 const dataCourse = this.courseService.getCourseJson(dataRegisterCourse1,
@@ -188,10 +192,11 @@ export class CourseCreateComponent implements OnInit {
                 this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;
                 this.courseService.postCourseRegister(dataCourse).subscribe(
                     success => {
+                        this.loading = false;
                         // tslint:disable-next-line:triple-equals
                         if (success.res_service == 'ok') {
                             Swal({
-                                title: 'Actualizar información',
+                                title: 'Creación de un nuevo curso',
                                 text: 'Se registró correctamente la información.',
                                 type: 'success',
                                 showCancelButton: false,
@@ -216,6 +221,7 @@ export class CourseCreateComponent implements OnInit {
                             });
                         }
                     }, err => {
+                        this.loading = false;
                         console.log('error_courseSaveInfo', err);
                     }
                 );
@@ -230,7 +236,8 @@ export class CourseCreateComponent implements OnInit {
     }
 
     saveImageFile(cor_id){
-        this.dropboxService.postUploadCorFile(this.fileToUpload).subscribe(
+        const newFileName = this.globalHelper.getDateFileName() + '-' + this.fileToUpload.name;
+        this.dropboxService.postUploadCorFile(this.fileToUpload, newFileName).subscribe(
             success => {
                 const dataShared = {
                     'path': success.path_lower,
@@ -260,14 +267,5 @@ export class CourseCreateComponent implements OnInit {
                 console.log(err);
             }
         );
-        // this.courseService.postUploadCourseImage(this.fileToUpload).subscribe(
-        //     sucess => {
-        //         // tslint:disable-next-line:triple-equals
-        //         if (sucess.res_service == 'ok'){
-        //         }
-        //     }, err => {
-        //         console.log('error_saveImageFile', err);
-        //     }
-        // );
     }
 }

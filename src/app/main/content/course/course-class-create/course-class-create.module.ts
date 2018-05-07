@@ -12,6 +12,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CourseClassCreateComponent } from './course-class-create.component';
 import { CourseMaterialModule } from '../course-material.module';
+import { LoadingModule } from 'ngx-loading';
 
 const routes: Routes = [
     {
@@ -36,7 +37,8 @@ const routes: Routes = [
         FuseSharedModule,
         CourseMaterialModule,
 
-        HttpClientModule
+        HttpClientModule,
+        LoadingModule
     ]
 })
 export class CourseClassCreateModule {

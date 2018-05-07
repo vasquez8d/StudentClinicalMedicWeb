@@ -14,6 +14,7 @@ import { Base64 } from 'js-base64';
 import { MomentModule } from 'angular2-moment';
 import { MatService } from '../../../../services/mat.service';
 import { DropBoxService } from '../../../../services/dropbox.service';
+import { GlobalHelper } from '../../../../helpers/global.helper';
 
 @Component({
     selector: 'fuse-course-payment',
@@ -35,6 +36,8 @@ export class CoursePaymentComponent implements OnInit {
     form_valid = true;
     file_course_url: any; 
 
+    public loading = false;
+
     constructor(
         private formBuilder: FormBuilder,
         private courseService: CourseService,
@@ -42,6 +45,7 @@ export class CoursePaymentComponent implements OnInit {
         private matService: MatService,
         private router: Router,
         private momentModule: MomentModule,
+        private globalHelper: GlobalHelper,
         private dropboxService: DropBoxService,
         private authLoginService: AuthloginService) {
     }
@@ -117,7 +121,9 @@ export class CoursePaymentComponent implements OnInit {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) {
-                this.dropboxService.postUploadVoucherFile(this.fileToUpload).subscribe(
+                this.loading = true;
+                const newFileName = this.globalHelper.getDateFileName() + '-' + this.fileToUpload.name;
+                this.dropboxService.postUploadVoucherFile(this.fileToUpload, newFileName).subscribe(
                     success => {
                         const dataShared = {
                             'path': success.path_lower,
@@ -138,6 +144,7 @@ export class CoursePaymentComponent implements OnInit {
                                 };
                                 this.matService.postMatRegister(dataCourse).subscribe(
                                     successInsert => {
+                                        this.loading = false;
                                         // tslint:disable-next-line:triple-equals
                                         if (successInsert.res_service == 'ok') {
                                             Swal({
@@ -163,38 +170,21 @@ export class CoursePaymentComponent implements OnInit {
                                             });
                                         }
                                     }, err => {
+                                        this.loading = false;
                                         console.log('error_courseSaveInfo', err);
                                     }
                                 );
                                 
                             }, err => {
+                                this.loading = false;
                                 console.log(err);
                             }
                         );
                     }, err => {
+                        this.loading = false;
                         console.log(err);
                     }
                 );
-
-                // this.matService.postUploadVoucherImage(this.fileToUpload).subscribe(
-                //     sucess => {
-                //         // tslint:disable-next-line:triple-equals
-                //         if (sucess.res_service == 'ok') {
-                //         }else{
-                //             Swal({
-                //                 title: 'Compra de un curso',
-                //                 text: sucess.res_service,
-                //                 type: 'info',
-                //                 showCancelButton: false,
-                //                 confirmButtonColor: '#3085d6',
-                //                 confirmButtonText: 'Continuar',
-                //             }).then((resultAcept) => {
-                //             });
-                //         }
-                //     }, err => {
-                //         console.log('error_saveImageFile', err);
-                //     }
-                // );
             }
         });
     }

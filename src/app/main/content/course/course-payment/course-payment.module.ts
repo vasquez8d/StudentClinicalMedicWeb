@@ -17,6 +17,7 @@ import { CourseMaterialModule } from '../course-material.module';
 import { CoursePaymentComponent } from './course-payment.component';
 import { MomentModule } from 'angular2-moment';
 import { MatService } from '../../../../services/mat.service';
+import { LoadingModule } from 'ngx-loading';
 
 
 const routes: Routes = [
@@ -42,7 +43,8 @@ const routes: Routes = [
         FuseSharedModule,
         CourseMaterialModule,
         MomentModule,
-        HttpClientModule
+        HttpClientModule,
+        LoadingModule
     ],
     providers: [
         MatService

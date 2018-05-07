@@ -18,7 +18,7 @@ export class CourseService {
     private CourseUpdateFileNameUrl = `${this.globalValues.urlCourse()}/updatefilename`;
     private CourseDetailsUpdateUrl  = `${this.globalValues.urlCourse()}/detailsupdate`;
     private CourseUsersListUrl      = `${this.globalValues.urlCourse()}/listuserxcourse`;
-    private CourseListxUserUrl      = `${this.globalValues.urlCourse()}/listxuser`;;
+    private CourseListxUserUrl      = `${this.globalValues.urlCourse()}/listxuser`;
 
     constructor(
         private http: Http,

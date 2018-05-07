@@ -90,5 +90,6 @@ export class CourseListDetailsComponent implements OnInit {
     viewClassxCourse(){
         const encryptCourse = Base64.encode(this.cor_id.toString());
         this.router.navigate(['course/class/' + encryptCourse + '/list']);
+        this.dialogRef.close();
     }
 }

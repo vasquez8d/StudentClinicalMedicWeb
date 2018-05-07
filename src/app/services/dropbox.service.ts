@@ -24,15 +24,15 @@ export class DropBoxService {
             });
     }
 
-    postUploadCorFile(file){
-        return this.http.post(this.DropBoxUploadUrl, file, { headers: this.httpHelper.getDropBoxUploadCorHeader(file.name)})
+    postUploadCorFile(file, newFileName){
+        return this.http.post(this.DropBoxUploadUrl, file, { headers: this.httpHelper.getDropBoxUploadCorHeader(newFileName)})
                         .map(res => {
                             return res.json();
                         });
     }
 
-    postUploadVoucherFile(file){
-        return this.http.post(this.DropBoxUploadUrl, file, { headers: this.httpHelper.getDropBoxUploadVoucherHeader(file.name) })
+    postUploadVoucherFile(file, newFileName){
+        return this.http.post(this.DropBoxUploadUrl, file, { headers: this.httpHelper.getDropBoxUploadVoucherHeader(newFileName) })
             .map(res => {
                 return res.json();
             });
