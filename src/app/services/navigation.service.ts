@@ -75,7 +75,14 @@ export class NavigationService {
                     'type': 'item',
                     'icon': 'school',
                     'url': '/course/' + encryptUser + '/info',
-                },
+                  },
+                                    {
+                    'id': 'faq',
+                    'title': 'FAQ',
+                    'type': 'item',
+                    'icon': 'question_answer',
+                    'url': '/faq',
+                  },
               ]
           },
       ];
