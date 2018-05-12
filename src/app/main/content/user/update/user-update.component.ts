@@ -1,15 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Base64 } from 'js-base64';
 import Swal from 'sweetalert2';
 import { UserService } from '../../../../services/user.service';
 import { UserModel } from '../../../../models/user.model';
 
+import * as _moment from 'moment';
+import { Moment } from 'moment';
+
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+
+const moment = _moment;
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'YYYY',
+    },
+    display: {
+        dateInput: 'YYYY',
+        monthYearLabel: 'YYYY',
+        monthYearA11yLabel: 'YYYY',
+    },
+};
+
 @Component({
     selector   : 'fuse-user-update-forms',
     templateUrl: './user-update.component.html',
-    styleUrls  : ['./user-update.component.scss']
+    styleUrls  : ['./user-update.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    ],
 })
 export class UserUpdateComponent implements OnInit
 {
@@ -17,6 +40,8 @@ export class UserUpdateComponent implements OnInit
     formAcademy: FormGroup;
     selected: any;
     formErrors: any;
+    
+    date = new FormControl(moment());
 
     constructor(
         private formBuilder: FormBuilder,
@@ -44,8 +69,8 @@ export class UserUpdateComponent implements OnInit
         this.selected = 2;
         // Reactive Form
         this.formPersonal = this.formBuilder.group({
-            user_pri_nom   : [''],
-            user_ape_pat   : [''],
+            user_pri_nom   : ['', Validators.required],
+            user_ape_pat   : ['', Validators.required],
             user_ape_mat   : [''],
             user_mail      : [''],
             user_dni       : ['', Validators.required],
@@ -68,13 +93,15 @@ export class UserUpdateComponent implements OnInit
         });
 
         this.formAcademy = this.formBuilder.group({
-            user_pri_esp : [''],
-            user_seg_esp : [''],
-            user_pri_uni : [''],
-            user_seg_uni : [''],
-            user_uni_prc : [''],
-            user_flg_qto_sup : ['']
+            user_uni_procede : [''],
+            user_uni_facu : [''],
+            user_año_egreso_ingreso : [''],
+            user_uni_ciclo : [''],
+            user_flg_qto_sup : [''],
+            user_internado : [''],
+            user_hosp_internado: ['']
         });
+
         this.loadUserAcademyInfo();
     }
 
@@ -87,8 +114,8 @@ export class UserUpdateComponent implements OnInit
                     this.userModel.user = successGlobalDetails.data_result;
     
                     this.formPersonal = this.formBuilder.group({
-                        user_pri_nom   : [this.userModel.user.user_pri_nom],
-                        user_ape_pat   : [this.userModel.user.user_ape_pat],
+                        user_pri_nom   : [this.userModel.user.user_pri_nom, Validators.required],
+                        user_ape_pat   : [this.userModel.user.user_ape_pat, Validators.required],
                         user_ape_mat   : [this.userModel.user.user_ape_mat],
                         user_mail      : [this.userModel.user.user_mail],
                         user_dni       : [this.userModel.user.user_dni, Validators.required],
@@ -121,13 +148,15 @@ export class UserUpdateComponent implements OnInit
               this.userService.getUserAcademyInfo(user_id).subscribe(
                 success => {
                     this.formAcademy = this.formBuilder.group({
-                        user_pri_esp : [success.data_result.user_pri_esp],
-                        user_seg_esp : [success.data_result.user_seg_esp],
-                        user_pri_uni : [success.data_result.user_pri_uni],
-                        user_seg_uni : [success.data_result.user_seg_uni],
-                        user_uni_prc : [success.data_result.user_uni_prc],
-                        user_flg_qto_sup : [success.data_result.user_flg_qto_sup]
+                        user_uni_procede: [success.data_result.user_uni_procede],
+                        user_uni_facu: [success.data_result.user_uni_facu],
+                        user_año_egreso_ingreso: [success.data_result.user_año_egreso_ingreso],
+                        user_uni_ciclo: [success.data_result.user_uni_ciclo],
+                        user_flg_qto_sup: [success.data_result.user_flg_qto_sup],
+                        user_internado: [success.data_result.user_internado],
+                        user_hosp_internado: [success.data_result.user_hosp_internado]
                     });
+
                 }, err => {
                     console.log('error_loadUserAcademyInfo', err);
                 }
@@ -199,8 +228,6 @@ export class UserUpdateComponent implements OnInit
                     academyInfo: dataRegisterAcademy
                 };
 
-                console.log(userUpdate);
-
                 this.userService.postUpdateUserInfo(userUpdate).subscribe(
                     success => {
                         // tslint:disable-next-line:triple-equals
@@ -213,7 +240,6 @@ export class UserUpdateComponent implements OnInit
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'Continuar',
                             }).then((resultAcept) => {
-                                console.log(userUpdate);
                                 this.router.navigate(['user/' + encryptUser + '/profile']);
                             });
                         }else{
@@ -225,7 +251,6 @@ export class UserUpdateComponent implements OnInit
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'Continuar',
                             }).then((resultAcept) => {
-                                console.log(success);
                             });
                         }
                     }, err => {

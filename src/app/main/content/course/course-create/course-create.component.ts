@@ -254,7 +254,6 @@ export class CourseCreateComponent implements OnInit {
                         };
                         this.courseService.postUpdateFileName(dataUpdate).subscribe(
                             sucessUpdate => {
-                                console.log(sucessUpdate);
                             }, err => {
                                 console.log('errr_postUpdateFileName', err);
                             }

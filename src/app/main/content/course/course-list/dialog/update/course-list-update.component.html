@@ -68,6 +68,24 @@
                     </mat-form-field>
                 </div>
 
+                        <div>
+                            <div class="file-uploader">
+                                <input accept="image/x-png,image/jpeg" (change)="handleFileInput($event)" 
+                                hidden type="file" #fileInput/>
+                            </div>
+                            <mat-form-field fxFlex="100">
+                                <input readonly id="txtFileName" matInput placeholder="Imagen del curso">
+                                <span matPrefix>
+                                    <button mat-mini-fab (click)="fileInput.click()" 
+                                            aria-label="Add file">
+                                            <mat-icon>file_upload</mat-icon>
+                                    </button>
+                                     &nbsp;
+                                     &nbsp;
+                                </span>
+                            </mat-form-field>
+                        </div> 
+
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <button (click)="onNoClick()" fxFlex="25" style="margin-top: 2%;"
@@ -81,6 +99,7 @@
                         <mat-icon>save</mat-icon> Guardar
                     </button>
                 </div>
+               
             </form>
         </div>
     </div>

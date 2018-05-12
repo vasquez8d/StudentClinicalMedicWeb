@@ -28,11 +28,11 @@
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Nombres" formControlName="user_pri_nom" readonly>
+                            <input matInput placeholder="Nombres" formControlName="user_pri_nom" required>
                         </mat-form-field>
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Apellido Paterno" formControlName="user_ape_pat" readonly>
+                            <input matInput placeholder="Apellido Paterno" formControlName="user_ape_pat" required>
                         </mat-form-field>
 
                         <mat-form-field fxFlex="50">
@@ -95,7 +95,7 @@
                         <mat-form-field fxFlex="100">
                             <input matInput placeholder="Dirección Actual" formControlName="user_dir" required>
                             <mat-error *ngIf="formErrors.user_dir.required">
-                                        La dirección actual es requerida.
+                                La dirección actual es requerida.
                             </mat-error>
                         </mat-form-field>    
                     </div>
@@ -174,41 +174,121 @@
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
     
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Primera opción de especialidad para el ENARM" formControlName="user_pri_esp" >
+                            <input matInput placeholder="Universidad de procedencia" formControlName="user_uni_procede" >
                         </mat-form-field>
     
+                        <!-- <mat-form-field fxFlex="50">
+                            <input matInput placeholder="Facultad" formControlName="user_seg_esp" >
+                        </mat-form-field> -->
+
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Segunda opción de especialidad para el ENARM" formControlName="user_seg_esp" >
-                        </mat-form-field>    
+                                    <mat-select placeholder="Facultad"
+                                                formControlName="user_uni_facu">
+                                        <mat-option value="Medicina Humana">
+                                            Medicina Humana
+                                        </mat-option>
+                                        <mat-option value="Enfermería">
+                                            Enfermería
+                                        </mat-option>
+                                        <mat-option value="Farmacia y Bioquímica">
+                                            Farmacia y Bioquímica
+                                        </mat-option>
+                                        <mat-option value="Odontología">
+                                            Odontología
+                                        </mat-option>   
+                                        <mat-option value="Obstetricia">
+                                            Obstetricia
+                                        </mat-option>                                                                              
+                                    </mat-select>
+                        </mat-form-field>                        
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">  
+
+                        <mat-form-field fxFlex="50">
+                            <input matInput type="number" placeholder="Año de Ingreso/egreso de la Universidad" formControlName="user_año_egreso_ingreso" >
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="50">
+                                    <mat-select placeholder="Ciclo de estudios"
+                                                formControlName="user_uni_ciclo">
+                                        <mat-option value="1">
+                                            I
+                                        </mat-option>
+                                        <mat-option value="2">
+                                            II
+                                        </mat-option>
+                                        <mat-option value="3">
+                                            III
+                                        </mat-option>
+                                        <mat-option value="4">
+                                            IV
+                                        </mat-option>   
+                                        <mat-option value="5">
+                                            V
+                                        </mat-option>    
+                                        <mat-option value="6">
+                                            VI
+                                        </mat-option>  
+                                        <mat-option value="7">
+                                            VII
+                                        </mat-option>      
+                                        <mat-option value="8">
+                                            VIII
+                                        </mat-option>   
+                                        <mat-option value="9">
+                                            IX
+                                        </mat-option>   
+                                        <mat-option value="10">
+                                            X
+                                        </mat-option>                                                                                                                                                                                                                                                                            
+                                        <mat-option value="11">
+                                            XI
+                                        </mat-option>
+                                        <mat-option value="12">
+                                            XII
+                                        </mat-option>
+                                        <mat-option value="13">
+                                            XIII
+                                        </mat-option>         
+                                        <mat-option value="14">
+                                            XIV
+                                        </mat-option>                                                                                                                                                       
+                                    </mat-select>
+                        </mat-form-field>   
                     </div>
 
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-    
-                        <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Primera opción de universidad para el ENARM" formControlName="user_pri_uni" >
-                        </mat-form-field>
-    
-                        <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Primera opción de universidad para el ENARM" formControlName="user_seg_uni" >
-                        </mat-form-field>    
+
+                            <mat-form-field fxFlex="50">
+                                        <mat-select placeholder="¿Piensa hacer internado en el EsSalud o MINSA?"
+                                                    formControlName="user_internado">
+                                            <mat-option value="1">
+                                                EsSalud
+                                            </mat-option>
+                                            <mat-option value="2">
+                                                MINSA
+                                            </mat-option>                                                                            
+                                        </mat-select>
+                            </mat-form-field>  
+
+                            <mat-form-field fxFlex="50">
+                                <input matInput placeholder="¿En que hospital donde quisiera hacer el internado?" formControlName="user_hosp_internado" >
+                            </mat-form-field>   
                     </div>
 
                     <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-    
+
                             <mat-form-field fxFlex="50">
-                                <input matInput placeholder="Universidad de procedencia (Pregrado)" formControlName="user_uni_prc" >
-                            </mat-form-field>
-        
-                            <mat-form-field fxFlex="50">
-                            <mat-select placeholder="Pertenece al quinto superior" 
-                                        formControlName="user_flg_qto_sup" >
-                                <mat-option value="1">
-                                    SI
-                                </mat-option>
-                                <mat-option value="0">
-                                    NO
-                                </mat-option>
-                            </mat-select>
+                                <mat-select placeholder="¿Pertenece al quinto superior?" 
+                                            formControlName="user_flg_qto_sup" >
+                                    <mat-option value="1">
+                                        SI
+                                    </mat-option>
+                                    <mat-option value="0">
+                                        NO
+                                    </mat-option>
+                                </mat-select>
                             </mat-form-field>      
                     </div>
 

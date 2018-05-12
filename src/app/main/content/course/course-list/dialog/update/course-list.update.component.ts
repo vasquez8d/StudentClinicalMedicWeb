@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import { CorcategoryService } from '../../../../../../services/corcategory.service';
 import { CourseService } from '../../../../../../services/course.service';
 import { MomentModule } from 'angular2-moment';
+import { GlobalHelper } from '../../../../../../helpers/global.helper';
+import { DropBoxService } from '../../../../../../services/dropbox.service';
 @Component({
     selector: 'fuse-course-list-update',
     templateUrl: 'course-list-update.component.html',
@@ -19,15 +21,17 @@ export class CourseListUpdateComponent implements OnInit {
 
     selected: any;
     formErrors: any;
-
+    file_course_url: any;
     cor_id: any;
-    
+    fileToUpload: File = null;
     fec_registroFormat: any;
     est_registroText: any;
     usu_regText: any;
-
+    courseFileName: any;
     ListCourseCategory: any;
     ListTeachers: any;
+
+    currCoursePhoto: any;
 
     constructor(
         public dialogRef: MatDialogRef<CourseListUpdateComponent>,
@@ -37,7 +41,9 @@ export class CourseListUpdateComponent implements OnInit {
         private userService: UserService,
         private courseService: CourseService,
         private corCategoryService: CorcategoryService,
-        private momentModule: MomentModule
+        private momentModule: MomentModule,
+        private globalHelper: GlobalHelper,
+        private dropboxService: DropBoxService
     ) {
         this.cor_id = data.cor_id;
         // Reactive form errors
@@ -86,7 +92,7 @@ export class CourseListUpdateComponent implements OnInit {
         this.courseService.getCourseDetailsUpdate(this.cor_id).subscribe(   
             success => {
                 const course = success.data_result[0];
-                
+                this.currCoursePhoto = course.cor_photo;
                 this.fec_registroFormat = course.fec_registro;
                 this.est_registroText = course.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
 
@@ -111,6 +117,12 @@ export class CourseListUpdateComponent implements OnInit {
                 console.log(err);
             }
         );
+    }
+
+    handleFileInput(event) {
+        this.fileToUpload = <File>event.target.files[0];
+        (<HTMLInputElement>document.getElementById('txtFileName')).value = this.fileToUpload.name;
+        this.onFormValuesChanged();
     }
 
     loadCourseCategory(){
@@ -142,6 +154,7 @@ export class CourseListUpdateComponent implements OnInit {
     }
 
     saveUserInformation() {
+                this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;
                 const dataRegisterCourse = this.formPersonal.value;
                 this.courseService.postCourseUpdate(dataRegisterCourse).subscribe(
                     success => {
@@ -155,6 +168,27 @@ export class CourseListUpdateComponent implements OnInit {
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'Continuar',
                             }).then((resultAcept) => {
+                                // tslint:disable-next-line:triple-equals
+                                if (this.courseFileName != '') {
+                                    this.saveImageFile(this.cor_id);
+
+                                    // tslint:disable-next-line:triple-equals
+                                    if (this.currCoursePhoto != '/images/courses/default.jpg'){
+                                        let fileName = this.currCoursePhoto.replace(/^.*[\\\/]/, '');
+                                        fileName = fileName.substring(0, fileName.length - 5);
+                                        const path = {
+                                            path: '/Courses/' + fileName
+                                        };
+                                        this.dropboxService.postDeleteImage(path).subscribe(
+                                            successdelete => {
+                                            }, err => {
+                                                console.log(err);
+                                            }
+                                        );
+                                    }
+                                }
+                                this.dialogRef.close();
+                                this.dialogRef.close();
                             });
                         } else {
                             Swal({
@@ -165,6 +199,8 @@ export class CourseListUpdateComponent implements OnInit {
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'Continuar',
                             }).then((resultAcept) => {
+                                this.dialogRef.close();
+                                this.dialogRef.close();
                             });
                         }
                     }, err => {
@@ -172,6 +208,41 @@ export class CourseListUpdateComponent implements OnInit {
                     }
                 );
     }
+
+    saveImageFile(cor_id) {
+        const newFileName = this.globalHelper.getDateFileName() + '-' + this.fileToUpload.name;
+        this.dropboxService.postUploadCorFile(this.fileToUpload, newFileName).subscribe(
+            success => {
+                const dataShared = {
+                    'path': success.path_lower,
+                    'settings': {
+                        'requested_visibility': 'public'
+                    }
+                };
+                this.dropboxService.postSharedLink(dataShared).subscribe(
+                    successShared => {
+                        this.file_course_url = 'https://dl.dropboxusercontent.com/s/' + successShared.url.substring(26, successShared.url.length);
+                        const dataUpdate = {
+                            cor_id: cor_id,
+                            cor_photo: this.file_course_url
+                        };
+                        this.courseService.postUpdateFileName(dataUpdate).subscribe(
+                            sucessUpdate => {
+                            }, err => {
+                                console.log('errr_postUpdateFileName', err);
+                            }
+                        );
+                    }, err => {
+                        console.log(err);
+                    }
+                );
+            }, err => {
+                console.log(err);
+            }
+        );
+    }
+
+
 
     onNoClick(): void {
         this.dialogRef.close();

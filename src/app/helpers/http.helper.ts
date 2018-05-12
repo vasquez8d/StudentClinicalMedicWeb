@@ -41,6 +41,12 @@ export class HttpHelper {
         return this.headers;
     }
 
+    getDropBoxDeleteHeader(){
+        this.headers = new Headers({ 'Content-Type': 'application/json' });
+        this.headers.append('Authorization', 'Bearer lGTusouv4ZAAAAAAAAAAXtiDmqsUuHj3n2RzkO9-zC5TGD6UZdYa6jwffIOcnGzP');
+        return this.headers;
+    }
+
     getDropBoxSharedHeader(){
         this.headers = new Headers({ 'Content-Type': 'application/json' });
         this.headers.append('Authorization', 'Bearer lGTusouv4ZAAAAAAAAAAEVKyy6USKzuaVw8nUlL-WcZmNS0ZyJTr4Fz3EpjI2w_v');

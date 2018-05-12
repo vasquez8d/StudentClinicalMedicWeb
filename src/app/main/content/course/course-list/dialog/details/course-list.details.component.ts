@@ -45,7 +45,8 @@ export class CourseListDetailsComponent implements OnInit {
             user_reg_id   : [''],
             user_reg_name : [''],
             est_registro  : [''],
-            fec_registro  : ['']
+            fec_registro  : [''],
+            cor_photo     : ['']
         });
 
         this.loadCourseDetials();
@@ -57,7 +58,6 @@ export class CourseListDetailsComponent implements OnInit {
                     successGlobalDetails => {
                         
                         this.course = successGlobalDetails.data_result[0];
-                        
                         const est_registro = this.course.est_registro === 1 ? 'Habilitado' : 'Deshabilitado';
                         this.fec_registro = this.course.fec_registro;
                          
@@ -72,6 +72,7 @@ export class CourseListDetailsComponent implements OnInit {
                             user_doc_name : [this.course.user_doc_name],
                             user_reg_id   : [this.course.user_reg_id],
                             user_reg_name : [this.course.user_reg_name],
+                            cor_photo     : [this.course.cor_photo],
                             est_registro  : [est_registro],
                             fec_registro  : [this.course.fec_registro]
                         });

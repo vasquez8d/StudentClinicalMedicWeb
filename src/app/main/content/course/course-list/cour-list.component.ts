@@ -48,7 +48,6 @@ export class CourListComponent implements OnInit {
             success => {
                 // tslint:disable-next-line:triple-equals
                 if (success.res_service == 'ok'){
-                    console.log(success.data_result);
                     if (success.data_result.rol_id === 1 || success.data_result.rol_id === 2){
                         this.loadCourseList();
                     } else if (success.data_result.rol_id === 4 ){
