@@ -15,6 +15,7 @@ export class ClassService {
     private ClassUpdateUrl      = `${this.globalValues.urlClass()}/update`;
     private ClassDisableUrl     = `${this.globalValues.urlClass()}/delete`;
     private ClassEnableUrl      = `${this.globalValues.urlClass()}/enable`;
+    private ClassUpdateFileNameUrl = `${this.globalValues.urlClass()}/updatefilename`;
 
     constructor(
         private http: Http,
@@ -109,5 +110,14 @@ export class ClassService {
             class_time: dataRegisterCourse2.class_time,
         };
         return dataClass;
+    }
+
+    postUpdateFileName(data) {
+        return this.http
+            .post(this.ClassUpdateFileNameUrl, data, { headers: this.httpHelper.getHeaderAuth() })
+            .map(res => {
+                const result = res.json();
+                return result;
+            });
     }
 }

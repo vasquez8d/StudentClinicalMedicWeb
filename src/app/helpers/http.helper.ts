@@ -34,6 +34,13 @@ export class HttpHelper {
         return this.headers;
     }
 
+    getDropBoxUploadClassHeader(file_name){
+        this.headers = new Headers({ 'Content-Type': 'application/octet-stream' });
+        this.headers.append('Authorization', 'Bearer lGTusouv4ZAAAAAAAAAABTw4WXribOk3Gd8wq4Gbb4CgWfPPrqcdXyfILl1mojFc');
+        this.headers.append('Dropbox-API-Arg', '{"path": "/Clases/' + file_name + '","mode": "add"}');
+        return this.headers;
+    }
+
     getDropBoxUploadVoucherHeader(file_name){
         this.headers = new Headers({ 'Content-Type': 'application/octet-stream' });
         this.headers.append('Authorization', 'Bearer lGTusouv4ZAAAAAAAAAABTw4WXribOk3Gd8wq4Gbb4CgWfPPrqcdXyfILl1mojFc');

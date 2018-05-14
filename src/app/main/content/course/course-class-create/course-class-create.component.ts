@@ -14,6 +14,8 @@ import { Base64 } from 'js-base64';
 
 import Swal from 'sweetalert2';
 import { ClassService } from '../../../../services/class.service';
+import { GlobalHelper } from '../../../../helpers/global.helper';
+import { DropBoxService } from '../../../../services/dropbox.service';
 
 @Component({
     selector: 'fuse-course-class-create',
@@ -44,6 +46,7 @@ export class CourseClassCreateComponent implements OnInit {
     courseName: any;
     user_id: any;
     cor_id: any;
+    file_course_url: any;
 
     public loading = false;
 
@@ -56,6 +59,8 @@ export class CourseClassCreateComponent implements OnInit {
         private userService: UserService,
         private router: Router,
         private _location: Location,
+        private dropboxService: DropBoxService,
+        private globalHelper: GlobalHelper,
         private authLoginService: AuthloginService) {
         // Reactive form errors
         this.formErrors = {
@@ -163,6 +168,46 @@ export class CourseClassCreateComponent implements OnInit {
         }
     }
 
+    handleFileInput(event) {
+        this.fileToUpload = <File>event.target.files[0];
+        (<HTMLInputElement>document.getElementById('txtFileName')).value = this.fileToUpload.name;
+    }
+
+    saveFileCourse(class_id) {
+        const newFileName = this.globalHelper.getDateFileName() + '-' + this.fileToUpload.name;
+        this.dropboxService.postUploadClassFile(this.fileToUpload, newFileName).subscribe(
+            success => {
+                const dataShared = {
+                    'path': success.path_lower,
+                    'settings': {
+                        'requested_visibility': 'public'
+                    }
+                };
+                this.dropboxService.postSharedLink(dataShared).subscribe(
+                    successShared => {
+                        this.file_course_url = 'https://dl.dropboxusercontent.com/s/' + successShared.url.substring(26, successShared.url.length);
+                        const dataUpdate = {
+                            class_id: class_id,
+                            class_file: this.file_course_url,
+                            class_file_flag: 1,
+                            class_file_name: newFileName
+                        };
+                        this.classSerivce.postUpdateFileName(dataUpdate).subscribe(
+                            sucessUpdate => {
+                            }, err => {
+                                console.log('errr_postUpdateFileName', err);
+                            }
+                        );
+                    }, err => {
+                        console.log(err);
+                    }
+                );
+            }, err => {
+                console.log(err);
+            }
+        );
+    }
+
     classSaveInfo() {
         this.loading = true;
         const dataRegisterCourse1 = this.horizontalStepperStep1.value;
@@ -171,21 +216,25 @@ export class CourseClassCreateComponent implements OnInit {
         const dataClass = this.classSerivce.getClassJson(dataRegisterCourse1, 
                                                          dataRegisterCourse2, 
                                                          this.user_id,
-                                                         this.cor_id);
-        console.log(dataClass);                                                         
+                                                         this.cor_id);     
+        this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;                                                  
         this.classSerivce.postClassRegister(dataClass).subscribe(
             success => {
                 this.loading = false;
                 // tslint:disable-next-line:triple-equals
                 if (success.res_service == 'ok') {
                     Swal({
-                        title: 'Actualizar información',
+                        title: 'Nueva Clase',
                         text: 'Se registró correctamente la información.',
                         type: 'success',
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Continuar',
                     }).then((resultAcept) => {
+                        // tslint:disable-next-line:triple-equals
+                        if (this.courseFileName != '') {
+                            this.saveFileCourse(success.data_result.class_id);
+                        }
                         this._location.back();
                     });
                 } else {

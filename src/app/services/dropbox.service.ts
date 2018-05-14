@@ -32,6 +32,13 @@ export class DropBoxService {
                         });
     }
 
+    postUploadClassFile(file, newFileName){
+        return this.http.post(this.DropBoxUploadUrl, file, { headers: this.httpHelper.getDropBoxUploadClassHeader(newFileName.trim()) })
+            .map(res => {
+                return res.json();
+            });
+    }
+
     postUploadVoucherFile(file, newFileName){
         return this.http.post(this.DropBoxUploadUrl, file, { headers: this.httpHelper.getDropBoxUploadVoucherHeader(newFileName.trim())})
             .map(res => {
