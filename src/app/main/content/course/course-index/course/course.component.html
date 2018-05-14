@@ -65,9 +65,9 @@
                             <div  *ngIf="step.class_file_flag == '1'">
                                 <div class="file-uploader">
                                     <a href="{{step.class_file}}"
-                                       download #fileInput hidden></a>
+                                       #fileInput hidden download></a>
                                 </div>
-                                <mat-form-field fxFlex="50">
+                                <mat-form-field fxFlex="100">
                                     <input readonly id="txtFileName" value="{{step.class_file_name}}" matInput placeholder="Archivo del curso">
                                     <span matPrefix>
                                     <button mat-mini-fab (click)="fileInput.click()" aria-label="Add file">
