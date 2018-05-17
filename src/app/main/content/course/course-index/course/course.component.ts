@@ -17,7 +17,7 @@ import { CommentsService } from '../../../../../services/comments.service';
     templateUrl  : './course.component.html',
     styleUrls    : ['./course.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations   : fuseAnimations,
 })
 export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
 {
@@ -29,6 +29,8 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
     totalSteps: any;
     user_id: any;
     cor_name: any = '';
+
+    starsCount: number;
 
     user: any;
     user_photo: any = '';
@@ -87,6 +89,10 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
     ngOnDestroy()
     {
         this.courseSubscription.unsubscribe();
+    }
+
+    rateModify($event){
+        console.log($event);
     }
 
     gotoStep(step)

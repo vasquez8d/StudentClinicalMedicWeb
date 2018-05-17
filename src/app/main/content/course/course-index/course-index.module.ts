@@ -19,6 +19,7 @@ import { CourseIndexService } from './course.service';
 import { MomentModule } from 'angular2-moment';
 import { SafeHtmlPipe } from '../../../pipes/secure-url.pipe';
 import { CommentsService } from '../../../../services/comments.service';
+import { RatingModule } from 'ngx-rating';
 
 const routes = [
     {
@@ -49,7 +50,7 @@ const routes = [
     ],
     imports     : [
         RouterModule.forChild(routes),
-
+        RatingModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,

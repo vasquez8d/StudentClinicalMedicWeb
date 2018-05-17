@@ -43,7 +43,6 @@ import { GlobalHelper } from '../../../helpers/global.helper';
         MatSelectModule,
         MatSlideToggleModule,
         MatTabsModule,
-
         NgxChartsModule,
 
         FuseSharedModule,
