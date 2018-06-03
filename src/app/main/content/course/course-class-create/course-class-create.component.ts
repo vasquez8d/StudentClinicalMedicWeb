@@ -174,7 +174,7 @@ export class CourseClassCreateComponent implements OnInit {
     }
 
     saveFileCourse(class_id) {
-        const newFileName = this.globalHelper.getDateFileName() + '-' + this.fileToUpload.name;
+        const newFileName = this.globalHelper.getDateFileName() + '-' + this.globalHelper.getFileNameFormat(this.fileToUpload.name);
         this.dropboxService.postUploadClassFile(this.fileToUpload, newFileName).subscribe(
             success => {
                 const dataShared = {

@@ -33,4 +33,16 @@ export class GlobalHelper {
             formatedSecond = (second.length === 1) ? ('0' + second) : second;
         return formatedDay + '-' + formatedMonth + '-' + year + '-' + formatedHour + '-' + formatedMinute + '-' + formatedSecond;
     }
+
+    getFileNameFormat(fileName){
+        let finalName = fileName.toLowerCase();
+        finalName = finalName.replace(/\s+/g, '-');
+        finalName = finalName.replace('á', 'a');
+        finalName = finalName.replace('é', 'e');
+        finalName = finalName.replace('í', 'i');
+        finalName = finalName.replace('ó', 'o');
+        finalName = finalName.replace('ú', 'u');
+        finalName = finalName.replace('ñ', 'n');
+        return finalName;
+    }
 }

@@ -236,7 +236,7 @@ export class CourseCreateComponent implements OnInit {
     }
 
     saveImageFile(cor_id){
-        const newFileName = this.globalHelper.getDateFileName() + '-' + this.fileToUpload.name;
+        const newFileName = this.globalHelper.getDateFileName() + '-' + this.globalHelper.getFileNameFormat(this.fileToUpload.name);
         this.dropboxService.postUploadCorFile(this.fileToUpload, newFileName).subscribe(
             success => {
                 const dataShared = {

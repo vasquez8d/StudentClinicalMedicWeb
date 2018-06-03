@@ -122,7 +122,7 @@ export class CoursePaymentComponent implements OnInit {
         }).then((result) => {
             if (result.value) {
                 this.loading = true;
-                const newFileName = this.globalHelper.getDateFileName() + '-' + this.fileToUpload.name;
+                const newFileName = this.globalHelper.getDateFileName() + '-' + this.globalHelper.getFileNameFormat(this.fileToUpload.name);
                 this.dropboxService.postUploadVoucherFile(this.fileToUpload, newFileName).subscribe(
                     success => {
                         const dataShared = {
