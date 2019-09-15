@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
+import { AuthloginService } from 'app/services/authlogin.service';
 
 @Component({
     selector   : 'fuse-forgot-password',
@@ -17,7 +18,8 @@ export class FuseForgotPasswordComponent implements OnInit
 
     constructor(
         private fuseConfig: FuseConfigService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private authloginService: AuthloginService
     )
     {
         this.fuseConfig.setConfig({
@@ -42,6 +44,15 @@ export class FuseForgotPasswordComponent implements OnInit
         this.forgotPasswordForm.valueChanges.subscribe(() => {
             this.onForgotPasswordFormValuesChanged();
         });
+    }
+
+    recoverPassword()
+    {
+        this.authloginService.recoverPassword(this.forgotPasswordForm.value).subscribe(
+            data => {
+                console.log(data);
+            }
+        );
     }
 
     onForgotPasswordFormValuesChanged()

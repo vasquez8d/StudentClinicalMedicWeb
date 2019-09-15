@@ -46,7 +46,6 @@ export class FuseLoginComponent implements OnInit
         private fuseConfig: FuseConfigService,
         private formBuilder: FormBuilder,
         private authloginService: AuthloginService,
-        private activatedRoute: ActivatedRoute,
         private router: Router,
         private globalUser: GlobalUser,
         private userRegProvider: UserRegProviderModel,
@@ -92,9 +91,9 @@ export class FuseLoginComponent implements OnInit
                         });
                     }else{
                         this.userRegProvider.user = userData;
-                        try{
+                        try {
                             this.router.navigateByUrl('/auth/regprovider');
-                        }catch (err){
+                        } catch (err){
                             console.log(err);
                         }                        
                     }
@@ -152,7 +151,6 @@ export class FuseLoginComponent implements OnInit
             success => {
                 if (success.res_service === 'ok'){
                     this.globalUser.user = success.data_result;
-                    // this.router.navigateByUrl('');
                     location.href = '';
                 }else{
                     if (success.type_error === 'email'){

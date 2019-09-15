@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-// tslint:disable-next-line:import-blacklist
-import { Observable } from 'rxjs/Rx';
 import * as crypto from 'crypto-js';
 import { GlobalValues } from '../global/globalvalues';
 import { HttpHelper } from '../helpers/http.helper';
@@ -14,6 +12,7 @@ export class AuthloginService {
   private authUrl = `${this.globalValues.urlAuthUser()}/login`;
   private getAuthUrl = `${this.globalValues.urlAuthUser()}/userauth`;
   private checkUserProviderUrl = `${this.globalValues.urlAuthUser()}/usermailprovider`;
+  private recoverPasswordUrl = `${this.globalValues.urlAuthUser()}/recoverpw`;
 
   constructor(
     private http: Http,
@@ -44,6 +43,17 @@ export class AuthloginService {
     localStorage.removeItem('tokenStudentClinicalAccessWS');
     sessionStorage.removeItem('tokenStudentClinicalAccessWS');
     return true;
+  }
+
+  recoverPassword(email) {
+    console.log(email);
+    this.headers = new Headers({ 'Content-Type': 'application/json' });
+    return this.http
+      .post(this.recoverPasswordUrl, email, { headers: this.headers })
+      .map(res => {
+        const result = res.json();
+        return result;
+      });
   }
 
   validateSession(){

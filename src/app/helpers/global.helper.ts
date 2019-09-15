@@ -37,12 +37,12 @@ export class GlobalHelper {
     getFileNameFormat(fileName){
         let finalName = fileName.toLowerCase();
         finalName = finalName.replace(/\s+/g, '-');
-        finalName = finalName.replace('á', 'a');
-        finalName = finalName.replace('é', 'e');
-        finalName = finalName.replace('í', 'i');
-        finalName = finalName.replace('ó', 'o');
-        finalName = finalName.replace('ú', 'u');
-        finalName = finalName.replace('ñ', 'n');
+        finalName = finalName.replace(/['á']/g, 'a');
+        finalName = finalName.replace(/['é']/g, 'e');
+        finalName = finalName.replace(/['í']/g, 'i');
+        finalName = finalName.replace(/['ó']/g, 'o');
+        finalName = finalName.replace(/['ú']/g, 'u');
+        finalName = finalName.replace(/['ñ']/g, 'n');
         return finalName;
     }
 }
