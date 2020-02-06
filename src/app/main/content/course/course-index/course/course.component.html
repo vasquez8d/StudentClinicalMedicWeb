@@ -1,166 +1,163 @@
 <div id="academy-course" class="page-layout simple left-sidenav">
 
-    <mat-sidenav-container>
+  <mat-sidenav-container>
 
-        <!-- SIDENAV -->
-        <mat-sidenav class="sidenav" align="start" opened="true" mode="side"
-                     fuseMatSidenavHelper="academy-left-sidenav" mat-is-locked-open="gt-md">
+    <!-- SIDENAV -->
+    <mat-sidenav class="sidenav" align="start" opened="true" mode="side" fuseMatSidenavHelper="academy-left-sidenav"
+      mat-is-locked-open="gt-md">
 
-            <div class="sidenav-content" fusePerfectScrollbar>
+      <div class="sidenav-content" fusePerfectScrollbar>
 
-                <div class="steps">
+        <div class="steps">
 
-                    <div class="step"
-                         *ngFor="let step of course; let i = index; let last = last; let first = first"
-                         (click)="gotoStep(i)"
-                         [ngClass]="{'current': currentStep === i, 'completed': currentStep > i, 'last': last, 'first': first}">
-                        <div class="index">
-                            <span>{{i + 1}}</span>
-                        </div>
-                        <div class="title">{{step.class_tittle}}</div>
-                    </div>
-
-                </div>
-
+          <div class="step" *ngFor="let step of course; let i = index; let last = last; let first = first"
+            (click)="gotoStep(i)"
+            [ngClass]="{'current': currentStep === i, 'completed': currentStep > i, 'last': last, 'first': first}">
+            <div class="index">
+              <span>{{i + 1}}</span>
             </div>
-
-        </mat-sidenav>
-        <!-- / SIDENAV -->
-
-        <!-- CENTER -->
-        <div class="center">
-
-            <!-- HEADER -->
-            <div class="header mat-accent-bg p-24" fxLayout="row" fxLayoutAlign="start center">
-
-                <button mat-button class="mat-icon-button mr-16 sidenav-toggle"
-                        fuseMatSidenavToggler="academy-left-sidenav" fxHide.gt-md>
-                    <mat-icon>menu</mat-icon>
-                </button>
-
-                <button mat-button class="mat-icon-button mr-16" (click)="backToCourses()">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
-
-                <div>
-                    <h2>{{cor_name}}</h2>
-                </div>
-
-            </div>
-            <!-- / HEADER -->
-
-            <!-- CONTENT -->
-            <div id="course-content" class="content">
-
-                <ng-container *ngFor="let step of course; let i = index;">
-
-                    <div class="course-step" fusePerfectScrollbar
-                         *ngIf="currentStep === i"
-                         [@slideIn]="animationDirection">
-
-                        <div id="course-step-content" class="course-step-content">
-                            <div>
-                                <div style="display: inline-block; vertical-align: middle;">
-                                    <h1>{{step.class_tittle}}</h1>
-                                </div>
-                                <div style="display: inline-block; vertical-align: middle;">
-                                    <rating [(ngModel)]="step.class_id"
-                                            (change)="rateModify($event)"
-                                            [titles]="['Muy malo', 'Malo', 'Aceptable', 'Bueno', 'Muy bueno']">
-                                    </rating> 
-                                </div>
-                            </div>         
-
-                            <p>{{step.class_desc}}</p>
-
-                            <div  *ngIf="step.class_file_flag == '1'">
-                                <div class="file-uploader">
-                                    <a href="{{step.class_file}}"
-                                       #fileInput hidden download></a>
-                                </div>
-                                <mat-form-field fxFlex="100">
-                                    <input readonly id="txtFileName" value="{{step.class_file_name}}" matInput placeholder="Archivo del curso">
-                                    <span matPrefix>
-                                    <button mat-mini-fab (click)="fileInput.click()" aria-label="Add file">
-                                        <mat-icon>file_download</mat-icon>
-                                    </button>
-                                    &nbsp; &nbsp;
-                                    </span>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="course-step-content">    
-                            <iframe [src]="step.class_video_embed | safe_html" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                        </div>
-                        <div id="course-step-content" class="course-step-content">
-                            <h1>Comentarios</h1>
-                            <!-- MESSAGE -->
-                            <div *ngFor="let comment of step.coments" style="margin-bottom: 3%;" fxLayout="row" class="message-row">
-                                <img class="avatar" src="{{comment.user_reg_provider_photo}}">
-                                <div class="bubble">
-                                    <div class="message">{{comment.user_full_name}}</div>
-                                    <div class="message">{{comment.com_text}}</div>
-                                    <div class="time secondary-text">{{comment.fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}} </div>
-                                </div>
-                            </div>
-                            <!-- / MESSAGE -->    
-                            <!-- MESSAGE -->
-                            <div fxLayout="row" class="message-row">
-                                <img class="avatar" src="{{user_photo}}">
-                                <form #replyForm="ngForm"
-                                    (ngSubmit)="addComent($event, step.class_id)"
-                                    (keyup.enter)="addComent($event, step.class_id)"
-                                    fxFlex class="reply-form"
-                                    fxLayout="row"                                 
-                                    fxLayoutAlign="start center">
-
-                                    <mat-form-field class="" fxFlex floatPlaceholder="never">
-                                        <textarea matInput #replyInput placeholder="Escribe tu comentario"
-                                                ngModel name="message"></textarea>
-                                    </mat-form-field>
-
-                                    <button mat-fab class="" type="submit" aria-label="Send message">
-                                        <mat-icon>send</mat-icon>
-                                    </button>
-
-                                </form>                                
-                            </div>                                                       
-                            <!-- / MESSAGE -->                                                                            
-                        </div>
-                    </div>
-                </ng-container>
-
-            </div>
-            <!-- / CONTENT -->
-
-            <div class="step-navigation">
-
-                <button mat-fab class="previous mat-accent white-fg"
-                        (click)="gotoPreviousStep()"
-                        [disabled]="currentStep === 0"
-                        [fxHide]="currentStep === 0">
-                    <mat-icon>chevron_left</mat-icon>
-                </button>
-
-                <button mat-fab class="next mat-accent white-fg"
-                        (click)="gotoNextStep()"
-                        [disabled]="currentStep === totalSteps - 1"
-                        [fxHide]="currentStep === totalSteps - 1">
-                    <mat-icon>chevron_right</mat-icon>
-                </button>
-
-                <button mat-fab class="done mat-green-600-bg"
-                        (click)="backToCourses()"
-                        [disabled]="currentStep !== totalSteps - 1"
-                        [fxShow]="currentStep === totalSteps - 1">
-                    <mat-icon>check</mat-icon>
-                </button>
-
-            </div>
+            <div class="title">{{step.class_tittle}}</div>
+          </div>
 
         </div>
-        <!-- / CENTER -->
 
-    </mat-sidenav-container>
+      </div>
+
+    </mat-sidenav>
+    <!-- / SIDENAV -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+      <!-- HEADER -->
+      <div class="header mat-accent-bg p-24" fxLayout="row" fxLayoutAlign="start center">
+
+        <button mat-button class="mat-icon-button mr-16 sidenav-toggle" fuseMatSidenavToggler="academy-left-sidenav"
+          fxHide.gt-md>
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <button mat-button class="mat-icon-button mr-16" (click)="backToCourses()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div>
+          <h2>{{cor_name}}</h2>
+        </div>
+
+      </div>
+      <!-- / HEADER -->
+
+      <!-- CONTENT -->
+      <div id="course-content" class="content">
+
+        <ng-container *ngFor="let step of course; let i = index;">
+
+          <div class="course-step" fusePerfectScrollbar *ngIf="currentStep === i" [@slideIn]="animationDirection">
+
+            <div id="course-step-content" class="course-step-content">
+              <div>
+                <div style="display: inline-block; vertical-align: middle;">
+                  <h1>{{step.class_tittle}}</h1>
+                </div>
+                <div style="display: inline-block; vertical-align: middle;">
+                  <rating [(ngModel)]="step.class_id" (change)="rateModify($event)"
+                    [titles]="['Muy malo', 'Malo', 'Aceptable', 'Bueno', 'Muy bueno']">
+                  </rating>
+                </div>
+              </div>
+
+              <p>{{step.class_desc}}</p>
+
+              <div *ngIf="step.class_file_flag == '1'">
+                <div class="file-uploader">
+                  <a href="{{step.class_file}}" #fileInput hidden download></a>
+                </div>
+                <mat-form-field fxFlex="100">
+                  <input readonly id="txtFileName" value="{{step.class_file_name}}" matInput
+                    placeholder="Archivo del curso">
+                  <span matPrefix>
+                    <button mat-mini-fab (click)="fileInput.click()" aria-label="Add file">
+                      <mat-icon>file_download</mat-icon>
+                    </button>
+                    &nbsp; &nbsp;
+                  </span>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="course-step-content">
+              <ng-container *ngIf="step.class_video_type == 2; else elseTemplate">
+                <iframe width="640" height="360" [src]="step.class_video_embed | safe_html" frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <iframe [src]="step.class_video_embed | safe_html" width="640" height="360" frameborder="0"
+                  webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+              </ng-template>
+
+            </div>
+            <div id="course-step-content" class="course-step-content">
+              <h1>Comentarios</h1>
+              <!-- MESSAGE -->
+              <div *ngFor="let comment of step.coments" style="margin-bottom: 3%;" fxLayout="row" class="message-row">
+                <img class="avatar" src="{{comment.user_reg_provider_photo}}">
+                <div class="bubble">
+                  <div class="message">{{comment.user_full_name}}</div>
+                  <div class="message">{{comment.com_text}}</div>
+                  <div class="time secondary-text">
+                    {{comment.fec_registro | amLocale:'es' | amDateFormat:'dddd, DD MMMM YYYY'}} </div>
+                </div>
+              </div>
+              <!-- / MESSAGE -->
+              <!-- MESSAGE -->
+              <div fxLayout="row" class="message-row">
+                <img class="avatar" src="{{user_photo}}">
+                <form #replyForm="ngForm" (ngSubmit)="addComent($event, step.class_id)"
+                  (keyup.enter)="addComent($event, step.class_id)" fxFlex class="reply-form" fxLayout="row"
+                  fxLayoutAlign="start center">
+
+                  <mat-form-field class="" fxFlex floatPlaceholder="never">
+                    <textarea matInput #replyInput placeholder="Escribe tu comentario" ngModel
+                      name="message"></textarea>
+                  </mat-form-field>
+
+                  <button mat-fab class="" type="submit" aria-label="Send message">
+                    <mat-icon>send</mat-icon>
+                  </button>
+
+                </form>
+              </div>
+              <!-- / MESSAGE -->
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+      <!-- / CONTENT -->
+
+      <div class="step-navigation">
+
+        <button mat-fab class="previous mat-accent white-fg" (click)="gotoPreviousStep()" [disabled]="currentStep === 0"
+          [fxHide]="currentStep === 0">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <button mat-fab class="next mat-accent white-fg" (click)="gotoNextStep()"
+          [disabled]="currentStep === totalSteps - 1" [fxHide]="currentStep === totalSteps - 1">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+
+        <button mat-fab class="done mat-green-600-bg" (click)="backToCourses()"
+          [disabled]="currentStep !== totalSteps - 1" [fxShow]="currentStep === totalSteps - 1">
+          <mat-icon>check</mat-icon>
+        </button>
+
+      </div>
+
+    </div>
+    <!-- / CENTER -->
+
+  </mat-sidenav-container>
 
 </div>

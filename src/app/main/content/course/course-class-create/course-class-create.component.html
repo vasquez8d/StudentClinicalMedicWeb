@@ -76,8 +76,18 @@
                         <ng-template matStepLabel>Video y archivos</ng-template>
 
                         <div>
+                            <mat-form-field fxFlex="50" style="margin-left:50px; margin-right: 50px;">
+                                <mat-select placeholder="Tipo de reproductor" formControlName="class_video_type" required>
+                                    <mat-option *ngFor="let categ of lVideoType" [value]="categ.id">
+                                        {{categ.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
                             <mat-form-field fxFlex="100" style="margin-left:50px; margin-right: 50px;">
-                                <textarea matInput placeholder="Código embed vimeo del video" formControlName="class_video_embed" required></textarea>
+                                <textarea matInput placeholder="Código embed del video" formControlName="class_video_embed" required></textarea>
                                 <mat-error *ngIf="horizontalStepperStep2Errors.class_video_embed.required">
                                     El código es requerido.
                                 </mat-error>

@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
 import { CourseService } from '../../../../services/course.service';
-import { CorcategoryService } from '../../../../services/corcategory.service';
-import { UserService } from '../../../../services/user.service';
 import { AuthloginService } from '../../../../services/authlogin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -50,13 +46,22 @@ export class CourseClassCreateComponent implements OnInit {
 
     public loading = false;
 
+    public lVideoType = [
+        {
+            id: 1,
+            name: 'Vimeo'
+        },
+        {
+            id: 2,
+            name: 'YouTube'
+        }
+    ];
+
     constructor(
         private formBuilder: FormBuilder,
         private courseService: CourseService,
         private classSerivce: ClassService,
-        private corCategoryService: CorcategoryService,
         private activateRouter: ActivatedRoute,
-        private userService: UserService,
         private router: Router,
         private _location: Location,
         private dropboxService: DropBoxService,
@@ -76,6 +81,7 @@ export class CourseClassCreateComponent implements OnInit {
         };
 
         this.horizontalStepperStep2Errors = {
+            class_video_type: {},
             class_video_embed: {},
             class_time: {}
         };
@@ -103,6 +109,7 @@ export class CourseClassCreateComponent implements OnInit {
         });
 
         this.horizontalStepperStep2 = this.formBuilder.group({
+            class_video_type: ['', Validators.required],
             class_video_embed: ['', Validators.required],
             class_time: ['', Validators.required],
         });
@@ -193,7 +200,7 @@ export class CourseClassCreateComponent implements OnInit {
                             class_file_name: newFileName
                         };
                         this.classSerivce.postUpdateFileName(dataUpdate).subscribe(
-                            sucessUpdate => {
+                            () => {
                             }, err => {
                                 console.log('errr_postUpdateFileName', err);
                             }
@@ -217,7 +224,8 @@ export class CourseClassCreateComponent implements OnInit {
                                                          dataRegisterCourse2, 
                                                          this.user_id,
                                                          this.cor_id);     
-        this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;                                                  
+        this.courseFileName = (<HTMLInputElement>document.getElementById('txtFileName')).value;
+        console.log(dataClass);
         this.classSerivce.postClassRegister(dataClass).subscribe(
             success => {
                 this.loading = false;
@@ -230,7 +238,7 @@ export class CourseClassCreateComponent implements OnInit {
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Continuar',
-                    }).then((resultAcept) => {
+                    }).then(() => {
                         // tslint:disable-next-line:triple-equals
                         if (this.courseFileName != '') {
                             this.saveFileCourse(success.data_result.class_id);
@@ -245,7 +253,7 @@ export class CourseClassCreateComponent implements OnInit {
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Continuar',
-                    }).then((resultAcept) => {
+                    }).then(() => {
                         this._location.back();
                     });
                 }

@@ -5,11 +5,10 @@ import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scr
 import { fuseAnimations } from '@fuse/animations';
 
 import { CourseIndexService } from '../course.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Base64 } from 'js-base64';
 import { AuthloginService } from '../../../../../services/authlogin.service';
 import { NgForm } from '@angular/forms';
-import { MomentModule } from 'angular2-moment';
 import { CommentsService } from '../../../../../services/comments.service';
 
 @Component({
@@ -56,6 +55,7 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.courseSubscription =
             this.courseService.onCourseChanged
                 .subscribe(course => {
+                    console.log(course);
                     this.course = course.data_result;
                     this.totalSteps = course.data_result.length;
                     if (course.data_result.length > 0){
@@ -126,7 +126,7 @@ export class CourseIndexComponent implements OnInit, OnDestroy, AfterViewInit
         this.currentStep++;
     }
 
-    addComent($event, class_id){
+    addComent(class_id){
         const message = {
             user_full_name          : this.user.user_pri_nom + ' ' + this.user.user_ape_pat,            
             com_text                : this.replyForm.form.value.message,

@@ -40,7 +40,7 @@ export class CourseCreateComponent implements OnInit {
     file_course_url: any;
 
     public loading = false;
-    
+
     constructor(
         private formBuilder: FormBuilder,
         private courseService: CourseService,
