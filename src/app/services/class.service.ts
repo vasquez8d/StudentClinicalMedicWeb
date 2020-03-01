@@ -100,7 +100,7 @@ export class ClassService {
         var video_sub = [''];
         var video_id = '';
 
-        var class_video_type = dataRegisterCourse2.class_video_embed;
+        var class_video_type = dataRegisterCourse2.class_video_type;
         var class_video_embed = '';
 
         if (class_video_type == 1) {
