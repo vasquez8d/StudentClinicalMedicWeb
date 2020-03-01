@@ -96,18 +96,17 @@ export class ClassService {
 
     getClassJson(dataRegisterCourse1: any, dataRegisterCourse2: any, user_id: any, cor_id: any) {
 
-        var video_embed = '';
-        var video_sub = [''];
-        var video_id = '';
-
         var class_video_type = dataRegisterCourse2.class_video_type;
         var class_video_embed = '';
 
         if (class_video_type == 1) {
-            class_video_embed = 'https://player.vimeo.com/video/' + video_id;
+            var video_embed = '';
+            var video_sub = [''];
+            var video_id = '';
             video_embed = dataRegisterCourse2.class_video_embed.split('/video/');
             video_sub = video_embed[1].split('"');
             video_id = video_sub[0];
+            class_video_embed = 'https://player.vimeo.com/video/' + video_id;
         } else {
             class_video_embed = dataRegisterCourse2.class_video_embed;
         }
